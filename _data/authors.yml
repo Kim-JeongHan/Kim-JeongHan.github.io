@@ -8,7 +8,7 @@ Kim-JeongHan:
   # Used at the bottom of each page and at the top of the `about` layout
   # Markdown enabled, can use multiple paragraphs (enabled by `|`)
   about:             |
-    robotics developer for a better future
+    robotics researcher for a better future
 
   # This photo will be used in the about section
   picture:
@@ -58,7 +58,7 @@ Kim-JeongHan:
     # stumbleupon:     <username>
     # paypal:          <username>
     email:           mailto:kimjh9813@naver.com
-    youtube:         robotics_jeong
+    linkedin:        jeonghan-kim-bb1013274
     rss:             https://Kim-JeongHan.github.io/feed.xml
 
 
