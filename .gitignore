@@ -41,7 +41,7 @@ validation-report.json
 # Folders to ignore
 _posts_ing
 Kim-JeongHan.github.io
-node_modules
+node_modules/
 .sass-cache
 .jekyll-metadata
 *.gem
