@@ -63,9 +63,9 @@ $$
 
 - 조건부 확률을 이용
 
-$P(A\cap B) = P(A|B)P(B)$
+$ P(A\cap B) = P(A|B)P(B) $
 
-$P(A\cap B)=P(B|A)P(A)$
+$ P(A\cap B)=P(B|A)P(A) $
 
   
 
@@ -76,11 +76,11 @@ $P(A\cap B)=P(B|A)P(A)$
    <img src="https://Kim-JeongHan.github.io/assets/img/theory/probability&statistics/Conditional-probability-and-examples-2.png" width="80%">
   
 
-1. P(안경을 착용) → P(WG)=$\frac{60}{100}$
+1. P(안경을 착용) → P(WG)=$ \frac{60}{100} $
 
-2. P(안경을 착용한 여학생) → P(WG and G) = $\frac{20}{100}$
+2. P(안경을 착용한 여학생) → P(WG and G) = $ \frac{20}{100} $
 
-3. P(여학생 중에서 안경을 착용) → $\frac{P(WG)}{(P(WG\,and\,G)}=\frac{0.2}{0.5} =0.4$
+3. P(여학생 중에서 안경을 착용) → $ \frac{P(WG)}{(P(WG\,and\,G)}=\frac{0.2}{0.5} =0.4 $
 
   
 
@@ -94,7 +94,7 @@ $P(A\cap B)=P(B|A)P(A)$
 
 → n(A and defect)/총 부품수 = (1000*0.05)/6000
 
-→ $P(A \cap defect) = P(defect|A)P(A)$
+→ $ P(A \cap defect) = P(defect|A)P(A) $
 
   
 
