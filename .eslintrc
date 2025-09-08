@@ -1,8 +1,20 @@
 {
-  "parser": "babel-eslint",
-  "extends": "eslint-config-airbnb",
+  "parser": "@babel/eslint-parser",
+  "extends": [
+    "eslint-config-airbnb",
+    "plugin:react-hooks/recommended"
+  ],
   "env": {
     "browser": true
+  },
+  "parserOptions": {
+    "requireConfigFile": false,
+    "babelOptions": {
+      "plugins": [
+        "@babel/plugin-proposal-function-bind"
+      ]
+    },
+    "sourceType": "module"
   },
   "globals": {
     "loadCSS": true,
