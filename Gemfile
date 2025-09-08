@@ -2,7 +2,13 @@ source "https://rubygems.org"
 
 ruby ">= 3.1.0"
 
-gem "jekyll", "~> 4.4"
+gem "base64"
+
+gem "bigdecimal"
+
+gem "logger"
+
+gem "jekyll", "~> 3.10"
 gem "jekyll-paginate", "~> 1.1"
 gem "jekyll-feed", "~> 0.17"
 gem "jekyll-sitemap", "~> 1.4"

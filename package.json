@@ -5,8 +5,8 @@
   "scripts": {
     "clean": "rm -f assets/js/hydejack.js & rm -f assets/js/hydejack.min.js",
     "test": "echo \"Warning: no test specified\" && exit 0",
-    "build": "cat _includes/copyright-header.txt > assets/js/hydejack.js; cross-env NODE_ENV=production browserify _js/src/index.js -t [ babelify --no-babelrc --configFile ./.babelrc --sourceType module ] --ignore-transform babelify | uglifyjs -c -m >> assets/js/hydejack.js",
-    "watch": "watchify -d _js/src/index.js -t [ babelify --no-babelrc --configFile ./.babelrc --sourceType module ] --ignore-transform babelify -o assets/js/hydejack.js",
+    "build": "cat _includes/copyright-header.txt > assets/js/hydejack.js; cross-env NODE_ENV=production browserify _js/src/index.js -p esmify -t [ ./node_modules/babelify --no-babelrc --configFile ./.babelrc ] --ignore-transform babelify | uglifyjs -c -m >> assets/js/hydejack.js",
+    "watch": "watchify -d _js/src/index.js -p esmify -t [ ./node_modules/babelify --no-babelrc --configFile ./.babelrc ] --ignore-transform babelify -o assets/js/hydejack.js",
     "lint": "eslint _js/src",
     "dev": "npm run watch",
     "prepare": "npm run lint && npm run test && npm run clean && npm run build",
@@ -30,10 +30,11 @@
     "eslint-plugin-react": "7.37.5",
     "json2yaml": "1.1.0",
     "uglify-js": "3.19.3",
-    "watchify": "4.0.0"
+    "watchify": "4.0.0",
+    "esmify": "^2.1.1"
   },
   "dependencies": {
-    "color": "5.0.0",
+    "color": "4.2.3",
     "core-js": "3.45.1",
     "elem-dataset": "2.0.0",
     "katex": "0.16.22",
