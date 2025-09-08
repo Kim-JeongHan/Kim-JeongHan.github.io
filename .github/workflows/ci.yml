@@ -7,6 +7,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [18, 20]
     steps:
       - uses: actions/checkout@v4
 
@@ -15,10 +19,11 @@ jobs:
           ruby-version: '3.1'
           bundler-cache: true
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ matrix.node }}
           cache: 'npm'
+          cache-dependency-path: package-lock.json
 
       - run: npm ci
       - run: bundle exec jekyll build
