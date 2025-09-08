@@ -25,6 +25,6 @@ jobs:
           cache: 'npm'
           cache-dependency-path: package-lock.json
 
-      - run: npm ci
+      - run: npm ci --legacy-peer-deps --ignore-scripts
       - run: bundle exec jekyll build
       - run: npm run lint

@@ -29,6 +29,8 @@
     "eslint-plugin-jsx-a11y": "5.0.3",
     "eslint-plugin-react": "7.1.0",
     "json2yaml": "1.1.0",
+    "prelude-ls": "^1.2.1",
+    "process-nextick-args": "^2.0.1",
     "uglify-js": "3.0.18",
     "watchify": "3.9.0"
   },
