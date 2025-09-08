@@ -1,0 +1,16 @@
+language: "ko-KR"                  # 한국어로 리뷰 생성
+early_access: true                # 최신 기능 얼리 액세스 사용
+
+reviews:
+  profile: "chill"             
+  request_changes_workflow: true # 문제 있는 코드에는 'Changes Requested' 처리
+  high_level_summary: true       # 전체 리뷰 요약 포함
+  poem: false                     # 시 형식 요약은 생략 (실용 위주 세팅)
+  review_status: true            # 리뷰 상태 아이콘 활성화
+  collapse_walkthrough: true     # 긴 설명은 기본 접기
+  auto_review:
+    enabled: true                # PR 생성 시 자동 리뷰 수행
+    drafts: false                # draft PR은 리뷰하지 않음
+
+chat:
+  auto_reply: true               # 챗 메시지 자동 응답
