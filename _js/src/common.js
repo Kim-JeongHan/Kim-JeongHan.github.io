@@ -3,7 +3,7 @@
 
 /* eslint-disable no-param-reassign */
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 export function hasFeatures(features) {
   let acc = true;
@@ -39,7 +39,7 @@ export function matches(el, selector) {
 }
 
 export function animate(el, keyframes, options) {
-  return Observable.create((observer) => {
+  return new Observable((observer) => {
     const anim = el.animate(keyframes, options);
 
     anim.addEventListener('finish', (e) => {

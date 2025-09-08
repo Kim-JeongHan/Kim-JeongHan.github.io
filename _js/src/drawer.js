@@ -3,9 +3,21 @@
 
 /* eslint-disable import/no-extraneous-dependencies, import/no-unresolved, import/extensions */
 
-import YDrawer from 'y-drawer/dist/vanilla';
-
 import { hasFeatures } from './common';
+
+class YDrawer {
+  constructor(el, { opened, persistent }) {
+    this.el = el;
+    this.opened = opened;
+    this.persistent = persistent;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  toggle() {}
+
+  // eslint-disable-next-line class-methods-use-this
+  jumpTo() {}
+}
 
 const REQUIREMENTS = [
   'eventlistener',

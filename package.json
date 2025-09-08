@@ -4,7 +4,7 @@
   "description": "Hydejack is a pretentious two-column [Jekyll](http://jekyllrb.com) theme, stolen by [`@qwtel`](https://twitter.com/qwtel) from [Hyde](http://hyde.getpoole.com). You could say it was.. [hydejacked](http://media3.giphy.com/media/makedRIckZBW8/giphy.gif).",
   "scripts": {
     "clean": "rm -f assets/js/hydejack.js & rm -f assets/js/hydejack.min.js",
-    "test": "echo \"Warning: no test specified\" && exit 0",
+    "test": "npm run lint",
     "build": "cat _includes/copyright-header.txt > assets/js/hydejack.js; cross-env NODE_ENV=production browserify _js/src/index.js -p esmify -t [ ./node_modules/babelify --no-babelrc --configFile ./.babelrc ] --ignore-transform babelify | uglifyjs -c -m >> assets/js/hydejack.js",
     "watch": "watchify -d _js/src/index.js -p esmify -t [ ./node_modules/babelify --no-babelrc --configFile ./.babelrc ] --ignore-transform babelify -o assets/js/hydejack.js",
     "lint": "eslint _js/src",
@@ -15,10 +15,10 @@
   "author": "Florian Klampfer <f.klampfer@gmail.com> (https://qwtel.com)",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.25.0",
-    "@babel/eslint-parser": "^7.25.0",
-    "@babel/preset-env": "^7.25.0",
-    "@babel/plugin-proposal-function-bind": "^7.24.7",
+    "@babel/core": "^7.28.4",
+    "@babel/eslint-parser": "^7.28.4",
+    "@babel/preset-env": "^7.28.3",
+    "@babel/plugin-proposal-function-bind": "^7.27.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "babelify": "10.0.0",
     "browserify": "17.0.1",
@@ -38,10 +38,8 @@
     "core-js": "3.45.1",
     "elem-dataset": "2.0.0",
     "katex": "0.16.22",
-    "rxjs": "5.5.12",
-    "web-animations-js": "2.3.2",
-    "y-drawer": "6.1.1",
-    "y-push-state": "6.3.0"
+    "rxjs": "7.8.2",
+    "web-animations-js": "2.3.2"
   },
   "repository": {
     "type": "git",

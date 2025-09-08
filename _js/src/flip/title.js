@@ -10,11 +10,9 @@ import/extensions,
 class-methods-use-this,
 */
 
-import { Observable } from 'rxjs/Observable';
-import { timer } from 'rxjs/observable/timer';
+import { timer } from 'rxjs';
 
-import { _do as effect } from 'rxjs/operator/do';
-import { _finally as cleanup } from 'rxjs/operator/finally';
+import { tap as effect, finalize as cleanup } from 'rxjs/operators';
 
 import { animate } from '../common';
 import Flip from './flip';
@@ -52,8 +50,9 @@ class TitleFlip extends Flip {
       duration: this.duration,
       // easing: 'ease',
       easing: 'cubic-bezier(0,0,0.32,1)',
-    })
-      ::effect(() => { this.animationMain.style.position = 'absolute'; });
+    }).pipe(
+      effect(() => { this.animationMain.style.position = 'absolute'; }),
+    );
   }
 
   ready(main) {
@@ -67,17 +66,18 @@ class TitleFlip extends Flip {
     }
 
     // HACK: add some extra time to prevent hiccups
-    return Observable::timer(this.duration + 100)
-      ::effect(() => {
+    return timer(this.duration + 100).pipe(
+      effect(() => {
         if (title != null) {
           title.style.opacity = 1;
           title.style.willChange = '';
         }
-      })
-      ::cleanup(() => {
+      }),
+      cleanup(() => {
         this.animationMain.style.opacity = 0;
         this.animationMain.style.willChange = '';
-      });
+      }),
+    );
   }
 }
 
