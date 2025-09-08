@@ -16,3 +16,4 @@ gem "jekyll-redirect-from", "~> 0.16"
 gem "classifier-reborn", "~> 2.3"
 gem 'wdm', '>= 0.1.0'
 gem "kramdown-parser-gfm", "~> 1.1"
+
