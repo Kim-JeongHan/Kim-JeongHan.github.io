@@ -3,7 +3,7 @@
 
 /* eslint-disable import/no-extraneous-dependencies, import/no-unresolved, import/extensions */
 
-import YDrawer from 'y-drawer/src/vanilla';
+import YDrawer from 'y-drawer/dist/vanilla';
 
 import { hasFeatures } from './common';
 

@@ -1,13 +1,6 @@
 {
-  "env": {
-    "development": {
-      "presets": ["es2016"],
-      "plugins": ["transform-es2015-modules-commonjs", "transform-function-bind"]
-    },
-    "production": {
-      "presets": ["es2015", "es2016"],
-      "plugins": ["transform-function-bind"]
-    }
-  },
-  "only": ["_js", "rxjs"]
+  "presets": [["@babel/preset-env", { "targets": "> 0.5%, not dead", "useBuiltIns": "usage", "corejs": 3 }]],
+  "plugins": ["@babel/plugin-proposal-function-bind"],
+  "only": ["_js"],
+  "ignore": ["node_modules"]
 }

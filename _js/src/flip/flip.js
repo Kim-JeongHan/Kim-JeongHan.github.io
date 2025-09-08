@@ -11,9 +11,9 @@ import { empty } from 'rxjs/observable/empty';
 
 export default class Flip {
   static create(type, ...args) {
-    return Flip.types[type] != null ?
-      new Flip.types[type](...args) :
-      new Flip(...args);
+    return Flip.types[type] != null
+      ? new Flip.types[type](...args)
+      : new Flip(...args);
   }
 
   constructor({ animationMain, duration }) {

@@ -26,7 +26,7 @@ import { switchMap } from 'rxjs/operator/switchMap';
 import { takeUntil } from 'rxjs/operator/takeUntil';
 import { zipProto as zipWith } from 'rxjs/operator/zip';
 
-import PushState from 'y-push-state/src/vanilla';
+import PushState from 'y-push-state/dist/vanilla';
 import elemDataset from 'elem-dataset';
 
 import { hasFeatures, animate } from './common';
@@ -91,7 +91,7 @@ if (!window.disablePushState && hasFeatures(REQUIREMENTS)) {
 
   const start$ = Observable::fromEvent(pushState, 'y-push-state-start')
     ::map(({ detail }) => detail)
-    ::map(detail => [detail, document.getElementById('_main')])
+    ::map((detail) => [detail, document.getElementById('_main')])
     ::effect(() => {
       // If a link on the drawer has been clicked, close it
       if (!window.isDesktop && window.drawer.opened) {
@@ -128,13 +128,12 @@ if (!window.disablePushState && hasFeatures(REQUIREMENTS)) {
     ::switchMap(([detail]) => {
       const { event: { currentTarget } } = detail;
 
-      const flip = Flip.create(
-        currentTarget.getAttribute &&
-        currentTarget.getAttribute('data-flip'), {
-          animationMain,
-          currentTarget,
-          duration: DURATION,
-        });
+      const flip = Flip.create(currentTarget.getAttribute
+        && currentTarget.getAttribute('data-flip'), {
+        animationMain,
+        currentTarget,
+        duration: DURATION,
+      });
 
       // HACK: This assumes knowledge of the internal rx pipeline.
       // Could possibly be replaced with `withLatestFrom` shinanigans,
@@ -150,15 +149,14 @@ if (!window.disablePushState && hasFeatures(REQUIREMENTS)) {
   start$
     ::effect(([, main]) => { main.style.opacity = 0; })
     ::filter(([{ type }]) => type === 'push' || !isSafari)
-    ::exhaustMap(([{ type }, main]) =>
-      animate(main, [
-        { opacity: 1 },
-        { opacity: 0 },
-      ], {
-        duration: DURATION,
-        // easing: 'ease',
-        easing: 'cubic-bezier(0,0,0.32,1)',
-      })
+    ::exhaustMap(([{ type }, main]) => animate(main, [
+      { opacity: 1 },
+      { opacity: 0 },
+    ], {
+      duration: DURATION,
+      // easing: 'ease',
+      easing: 'cubic-bezier(0,0,0.32,1)',
+    })
         ::effect(() => { if (type === 'push') window.scroll(0, 0); })
         ::zipWith(after$))
     ::makeUnstoppable()
@@ -187,8 +185,8 @@ if (!window.disablePushState && hasFeatures(REQUIREMENTS)) {
     .subscribe();
 
   ready$
-    ::switchMap(({ content: [main] }) =>
-      crossFader.fetchImage(elemDataset(main))::takeUntil(start$))
+    ::switchMap(({ content: [main] }) => (
+      crossFader.fetchImage(elemDataset(main))::takeUntil(start$)))
     ::startWith(document.querySelector('.sidebar-bg'))
     ::pairwise()
     ::mergeMap(::crossFader.crossFade)
@@ -198,16 +196,15 @@ if (!window.disablePushState && hasFeatures(REQUIREMENTS)) {
   // Animate the new content
   after$
     ::filter(({ type }) => type === 'push' || !isSafari)
-    ::map(kind => [kind, document.querySelector('main')])
-    ::switchMap(([, main]) =>
-      animate(main, [
-        { transform: 'translateY(-2rem)', opacity: 0 },
-        { transform: 'translateY(0)', opacity: 1 },
-      ], {
-        duration: DURATION,
-        // easing: 'ease',
-        easing: 'cubic-bezier(0,0,0.32,1)',
-      }))
+    ::map((kind) => [kind, document.querySelector('main')])
+    ::switchMap(([, main]) => animate(main, [
+      { transform: 'translateY(-2rem)', opacity: 0 },
+      { transform: 'translateY(0)', opacity: 1 },
+    ], {
+      duration: DURATION,
+      // easing: 'ease',
+      easing: 'cubic-bezier(0,0,0.32,1)',
+    }))
     ::makeUnstoppable()
     .subscribe();
 

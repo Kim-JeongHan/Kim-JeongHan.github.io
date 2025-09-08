@@ -39,7 +39,7 @@ export default class CrossFader {
   constructor({ duration }) {
     const main = document.getElementById('_main');
     const pageStyle = document.getElementById('_pageStyle');
-    const styleSheet = document.styleSheets::find(ss => ss.ownerNode === pageStyle);
+    const styleSheet = document.styleSheets::find((ss) => ss.ownerNode === pageStyle);
 
     this.sidebar = document.getElementById('_sidebar');
 
@@ -64,7 +64,7 @@ export default class CrossFader {
       const imgObj = new Image();
 
       res$ = Observable::fromEvent(imgObj, 'load')
-        ::zipWith(Observable::timer(this.duration), x => x)
+        ::zipWith(Observable::timer(this.duration), (x) => x)
         ::cleanup(() => { imgObj.src = ''; });
 
       imgObj.src = image;

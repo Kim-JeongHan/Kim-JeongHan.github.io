@@ -34,8 +34,8 @@ export function unshow(el) {
 export const unhide = unshow;
 
 export function matches(el, selector) {
-  return (el.matches || el.matchesSelector || el.msMatchesSelector || el.mozMatchesSelector ||
-    el.webkitMatchesSelector || el.oMatchesSelector).call(el, selector);
+  return (el.matches || el.matchesSelector || el.msMatchesSelector || el.mozMatchesSelector
+    || el.webkitMatchesSelector || el.oMatchesSelector).call(el, selector);
 }
 
 export function animate(el, keyframes, options) {
