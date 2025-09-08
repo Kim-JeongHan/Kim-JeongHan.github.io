@@ -114,7 +114,9 @@ if (!window.disablePushState && hasFeatures(REQUIREMENTS)) {
     ::map(({ detail }) => detail)
     ::share();
 
-  // const error$ = Observable.fromEvent(pushState, 'y-push-state-error');
+  const error$ = Observable::fromEvent(pushState, 'y-push-state-error')
+    ::map(({ detail }) => detail)
+    ::share();
 
   // HACK
   if (isSafari) {
@@ -181,13 +183,20 @@ if (!window.disablePushState && hasFeatures(REQUIREMENTS)) {
     ::makeUnstoppable()
     .subscribe();
 
-  // TODO: error message!?
-  // error$
-  //   // .delay(DURATION) // HACK
-  //   .do(() => {
-  //     loading.style.display = 'none';
-  //   })
-  //   .subscribe();
+  error$
+    ::effect((err) => {
+      loading.style.display = 'none';
+      if (process.env.NODE_ENV !== 'production') {
+        console.error(err); // eslint-disable-line no-console
+      }
+      const msg = document.createElement('div');
+      msg.classList.add('push-state-error');
+      msg.textContent = 'Error loading page';
+      document.body.appendChild(msg);
+      setTimeout(() => { msg.remove(); }, 5000);
+    })
+    ::makeUnstoppable()
+    .subscribe();
 
   // Prepare showing the new content
   ready$
