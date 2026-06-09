@@ -540,6 +540,17 @@ MISSING_TEX_SPACING_BEFORE_LEFT_RE = re.compile(
     r")"
     r"!\\left"
 )
+MISSING_TEX_EVALUATION_SUBSCRIPT_RE = re.compile(
+    r"(?P<bar>\\(?:big|Big|bigg|Bigg)?\|)\*\{"
+)
+MISSING_TEX_BRACED_SUBSCRIPT_RE = re.compile(
+    r"(?<![\\A-Za-z])(?P<symbol>[Ff])\*\{"
+    r"(?P<body>\\(?:mathbf|boldsymbol)\{[^{}]+\}|[A-Za-z0-9]+)"
+    r"\}"
+)
+MISSING_TEX_COMMAND_SUBSCRIPT_RE = re.compile(
+    r"(?P<symbol>\\(?:mathbf|boldsymbol)\{[^{}]+\})\*(?P<subscript>[A-Za-z0-9])"
+)
 
 
 def normalize_inline_math(markdown: str) -> str:
@@ -791,11 +802,49 @@ def replace_math_pipes(math: str) -> str:
 
 
 def normalize_tex_spacing(math: str) -> str:
-    return protect_tex_spacing_escapes(restore_missing_tex_spacing_escapes(math))
+    math = restore_missing_tex_subscripts(math)
+    math = restore_missing_tex_spacing_escapes(math)
+    math = replace_math_asterisks(math)
+    return protect_tex_spacing_escapes(math)
+
+
+def restore_missing_tex_subscripts(math: str) -> str:
+    math = MISSING_TEX_EVALUATION_SUBSCRIPT_RE.sub(r"\g<bar>_{", math)
+    math = MISSING_TEX_BRACED_SUBSCRIPT_RE.sub(r"\g<symbol>_{\g<body>}", math)
+    return MISSING_TEX_COMMAND_SUBSCRIPT_RE.sub(r"\g<symbol>_\g<subscript>", math)
 
 
 def restore_missing_tex_spacing_escapes(math: str) -> str:
     return MISSING_TEX_SPACING_BEFORE_LEFT_RE.sub(r"\g<function>\\!\\left", math)
+
+
+def replace_math_asterisks(math: str) -> str:
+    protected_ranges = math_environment_command_ranges(math)
+    parts: list[str] = []
+    for index, char in enumerate(math):
+        if (
+            char == "*"
+            and not is_escaped(math, index)
+            and not is_index_in_ranges(index, protected_ranges)
+        ):
+            replacement = r"\ast"
+            if index + 1 < len(math) and (math[index + 1].isalpha() or math[index + 1] == "\\"):
+                replacement += " "
+            parts.append(replacement)
+        else:
+            parts.append(char)
+    return "".join(parts)
+
+
+def math_environment_command_ranges(math: str) -> list[tuple[int, int]]:
+    return [
+        (match.start(), match.end())
+        for match in re.finditer(r"\\(?:begin|end)\{[^}]*\}", math)
+    ]
+
+
+def is_index_in_ranges(index: int, ranges: list[tuple[int, int]]) -> bool:
+    return any(start <= index < end for start, end in ranges)
 
 
 def protect_tex_spacing_escapes(math: str) -> str:

@@ -26,11 +26,11 @@ latest_posts:
   limit: 5
 ---
 
-I am a robotics software engineer on the Motion Algorithm Team at Roboe Technologies. My work focuses on motion planning, robot control, collision-aware motion execution, and optimization tooling for industrial robot systems.
+I am a robotics software engineer at Roboe Technologies, where I work on motion planning, robot control, and collision-aware motion execution for industrial robot systems.
 
-Before joining Roboe Technologies, I worked on autonomous mobile robot software at Gole Robotics and conducted undergraduate HRI research at RAISE Lab, Hanyang University. Across these roles, I have built ROS/ROS2 systems, sensor benchmarking tools, manipulator control modules, mobile robot patrol software, and robot perception/planning pipelines.
+Before joining Roboe, I worked on autonomous mobile robot software at Gole Robotics. During my undergraduate years at Hanyang University, I also worked on HRI and robotics research through projects such as Snapbot and a separable drone-mobile robot patrol system.
 
-My research direction is real-time robot path and motion planning for high-dimensional, constraint-rich environments. I am especially interested in optimization-based planning, diffusion-based planners, and constraint-aware control methods that can move from theory into reliable robot deployment.
+I am interested in real-time robot path and motion planning for high-dimensional, constraint-rich environments, especially methods that can move from theory into reliable real-world robot deployment.
 
 <div class="mb-4">
   <a class="btn btn-sm btn-outline-primary mb-2 mr-2" href="{{ '/cv/' | relative_url }}">CV</a>
