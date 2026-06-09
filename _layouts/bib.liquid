@@ -190,7 +190,11 @@
     <!-- Links/Buttons -->
     <div class="links">
       {% if entry.website %}
-        <a href="{{ entry.website }}" class="btn btn-sm z-depth-0" role="button">Website</a>
+        {% if entry.website contains '://' %}
+          <a href="{{ entry.website }}" class="btn btn-sm z-depth-0" role="button" rel="external nofollow noopener" target="_blank">Website</a>
+        {% else %}
+          <a href="{{ entry.website | relative_url }}" class="btn btn-sm z-depth-0" role="button">Website</a>
+        {% endif %}
       {% endif %}
       {% if entry.paper %}
         <a href="{{ entry.paper }}" class="btn btn-sm z-depth-0" role="button">Paper</a>
