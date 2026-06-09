@@ -1,0 +1,209 @@
+<!DOCTYPE html> <html lang="ko"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> 1 Concept of Probability and Distribution | JeongHan Kim </title> <meta name="author" content="JeongHan Kim"> <meta name="description" content="Robotics software engineer focused on motion planning, control, and autonomy for real-world robot systems. "> <meta name="keywords" content="robotics, programming, study notes, blog"> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"> <style>
+  :root {
+    --max-content-width: 930px;
+  }
+</style> <link rel="stylesheet" href="/assets/css/tailwind.css?v=50c64c15cbb9fd1ce6056fdb8bcb4b62"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" integrity="sha256-MVopmdyC2tYTiJ8wlktf0uh0v4NgT+vNdyVFepi7Q0c=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.5/css/academicons.min.css" integrity="sha256-SzrCOBJbGVFMahewkgjwnApaV2+av1DwMAA+/QGLyZw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/scholar-icons@1.0.3/css/scholar-icons.css" integrity="sha256-VY3hHVj/hNX3fYG6wtbA6TcKJQl7+FthzGSyIB64klY=" crossorigin="anonymous"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="/assets/img/favicon.ico?v=90ece0a5fa8877d9ee75cd52b5322a64"> <link rel="stylesheet" href="/assets/css/main.css?v=f0b101217084a90093badfe99ff9a7d1"> <link rel="canonical" href="https://kim-jeonghan.github.io/blog/2023/theorry-Concept-of-Probability-and-Distribution/"> <script src="/assets/js/theme.js?v=7af685e2ba20b37fef545c97b8064050"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
+    initTheme();
+  </script> </head> <body class="fixed-top-nav sticky-bottom-footer"> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> JeongHan Kim </a> <button class="navbar-toggler collapsed navbar-toggler-main" type="button" data-nav-toggle="navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse navbar-collapse-main" id="navbarNav"> <ul class="navbar-nav navbar-menu-list flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item active"> <a class="nav-link" href="/blog/">blog </a> </li> <li class="nav-item "> <a class="nav-link" href="/publications/">publications </a> </li> <li class="nav-item "> <a class="nav-link" href="/projects/">projects </a> </li> <li class="nav-item "> <a class="nav-link" href="/cv/">CV </a> </li> <li class="nav-item"> <button id="search-toggle" type="button" title="Search" aria-label="Open search"> <span class="nav-link">ctrl k <i class="fa-solid fa-magnifying-glass"></i></span> </button> </li> <li class="toggle-container"> <button id="light-toggle" type="button" title="Change theme" aria-label="Change color theme"> <i class="fa-half-sun-moon" id="light-toggle-system"></i> <i class="fa-solid fa-moon" id="light-toggle-dark"></i> <i class="fa-solid fa-sun" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">1 Concept of Probability and Distribution</h1> <p class="post-meta"> Created on March 19, 2023 </p> <p class="post-tags"> <a href="/blog/2023"> <i class="fa-solid fa-calendar fa-sm"></i> 2023 </a>   ·   <a href="/blog/tag/%ED%99%95%EB%A5%A0%EA%B3%BC%ED%86%B5%EA%B3%84"> <i class="fa-solid fa-hashtag fa-sm"></i> 확률과통계</a>   <a href="/blog/tag/%ED%99%95%EB%A5%A0%EC%9D%98%EC%A0%95%EC%9D%98"> <i class="fa-solid fa-hashtag fa-sm"></i> 확률의정의</a>   <a href="/blog/tag/%ED%99%95%EB%A5%A0%EC%9D%98%EB%AA%A9%ED%91%9C"> <i class="fa-solid fa-hashtag fa-sm"></i> 확률의목표</a>   <a href="/blog/tag/%ED%99%95%EB%A5%A0%EB%B3%80%EC%88%98"> <i class="fa-solid fa-hashtag fa-sm"></i> 확률변수</a>   <a href="/blog/tag/%ED%99%95%EB%A5%A0%EB%B6%84%ED%8F%AC"> <i class="fa-solid fa-hashtag fa-sm"></i> 확률분포</a>   ·   <a href="/blog/category/theory"> <i class="fa-solid fa-tag fa-sm"></i> theory</a> </p> </header> <article class="post-content"> <div id="markdown-content"> <ul> <li>요약 <blockquote> <p>🌙 확률의 개념과 확률 분포</p> </blockquote> </li> <li> <a href="#%ED%99%95%EB%A5%A0">확률</a> <ul> <li> <a href="#%ED%99%95%EB%A5%A0%EC%9D%B4-%ED%95%84%EC%9A%94%ED%95%9C-%EC%9D%B4%EC%9C%A0">확률이 필요한 이유?</a> <ul> <li><a href="#-%ED%8F%AD%EB%84%93%EC%9D%80-%ED%99%95%EB%A5%A0%EC%9D%98-%EC%A0%95%EC%9D%98">☾ 일반 적인 확률</a></li> <li><a href="#-%EB%AC%B4%EC%9E%91%EC%9C%84%EC%A0%81%EC%9D%B4%EA%B3%A0-%EC%98%88%EC%B8%A1-%EB%B6%88%EA%B0%80%EB%8A%A5%ED%95%9C-%EC%9D%BC%EC%83%81">☾ 폭넓은 확률의 정의</a></li> <li><a href="#-%EB%AC%B4%EC%9E%91%EC%9C%84%EC%84%B1%EC%97%90-%EC%88%A8%EC%96%B4-%EC%9E%88%EB%8A%94-%EA%B7%9C%EC%B9%99-%ED%99%95%EB%A5%A0--%ED%99%95%EB%A5%A0%EB%B6%84%ED%8F%ACsample-space">☾ 무작위적이고 예측 불가능한 일상</a></li> <li><a href="#-%EB%AC%B4%EC%9E%91%EC%9C%84%EC%84%B1%EC%97%90-%EC%88%A8%EC%96%B4-%EC%9E%88%EB%8A%94-%EA%B7%9C%EC%B9%99-%ED%99%95%EB%A5%A0--%ED%99%95%EB%A5%A0%EB%B6%84%ED%8F%ACsample-space">☾ 무작위성에 숨어 있는 규칙→ 확률 → 확률분포(sample space)</a></li> <li><a href="#-%EB%AC%B4%EC%9E%91%EC%9C%84%EC%A0%81-%ED%98%84%EC%83%81%EC%9D%98-%ED%99%95%EB%A5%A0%EB%B6%84%ED%8F%AC%EB%A5%BC-%EC%9D%B4%EC%9A%A9">☾ 무작위적 현상의 확률(분포)를 이용</a></li> <li>[<span style="color:fuchsia">☾ 확률 이론의 주요 목표(sample space)&lt;/span](#-확률-이론의-주요-목표sample-space)</span> </li> </ul> </li> <li> <a href="#how-do-we-handle-probability">How do we handle probability?</a> <ul> <li><a href="#-%ED%99%95%EB%A5%A0-%EB%B3%80%EC%88%98random-variable">☾ 확률 변수(random variable)</a></li> <li><a href="#-%ED%99%95%EB%A5%A0-%EB%B6%84%ED%8F%ACprobability-distribution-function">☾ 확률 분포(probability distribution function)</a></li> <li><a href="#-%ED%99%95%EB%A5%A0-%EB%B6%84%EC%84%9D%EC%9D%98-%EB%8C%80%EC%83%81-%EC%84%A4%EC%A0%95">☾ 확률 분석의 대상 설정</a></li> <li><a href="#-%ED%99%95%EB%A5%A0-%EC%9D%B4%EB%A1%A0%EC%9D%98-%EC%A3%BC%EC%9A%94-%EB%A7%A4%EA%B0%9C%EB%B3%80%EC%88%98">☾ 확률 이론의 주요 매개변수</a></li> </ul> </li> </ul> </li> </ul> <h1 id="확률">확률</h1> <h2 id="확률이-필요한-이유">확률이 필요한 이유?</h2> <h3 id="-일반-적인-확률">☾ 일반 적인 확률</h3> <p><img src="https://Kim-JeongHan.github.io/assets/img/theory/probability&amp;statistics/Concept-of-Probability-and-Distribution-1.png" width="80%"></p> <h3 id="-폭넓은-확률의-정의">☾ 폭넓은 확률의 정의</h3> <ul> <li>무작의(random)로 나타나는 어떤 현상이 발생하거나 존재할 가능성(possibility)의 크기 <ul> <li>무작위 : 예측 불가능한 불규칙적인 발생</li> <li>현상 : 숫자, 집합(사건), 벡터 (두개 이상의 값이 동시에 발생)</li> </ul> </li> <li>확률 대상의 무작위성(radomness) <ul> <li>예측 불가능(unpredictable)</li> </ul> </li> <li>확률 대상 범위 제한: 시행(Trial, experiment), <span style="color:fuchsia">표본 공간(sample space)</span> <ul> <li> <strong>표본 공간</strong> : 시행으로부터 무작위로 발생하는 현상의 <strong>전체 집합</strong> </li> <li>예 : 주사위 1개 던지기 - {1,2,3,4,5,6}</li> <li>예 : 주사위 2개던지기 - {(1,1),(1,2) ….. (6,6)} 36가지 2차원 벡터</li> </ul> </li> <li>제한된 범위에서 총확률의 계산 <ul> <li>발생 가능한 모든 현상들의 확률의 합 = 1</li> </ul> </li> </ul> <h3 id="-무작위적이고-예측-불가능한-일상">☾ 무작위적이고 예측 불가능한 일상</h3> <ul> <li>일기예보 - 불확실한 현상에 대한 예측문제</li> <li>처리 대상인 정보 신호의 무작위성 - 통신, 영상, 음성, 센서</li> </ul> <h3 id="-무작위성에-숨어-있는-규칙-확률--확률분포sample-space"><span style="color:red">☾ 무작위성에 숨어 있는 규칙→ 확률 → 확률분포(sample space)</span></h3> <ul> <li>예 : 주사위{1,2,3,4,5,6,} 예측 VS 주사위{1,1,1,2,3,4,} 예측</li> <li>위 두가지 주사위중에서 앞으로를 예측하기 쉬운 것은 1이 좀더 많이 나온 주사위 이다.</li> </ul> <h3 id="-무작위적-현상의-확률분포를-이용">☾ 무작위적 현상의 확률(분포)를 이용</h3> <ul> <li> <span style="color:red">예측/추정 가능성(sample space)</span>은 높이고, 오류/실패 가능성은 낮춤</li> <li>잡음이나 불확실한 신호 성분 제거</li> </ul> <h3 id="-확률-이론의-주요-목표sample-space"><span style="color:fuchsia">☾ 확률 이론의 주요 목표(sample space)</span></h3> <ul> <li>무작위 현상의 확률 특성과 분포 파악(수학적 모델, 통계적 모델)</li> <li>추정, 예측, 판별 학습 등에 대한 확률적 해석</li> </ul> <h2 id="how-do-we-handle-probability">How do we handle probability?</h2> <h3 id="-확률-변수random-variable">☾ 확률 변수(random variable)</h3> <ul> <li>확률을 갖는 무작위 현상을 숫자(정수, 실수)에 대응</li> <li>무작위 현상을 수학적 변수로 취급</li> </ul> <h3 id="-확률-분포probability-distribution-function">☾ 확률 분포(probability distribution function)</h3> <ul> <li>무작위 현상 각각에 대한 확률값을 정의</li> <li>무작위 현상은 변수로 하고 함수값은 확률(또는 확률밀도)값을 갖는 함수를 설계하여 표현(확률분포함수)</li> </ul> <h3 id="-확률-분석의-대상-설정">☾ 확률 분석의 대상 설정</h3> <ul> <li>대상 현상의 분석 - 단일 확률 변수 <ul> <li>예: 키, 체중</li> </ul> </li> <li>여러 현상의 연합 분석 - 다중 확률 변수 <ul> <li>변수간의 상관성을 고려</li> <li>예 : (키, 체중) → 연관성이 어느정도 있음</li> </ul> </li> </ul> <h3 id="-확률-이론의-주요-매개변수">☾ 확률 이론의 주요 매개변수</h3> <ul> <li>평균, 분산, 상관계수</li> <li>무작위 현상에 따른 독특한 확률 분포함수 모델 <ul> <li>예: 정규분포, 포아송 분포</li> </ul> </li> </ul> <hr> <blockquote> <p>이 글은 이상화 교수님의 확률과 통계를 기반으로 작성되어있습니다.</p> <ul> <li> <a href="https://www.youtube.com/@user-xx1mm6mk5y" rel="external nofollow noopener" target="_blank">이상화 교수님의 선형대수</a> </li> </ul> </blockquote> </div> </article> <br> <hr> <br> <h2 class="text-3xl font-semibold mb-4 mt-12">Enjoy Reading This Article?</h2> <p class="mb-2">Here are some more articles you might like to read next:</p> <ul class="list-disc pl-7 my-3 space-y-2 marker:text-[var(--global-theme-color)]"> <li class="leading-relaxed"> <a class="underline decoration-1 hover:text-[var(--global-hover-color)]" href="/blog/2023/Docker1/">로봇공학과에서의 Docker</a> </li> <li class="leading-relaxed"> <a class="underline decoration-1 hover:text-[var(--global-hover-color)]" href="/blog/2023/ROS-pluginlib/">ROS pluginlib</a> </li> <li class="leading-relaxed"> <a class="underline decoration-1 hover:text-[var(--global-hover-color)]" href="/blog/2023/theory-sample2/">2 Concept of Random variable and probability distribution</a> </li> <li class="leading-relaxed"> <a class="underline decoration-1 hover:text-[var(--global-hover-color)]" href="/blog/2023/theory-Conditional-probability-and-examples/">3 Conditional probability and examples</a> </li> <li class="leading-relaxed"> <a class="underline decoration-1 hover:text-[var(--global-hover-color)]" href="/blog/2023/theory-Concept-of-Random-variable-and-probability-distribution/">2 Concept of Random variable and probability distribution</a> </li> </ul> </div> </div> <footer class="sticky-bottom mt-5" role="contentinfo"> <div class="container"> © Copyright 2026 JeongHan Kim. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. </div> </footer> <script>
+  window.alFolio = {
+    compatBootstrap: false
+  };
+</script> <script src="/assets/js/nav-toggle.js?v=141bd79a73ebc0f0b6ea58e440ae79fc"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?v=e49affc7bd2646f6acdad1dbe02c2359" type="text/javascript"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/al_math/js/mathjax-setup.js"></script> <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script> <script src="/assets/js/tooltips-setup.js?v=fe487e99db6c43751e6e7bdb2d6a0611"></script> <script src="/assets/js/no_defer.js?v=53b1b1a645525975c963ce8bf8bfefcf"></script> <script defer src="/assets/js/common.js?v=87baac90f765f2f3362dcf6aaf312a8a"></script> <script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?v=896d254890d9b47f0281f63bfccf0dee"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/al_img_tools/js/zoom.js"></script> <script defer src="/assets/js/progress-bar.js?v=499464c5c63ced6cf7ad62509f1e2610" type="text/javascript"></script> <script src="https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js" integrity="sha256-uMJJ3EoTyfRBoTbR+lrfu1uRQ87RZG8AR3cVNuQVeFg=" crossorigin="anonymous"></script> <script>
+    addBackToTop();
+  </script> <script type="module" src="/assets/al_search/js/search/ninja-keys.min.js"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script src="/assets/al_search/js/search-setup.js"></script> <script>
+// get the ninja-keys element
+const ninja = document.querySelector('ninja-keys');
+
+// add the home and posts menu items
+ninja.data = [{
+    id: "nav-about",
+    title: "about",
+    section: "Navigation",
+    handler: () => {
+      window.location.href = "/";
+    },
+  },{id: "nav-blog",
+          title: "blog",
+          description: "",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/blog/";
+          },
+        },{id: "nav-publications",
+          title: "publications",
+          description: "Research publications in reverse chronological order.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/publications/";
+          },
+        },{id: "nav-projects",
+          title: "projects",
+          description: "Selected robotics, HRI, and autonomy projects.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/projects/";
+          },
+        },{id: "nav-cv",
+          title: "CV",
+          description: "Academic CV generated from the sibling Awesome-CV project.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/cv/";
+          },
+        },{id: "post-로봇공학과에서의-docker",
+        
+          title: "로봇공학과에서의 Docker",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/Docker1/";
+          
+        },
+      },{id: "post-ros-pluginlib",
+        
+          title: "ROS pluginlib",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/ROS-pluginlib/";
+          
+        },
+      },{id: "post-2-concept-of-random-variable-and-probability-distribution",
+        
+          title: "2 Concept of Random variable and probability distribution",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/theory-sample2/";
+          
+        },
+      },{id: "post-3-conditional-probability-and-examples",
+        
+          title: "3 Conditional probability and examples",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/theory-Conditional-probability-and-examples/";
+          
+        },
+      },{id: "post-2-concept-of-random-variable-and-probability-distribution",
+        
+          title: "2 Concept of Random variable and probability distribution",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/theory-Concept-of-Random-variable-and-probability-distribution/";
+          
+        },
+      },{id: "post-1-concept-of-probability-and-distribution",
+        
+          title: "1 Concept of Probability and Distribution",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/theorry-Concept-of-Probability-and-Distribution/";
+          
+        },
+      },{id: "news-the-separable-drone-mobile-robot-patrol-project-received-the-undergraduate-best-paper-award-at-icros-2023",
+          title: 'The separable drone-mobile robot patrol project received the Undergraduate Best Paper Award at...',
+          description: "",
+          section: "News",},{id: "news-joined-roboe-technologies-as-a-software-engineer-on-the-motion-algorithm-team-working-on-motion-planning-control-and-collision-aware-robot-execution",
+          title: 'Joined Roboe Technologies as a Software Engineer on the Motion Algorithm Team, working...',
+          description: "",
+          section: "News",},{id: "news-snapbot-was-published-at-acm-ieee-hri-2024-connecting-manipulator-control-perception-and-computational-photography-for-dynamic-hri",
+          title: 'Snapbot was published at ACM/IEEE HRI 2024, connecting manipulator control, perception, and computational...',
+          description: "",
+          section: "News",},{id: "projects-eric-a-indoor-autonomous-delivery-robot",
+          title: 'ERIC_A Indoor Autonomous Delivery Robot',
+          description: "Indoor delivery robot integrating ROS navigation, dispatch, and human detection.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/eric-a-delivery-robot/";
+            },},{id: "projects-gole-robotics-autonomous-driving-software",
+          title: 'Gole Robotics Autonomous Driving Software',
+          description: "Indoor autonomous mobile robot software developed during a robotics internship.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/gole-robotics-autonomous-driving/";
+            },},{id: "projects-planning-python-3d-path-planning-library",
+          title: 'Planning - Python 3D Path Planning Library',
+          description: "Unified planner architecture and visual tools for RRT, RRT-Connect, RRG, RRT*, Informed RRT*, PRM, and PRM*.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/planning-python/";
+            },},{id: "projects-separable-drone-mobile-robot-system",
+          title: 'Separable Drone-Mobile Robot System',
+          description: "Integrated drone-mobile robot platform for energy-efficient unmanned patrol.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/separable-drone-mobile-robot/";
+            },},{id: "projects-snapbot",
+          title: 'Snapbot',
+          description: "Computational photography and HRI robot for real-time camera composition.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/snapbot/";
+            },},{
+        id: 'social-email',
+        title: 'email',
+        section: 'Socials',
+        handler: () => {
+          window.open("mailto:%6B%69%6D%6A%68%39%38%31%33@%6E%61%76%65%72.%63%6F%6D", "_blank");
+        },
+      },{
+        id: 'social-github',
+        title: 'GitHub',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://github.com/Kim-JeongHan", "_blank");
+        },
+      },{
+        id: 'social-linkedin',
+        title: 'LinkedIn',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://www.linkedin.com/in/jeonghan-kim-bb1013274", "_blank");
+        },
+      },{
+        id: 'social-rss',
+        title: 'RSS Feed',
+        section: 'Socials',
+        handler: () => {
+          window.open("/feed.xml", "_blank");
+        },
+      },{
+      id: 'light-theme',
+      title: 'Change theme to light',
+      description: 'Change the theme of the site to Light',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("light");
+      },
+    },
+    {
+      id: 'dark-theme',
+      title: 'Change theme to dark',
+      description: 'Change the theme of the site to Dark',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("dark");
+      },
+    },
+    {
+      id: 'system-theme',
+      title: 'Use system default theme',
+      description: 'Change the theme of the site to System Default',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("system");
+      },
+    },];
+
+</script> <script src="/assets/al_search/js/shortcut-key.js"></script> </body> </html>

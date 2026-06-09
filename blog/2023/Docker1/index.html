@@ -1,0 +1,209 @@
+<!DOCTYPE html> <html lang="ko"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> 로봇공학과에서의 Docker | JeongHan Kim </title> <meta name="author" content="JeongHan Kim"> <meta name="description" content="Robotics software engineer focused on motion planning, control, and autonomy for real-world robot systems. "> <meta name="keywords" content="robotics, programming, study notes, blog"> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"> <style>
+  :root {
+    --max-content-width: 930px;
+  }
+</style> <link rel="stylesheet" href="/assets/css/tailwind.css?v=50c64c15cbb9fd1ce6056fdb8bcb4b62"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" integrity="sha256-MVopmdyC2tYTiJ8wlktf0uh0v4NgT+vNdyVFepi7Q0c=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.5/css/academicons.min.css" integrity="sha256-SzrCOBJbGVFMahewkgjwnApaV2+av1DwMAA+/QGLyZw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/scholar-icons@1.0.3/css/scholar-icons.css" integrity="sha256-VY3hHVj/hNX3fYG6wtbA6TcKJQl7+FthzGSyIB64klY=" crossorigin="anonymous"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="/assets/img/favicon.ico?v=90ece0a5fa8877d9ee75cd52b5322a64"> <link rel="stylesheet" href="/assets/css/main.css?v=f0b101217084a90093badfe99ff9a7d1"> <link rel="canonical" href="https://kim-jeonghan.github.io/blog/2023/Docker1/"> <script src="/assets/js/theme.js?v=7af685e2ba20b37fef545c97b8064050"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
+    initTheme();
+  </script> </head> <body class="fixed-top-nav sticky-bottom-footer"> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> JeongHan Kim </a> <button class="navbar-toggler collapsed navbar-toggler-main" type="button" data-nav-toggle="navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse navbar-collapse-main" id="navbarNav"> <ul class="navbar-nav navbar-menu-list flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item active"> <a class="nav-link" href="/blog/">blog </a> </li> <li class="nav-item "> <a class="nav-link" href="/publications/">publications </a> </li> <li class="nav-item "> <a class="nav-link" href="/projects/">projects </a> </li> <li class="nav-item "> <a class="nav-link" href="/cv/">CV </a> </li> <li class="nav-item"> <button id="search-toggle" type="button" title="Search" aria-label="Open search"> <span class="nav-link">ctrl k <i class="fa-solid fa-magnifying-glass"></i></span> </button> </li> <li class="toggle-container"> <button id="light-toggle" type="button" title="Change theme" aria-label="Change color theme"> <i class="fa-half-sun-moon" id="light-toggle-system"></i> <i class="fa-solid fa-moon" id="light-toggle-dark"></i> <i class="fa-solid fa-sun" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">로봇공학과에서의 Docker</h1> <p class="post-meta"> Created on April 28, 2023 </p> <p class="post-tags"> <a href="/blog/2023"> <i class="fa-solid fa-calendar fa-sm"></i> 2023 </a>   ·   <a href="/blog/tag/%EB%A1%9C%EB%B4%87%EA%B3%B5%ED%95%99%EA%B3%BC"> <i class="fa-solid fa-hashtag fa-sm"></i> 로봇공학과</a>   <a href="/blog/tag/%EA%B0%9C%EB%B0%9C"> <i class="fa-solid fa-hashtag fa-sm"></i> 개발</a>   <a href="/blog/tag/%EB%8F%84%EC%BB%A4"> <i class="fa-solid fa-hashtag fa-sm"></i> 도커</a>   ·   <a href="/blog/category/develop"> <i class="fa-solid fa-tag fa-sm"></i> develop</a> </p> </header> <article class="post-content"> <div id="markdown-content"> <p><a href="https://github.com/remotty/documents.docker.co.kr" rel="external nofollow noopener" target="_blank"></a><a href="https://github.com/remotty/documents.docker.co.kr" rel="external nofollow noopener" target="_blank">https://github.com/remotty/documents.docker.co.kr</a></p> <p>도커란 개념을 설명하기 앞서서 로봇공학과에서 개발이란 내용을 주제로 먼저 이야기를 살짝 해보겠습니다.</p> <h1 id="로봇공학과에서-개발이란">로봇공학과에서 개발이란?</h1> <ol> <li>IC-PBL 수업</li> <li>대회</li> <li>개인프로젝트</li> </ol> <p>위와 같은 이유로 로봇공학과에서는 개발을 많이 진행합니다.</p> <p>그래서 제가 4년간 개발을 진행해올 때는 분야를 나누어서 보통 개발을 진행했습니다.</p> <h3 id="개발-분야">개발 분야</h3> <ol> <li>로봇 소프트웨어(주로 ROS를 사용하거나 제어를 하는 소프트웨어입니다.)</li> <li>로봇 전장부 (납땜하고, 전체적인 구성요소들을 디테일하게 선정하는 사람입니다.)</li> <li>로봇 하드웨어 (로봇의 기계기구부를 구체적으로 어떻게 디자인할지 구성할지 선택하는 사람입니다.)</li> <li>로봇 인공지능(Vision이나, 여러가지 로봇에 필요한 인공지능을 사용하는 사람입니다.)</li> </ol> <p>저는 보통 프로젝트를 진행할때 크게 이렇게 나누었고 필요에 따라서 웹을 다루는 친구나 디자인을 하는 친구들과 같이 했습니다.</p> <p>그 중 로봇소프트웨어와 로봇인공지능을 생각하는 친구들을 위한 스터디입니다.</p> <h1 id="도커란">도커란?</h1> <ul> <li> <p>참고한 블로그:</p> <p><a href="https://seosh817.tistory.com/345" rel="external nofollow noopener" target="_blank">[Docker] 도커란? - 도커 개념 정리</a></p> <p><a href="https://blog.naver.com/ksw7384/222845258856" rel="external nofollow noopener" target="_blank">Docker란?</a></p> </li> </ul> <p><code class="language-plaintext highlighter-rouge">도커(Docker)</code>는 리눅스 컨테이너에 리눅스 어플리케이션을 <strong>프로세스 격리기술</strong>을 사용하여 더 쉽게 컨테이너로 실행하고 관리할 수 있게 해주는 오픈소스 프로젝트 입니다. 도커는 일반적으로 도커 엔진(Docker Engine) 혹은 도커에 관련된 모든 프로젝트를 말합니다.</p> <p><code class="language-plaintext highlighter-rouge">도커 엔진(Docker Engine)</code>은 컨테이너를 생성하고 관리하는 주체로서 이 자체로도 컨테이너를 제어할 수 있고 다양한 기능을 제공하는 도커의 프로젝트입니다. 도커의 생태계에 있는 여러 프로젝트들은 도커 엔진을 좀 더 효율적으로 사용하기 위한 것에 불과하기 때문에 도커의 핵심은 도커 엔진이라고 할 수 있습니다.</p> <p>사실 정확하게 요약하면 프로세스를 격리하여 <strong>프로젝트를 보다 쉽게 관리</strong>할수 있게 생각하면된다.</p> <h1 id="virtual-machine-vs-docker-container">virtual Machine vs Docker Container</h1> <p><img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b3583c62-e95e-4ed8-bb73-703d737fc952/Untitled.png" alt="Untitled"></p> <p>가장 비슷하다고 생각들하는 가상머신과 도커 컨테이너의 차이를 알아보자.</p> <h2 id="virtual-machine가상머신">Virtual Machine(가상머신)</h2> <p>가상머신이란? 하나의 운영체제에서 여러개의 Hypervisor이란 개념을 활용해서 여러개의 운영체제를 사용하는 것이다. 그러한 가상화 방식을 사용하는 툴은 VirtualBox, VMware 등이 있다.</p> <hr> <h3 id="잠깐-hypervisor의-간단설명">잠깐 Hypervisor의 간단설명</h3> <p>하이퍼바이저는 <strong>가상 머신(Virtual Machine, VM)을 생성하고 구동하는 소프트웨어</strong>입니다. 가상 머신 모니터(Virtual Machine Monitor, VMM)라고도 불리는 하이퍼바이저는 하이퍼바이저 운영 체제와 가상 머신의 리소스를 분리해 VM의 생성과 관리를 지원합니다.</p> <p><a href="https://www.redhat.com/ko/topics/virtualization/what-is-a-hypervisor" rel="external nofollow noopener" target="_blank">추가링크 : 하이퍼바이저란?</a></p> <hr> <p>예를 들어 여러분이 주로 사용하는 windows 라는 운영체제에서 Ubuntu, MacOS등을 사용하는 것이라는 것이 쉬운예시가 되겠다.</p> <p>그렇다면 <strong><code class="language-plaintext highlighter-rouge">단점</code></strong>은 무엇일까?</p> <ol> <li>Hypervisor를 반드시 거쳐야 하므로 성능이 저하될수 있다.</li> <li>가상머신은 Guest OS를 위한 라이브러리, 커널 등을 모두 포함해야 하므로 배포를 위한 image를 생성하려면 크기가 커진다</li> </ol> <p>즉, 개발자들이 중요시 하는 생산성과 효율에 있어 떨어진다고 할 수 있다.</p> <h2 id="docker-container도커-컨테이너">Docker Container(도커 컨테이너)</h2> <p>기존의 비효율적인 것들을 대체하기위해 나온것이 Docker container이다. 이는 리눅스 자체 기능인 chroot, 네임스페이스(namespace), cgroup을 사용해서 성능 손실이 거의없다.</p> <p>기존의 가상머신과 비교하자면 간단하게</p> <ol> <li>리눅스 자체 기능을 사용해서 가상화공간을 만든다→ 성능손실이 없다.</li> <li>커널을 공유해서 만들어서 라이브러리 및 실행파일만 있다. → 용량이 작다.</li> </ol> <p>즉, 개발자들이 중요시 하는 생산성과 효율이 증가한다는 것이다.</p> <p><a href="https://seosh817.tistory.com/345" rel="external nofollow noopener" target="_blank">[Docker] 도커란? - 도커 개념 정리</a></p> <p><a href="https://blog.naver.com/ksw7384/222845258856" rel="external nofollow noopener" target="_blank">Docker란?</a></p> <p><a href="https://blog.naver.com/PostView.nhn?blogId=techref&amp;logNo=222238471338" rel="external nofollow noopener" target="_blank">커널이란? OS 커널 구조와 유형(Micro Kernel, Monolithic, Hybrid)</a> </p> </div> </article> <br> <hr> <br> <h2 class="text-3xl font-semibold mb-4 mt-12">Enjoy Reading This Article?</h2> <p class="mb-2">Here are some more articles you might like to read next:</p> <ul class="list-disc pl-7 my-3 space-y-2 marker:text-[var(--global-theme-color)]"> <li class="leading-relaxed"> <a class="underline decoration-1 hover:text-[var(--global-hover-color)]" href="/blog/2023/ROS-pluginlib/">ROS pluginlib</a> </li> <li class="leading-relaxed"> <a class="underline decoration-1 hover:text-[var(--global-hover-color)]" href="/blog/2023/theory-sample2/">2 Concept of Random variable and probability distribution</a> </li> <li class="leading-relaxed"> <a class="underline decoration-1 hover:text-[var(--global-hover-color)]" href="/blog/2023/theory-Conditional-probability-and-examples/">3 Conditional probability and examples</a> </li> <li class="leading-relaxed"> <a class="underline decoration-1 hover:text-[var(--global-hover-color)]" href="/blog/2023/theory-Concept-of-Random-variable-and-probability-distribution/">2 Concept of Random variable and probability distribution</a> </li> <li class="leading-relaxed"> <a class="underline decoration-1 hover:text-[var(--global-hover-color)]" href="/blog/2023/theorry-Concept-of-Probability-and-Distribution/">1 Concept of Probability and Distribution</a> </li> </ul> </div> </div> <footer class="sticky-bottom mt-5" role="contentinfo"> <div class="container"> © Copyright 2026 JeongHan Kim. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. </div> </footer> <script>
+  window.alFolio = {
+    compatBootstrap: false
+  };
+</script> <script src="/assets/js/nav-toggle.js?v=141bd79a73ebc0f0b6ea58e440ae79fc"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?v=e49affc7bd2646f6acdad1dbe02c2359" type="text/javascript"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/al_math/js/mathjax-setup.js"></script> <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script> <script src="/assets/js/tooltips-setup.js?v=fe487e99db6c43751e6e7bdb2d6a0611"></script> <script src="/assets/js/no_defer.js?v=53b1b1a645525975c963ce8bf8bfefcf"></script> <script defer src="/assets/js/common.js?v=87baac90f765f2f3362dcf6aaf312a8a"></script> <script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?v=896d254890d9b47f0281f63bfccf0dee"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/al_img_tools/js/zoom.js"></script> <script defer src="/assets/js/progress-bar.js?v=499464c5c63ced6cf7ad62509f1e2610" type="text/javascript"></script> <script src="https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js" integrity="sha256-uMJJ3EoTyfRBoTbR+lrfu1uRQ87RZG8AR3cVNuQVeFg=" crossorigin="anonymous"></script> <script>
+    addBackToTop();
+  </script> <script type="module" src="/assets/al_search/js/search/ninja-keys.min.js"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script src="/assets/al_search/js/search-setup.js"></script> <script>
+// get the ninja-keys element
+const ninja = document.querySelector('ninja-keys');
+
+// add the home and posts menu items
+ninja.data = [{
+    id: "nav-about",
+    title: "about",
+    section: "Navigation",
+    handler: () => {
+      window.location.href = "/";
+    },
+  },{id: "nav-blog",
+          title: "blog",
+          description: "",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/blog/";
+          },
+        },{id: "nav-publications",
+          title: "publications",
+          description: "Research publications in reverse chronological order.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/publications/";
+          },
+        },{id: "nav-projects",
+          title: "projects",
+          description: "Selected robotics, HRI, and autonomy projects.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/projects/";
+          },
+        },{id: "nav-cv",
+          title: "CV",
+          description: "Academic CV generated from the sibling Awesome-CV project.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/cv/";
+          },
+        },{id: "post-로봇공학과에서의-docker",
+        
+          title: "로봇공학과에서의 Docker",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/Docker1/";
+          
+        },
+      },{id: "post-ros-pluginlib",
+        
+          title: "ROS pluginlib",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/ROS-pluginlib/";
+          
+        },
+      },{id: "post-2-concept-of-random-variable-and-probability-distribution",
+        
+          title: "2 Concept of Random variable and probability distribution",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/theory-sample2/";
+          
+        },
+      },{id: "post-3-conditional-probability-and-examples",
+        
+          title: "3 Conditional probability and examples",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/theory-Conditional-probability-and-examples/";
+          
+        },
+      },{id: "post-2-concept-of-random-variable-and-probability-distribution",
+        
+          title: "2 Concept of Random variable and probability distribution",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/theory-Concept-of-Random-variable-and-probability-distribution/";
+          
+        },
+      },{id: "post-1-concept-of-probability-and-distribution",
+        
+          title: "1 Concept of Probability and Distribution",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2023/theorry-Concept-of-Probability-and-Distribution/";
+          
+        },
+      },{id: "news-the-separable-drone-mobile-robot-patrol-project-received-the-undergraduate-best-paper-award-at-icros-2023",
+          title: 'The separable drone-mobile robot patrol project received the Undergraduate Best Paper Award at...',
+          description: "",
+          section: "News",},{id: "news-joined-roboe-technologies-as-a-software-engineer-on-the-motion-algorithm-team-working-on-motion-planning-control-and-collision-aware-robot-execution",
+          title: 'Joined Roboe Technologies as a Software Engineer on the Motion Algorithm Team, working...',
+          description: "",
+          section: "News",},{id: "news-snapbot-was-published-at-acm-ieee-hri-2024-connecting-manipulator-control-perception-and-computational-photography-for-dynamic-hri",
+          title: 'Snapbot was published at ACM/IEEE HRI 2024, connecting manipulator control, perception, and computational...',
+          description: "",
+          section: "News",},{id: "projects-eric-a-indoor-autonomous-delivery-robot",
+          title: 'ERIC_A Indoor Autonomous Delivery Robot',
+          description: "Indoor delivery robot integrating ROS navigation, dispatch, and human detection.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/eric-a-delivery-robot/";
+            },},{id: "projects-gole-robotics-autonomous-driving-software",
+          title: 'Gole Robotics Autonomous Driving Software',
+          description: "Indoor autonomous mobile robot software developed during a robotics internship.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/gole-robotics-autonomous-driving/";
+            },},{id: "projects-planning-python-3d-path-planning-library",
+          title: 'Planning - Python 3D Path Planning Library',
+          description: "Unified planner architecture and visual tools for RRT, RRT-Connect, RRG, RRT*, Informed RRT*, PRM, and PRM*.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/planning-python/";
+            },},{id: "projects-separable-drone-mobile-robot-system",
+          title: 'Separable Drone-Mobile Robot System',
+          description: "Integrated drone-mobile robot platform for energy-efficient unmanned patrol.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/separable-drone-mobile-robot/";
+            },},{id: "projects-snapbot",
+          title: 'Snapbot',
+          description: "Computational photography and HRI robot for real-time camera composition.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/snapbot/";
+            },},{
+        id: 'social-email',
+        title: 'email',
+        section: 'Socials',
+        handler: () => {
+          window.open("mailto:%6B%69%6D%6A%68%39%38%31%33@%6E%61%76%65%72.%63%6F%6D", "_blank");
+        },
+      },{
+        id: 'social-github',
+        title: 'GitHub',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://github.com/Kim-JeongHan", "_blank");
+        },
+      },{
+        id: 'social-linkedin',
+        title: 'LinkedIn',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://www.linkedin.com/in/jeonghan-kim-bb1013274", "_blank");
+        },
+      },{
+        id: 'social-rss',
+        title: 'RSS Feed',
+        section: 'Socials',
+        handler: () => {
+          window.open("/feed.xml", "_blank");
+        },
+      },{
+      id: 'light-theme',
+      title: 'Change theme to light',
+      description: 'Change the theme of the site to Light',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("light");
+      },
+    },
+    {
+      id: 'dark-theme',
+      title: 'Change theme to dark',
+      description: 'Change the theme of the site to Dark',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("dark");
+      },
+    },
+    {
+      id: 'system-theme',
+      title: 'Use system default theme',
+      description: 'Change the theme of the site to System Default',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("system");
+      },
+    },];
+
+</script> <script src="/assets/al_search/js/shortcut-key.js"></script> </body> </html>
