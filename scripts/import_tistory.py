@@ -502,17 +502,230 @@ def import_posts(limit: int | None, max_pages: int, dry_run: bool, pause: float)
     return 0 if not failures else 1
 
 
+MATH_ENVIRONMENTS = {
+    "align",
+    "align*",
+    "aligned",
+    "alignat",
+    "alignat*",
+    "array",
+    "bmatrix",
+    "Bmatrix",
+    "cases",
+    "equation",
+    "equation*",
+    "gather",
+    "gather*",
+    "gathered",
+    "matrix",
+    "pmatrix",
+    "split",
+    "subarray",
+    "Vmatrix",
+    "vmatrix",
+}
+MATH_ENVIRONMENT_BEGIN_RE = re.compile(r"^(\s*)\\begin\{([A-Za-z*]+)\}")
+MULTILINE_INLINE_MATH_ENVIRONMENT_BEGIN_RE = re.compile(
+    r"^(?P<prefix>\s*(?:(?:[-*+]|\d+\.)\s+)?)"
+    r"\$(?P<body>\\begin\{(?P<environment>[A-Za-z*]+)\}.*)$"
+)
+MISSING_TEX_SPACING_BEFORE_LEFT_RE = re.compile(
+    r"(?<!\\)"
+    r"(?P<function>"
+    r"\\(?:exp|sin|cos|tan|log|ln)"
+    r"|\\mathrm\{[A-Za-z]+\}"
+    r"|\\operatorname\{[A-Za-z]+\}"
+    r"|[PE]"
+    r"|[Ff]_(?:\{[A-Za-z0-9]+\}|[A-Za-z0-9]+)"
+    r")"
+    r"!\\left"
+)
+
+
 def normalize_inline_math(markdown: str) -> str:
-    """Avoid Markdown table parsing inside inline TeX spans."""
+    """Keep imported TeX intact before Markdown/Kramdown parses it."""
+    markdown = wrap_multiline_inline_math_environments(markdown)
+    markdown = wrap_bare_math_environments(markdown)
     lines: list[str] = []
     in_fence = False
+    in_display_math = False
     for line in markdown.splitlines():
         if line.startswith("```"):
             in_fence = not in_fence
             lines.append(line)
             continue
-        lines.append(line if in_fence else normalize_inline_math_line(line))
+        if in_fence:
+            lines.append(line)
+            continue
+        normalized_line, in_display_math = normalize_math_line_segments(line, in_display_math)
+        lines.append(normalized_line)
     return "\n".join(lines) + ("\n" if markdown.endswith("\n") else "")
+
+
+def wrap_multiline_inline_math_environments(markdown: str) -> str:
+    lines = markdown.splitlines()
+    wrapped: list[str] = []
+    in_fence = False
+    in_display_math = False
+    index = 0
+
+    while index < len(lines):
+        line = lines[index]
+        if line.startswith("```"):
+            in_fence = not in_fence
+            wrapped.append(line)
+            index += 1
+            continue
+
+        match = None if in_fence or in_display_math else match_multiline_inline_math_environment(line)
+        if match:
+            prefix, environment, body = match
+            content_indent = " " * len(prefix)
+            end_marker = f"\\end{{{environment}}}"
+
+            wrapped.append(f"{prefix}$$")
+            wrapped.append(f"{content_indent}{body}")
+            index += 1
+
+            while index < len(lines):
+                block_line = lines[index]
+                end_index = block_line.find(end_marker)
+                closing_dollar = (
+                    find_inline_math_end(block_line, end_index + len(end_marker))
+                    if end_index >= 0
+                    else None
+                )
+                if closing_dollar is None:
+                    wrapped.append(block_line)
+                    index += 1
+                    continue
+
+                before_close = block_line[:closing_dollar].rstrip()
+                trailing_text = block_line[closing_dollar + 1 :].strip()
+                wrapped.append(before_close)
+                wrapped.append(f"{content_indent}$$")
+                if trailing_text:
+                    wrapped.append(f"{content_indent}{trailing_text}")
+                index += 1
+                break
+            continue
+
+        wrapped.append(line)
+        if not in_fence:
+            in_display_math = update_display_math_state(line, in_display_math)
+        index += 1
+
+    return "\n".join(wrapped) + ("\n" if markdown.endswith("\n") else "")
+
+
+def match_multiline_inline_math_environment(line: str) -> tuple[str, str, str] | None:
+    match = MULTILINE_INLINE_MATH_ENVIRONMENT_BEGIN_RE.match(line)
+    if not match:
+        return None
+    prefix = match.group("prefix")
+    environment = match.group("environment")
+    if environment not in MATH_ENVIRONMENTS:
+        return None
+    dollar_index = len(prefix)
+    if find_inline_math_end(line, dollar_index + 1) is not None:
+        return None
+    return prefix, environment, match.group("body")
+
+
+def wrap_bare_math_environments(markdown: str) -> str:
+    lines = markdown.splitlines()
+    wrapped: list[str] = []
+    in_fence = False
+    in_display_math = False
+    index = 0
+
+    while index < len(lines):
+        line = lines[index]
+        if line.startswith("```"):
+            in_fence = not in_fence
+            wrapped.append(line)
+            index += 1
+            continue
+
+        match = None if in_fence or in_display_math else match_bare_math_environment(line)
+        if match:
+            indent, environment = match
+            block = [line]
+            end_marker = f"\\end{{{environment}}}"
+            while end_marker not in block[-1] and index + 1 < len(lines):
+                index += 1
+                block.append(lines[index])
+
+            wrapped.append(f"{indent}$$")
+            wrapped.extend(block)
+            wrapped.append(f"{indent}$$")
+            index += 1
+            continue
+
+        wrapped.append(line)
+        if not in_fence:
+            in_display_math = update_display_math_state(line, in_display_math)
+        index += 1
+
+    return "\n".join(wrapped) + ("\n" if markdown.endswith("\n") else "")
+
+
+def match_bare_math_environment(line: str) -> tuple[str, str] | None:
+    if "$" in line:
+        return None
+    match = MATH_ENVIRONMENT_BEGIN_RE.match(line)
+    if not match:
+        return None
+    indent, environment = match.groups()
+    if environment not in MATH_ENVIRONMENTS:
+        return None
+    return indent, environment
+
+
+def normalize_math_line_segments(line: str, in_display_math: bool) -> tuple[str, bool]:
+    parts: list[str] = []
+    cursor = 0
+    while cursor < len(line):
+        delimiter = find_display_math_delimiter(line, cursor)
+        if delimiter is None:
+            segment = line[cursor:]
+            parts.append(
+                normalize_tex_spacing(segment)
+                if in_display_math
+                else normalize_inline_math_line(segment)
+            )
+            return "".join(parts), in_display_math
+
+        segment = line[cursor:delimiter]
+        parts.append(
+            normalize_tex_spacing(segment)
+            if in_display_math
+            else normalize_inline_math_line(segment)
+        )
+        parts.append("$$")
+        in_display_math = not in_display_math
+        cursor = delimiter + 2
+
+    return "".join(parts), in_display_math
+
+
+def update_display_math_state(line: str, in_display_math: bool) -> bool:
+    cursor = 0
+    while True:
+        delimiter = find_display_math_delimiter(line, cursor)
+        if delimiter is None:
+            return in_display_math
+        in_display_math = not in_display_math
+        cursor = delimiter + 2
+
+
+def find_display_math_delimiter(line: str, start: int) -> int | None:
+    cursor = start
+    while cursor < len(line) - 1:
+        if line[cursor : cursor + 2] == "$$" and not is_escaped(line, cursor):
+            return cursor
+        cursor += 1
+    return None
 
 
 def normalize_inline_math_line(line: str) -> str:
@@ -531,7 +744,7 @@ def normalize_inline_math_line(line: str) -> str:
             continue
 
         parts.append("$")
-        parts.append(replace_math_pipes(line[cursor + 1 : end]))
+        parts.append(replace_math_pipes(normalize_tex_spacing(line[cursor + 1 : end])))
         parts.append("$")
         cursor = end + 1
     return "".join(parts)
@@ -574,6 +787,28 @@ def replace_math_pipes(math: str) -> str:
             pipe_index += 1
         else:
             parts.append(char)
+    return "".join(parts)
+
+
+def normalize_tex_spacing(math: str) -> str:
+    return protect_tex_spacing_escapes(restore_missing_tex_spacing_escapes(math))
+
+
+def restore_missing_tex_spacing_escapes(math: str) -> str:
+    return MISSING_TEX_SPACING_BEFORE_LEFT_RE.sub(r"\g<function>\\!\\left", math)
+
+
+def protect_tex_spacing_escapes(math: str) -> str:
+    parts: list[str] = []
+    cursor = 0
+    while cursor < len(math):
+        if math[cursor] == "\\" and cursor + 1 < len(math) and math[cursor + 1] == "!":
+            if not is_escaped(math, cursor):
+                parts.append(r"\\!")
+                cursor += 2
+                continue
+        parts.append(math[cursor])
+        cursor += 1
     return "".join(parts)
 
 
