@@ -51,7 +51,7 @@ P(A|B) = \frac{P(A\cap B)}{P(B)}
 -> \frac{n(A\cap B)/n(s)}{n(B)/n(s)}
 $$
 
-   <img src="https://Kim-JeongHan.github.io/assets/img/theory/probability&statistics/Conditional-probability-and-examples-1.png" width="80%">
+   <img src="/assets/img/theory/probability&statistics/Conditional-probability-and-examples-1.png" width="80%">
 
   
 
@@ -73,7 +73,7 @@ $ P(A\cap B)=P(B|A)P(A) $
 
 ### ☾ Ex: 안경 착용할 확률 - 100명의 학생에서 한 명 무작위 추출
 
-   <img src="https://Kim-JeongHan.github.io/assets/img/theory/probability&statistics/Conditional-probability-and-examples-2.png" width="80%">
+   <img src="/assets/img/theory/probability&statistics/Conditional-probability-and-examples-2.png" width="80%">
   
 
 1. P(안경을 착용) → P(WG)=$ \frac{60}{100} $
@@ -87,7 +87,7 @@ $ P(A\cap B)=P(B|A)P(A) $
 ### ☾ Ex: 부품을 납품하는 3 suppliers, 부품 불량(defect) 확률
 
   
-   <img src="https://Kim-JeongHan.github.io/assets/img/theory/probability&statistics/Conditional-probability-and-examples-3.png" width="80%">
+   <img src="/assets/img/theory/probability&statistics/Conditional-probability-and-examples-3.png" width="80%">
   
 
 1. 총 6000개에서 1개의 부품을 선택하였을 때, P(A and defect)?
@@ -101,7 +101,7 @@ $ P(A\cap B)=P(B|A)P(A) $
 ### ☾ Ex: Communtcation channel
 
   
-   <img src="https://Kim-JeongHan.github.io/assets/img/theory/probability&statistics/Conditional-probability-and-examples-4.png" width="80%">
+   <img src="/assets/img/theory/probability&statistics/Conditional-probability-and-examples-4.png" width="80%">
 
   
 
@@ -122,7 +122,7 @@ $ P(A\cap B)=P(B|A)P(A) $
 ## 03_실생활에서의 Conditional probability
 
   
-   <img src="https://Kim-JeongHan.github.io/assets/img/theory/probability&statistics/Conditional-probability-and-examples-5.png" width="80%">
+   <img src="/assets/img/theory/probability&statistics/Conditional-probability-and-examples-5.png" width="80%">
 
 
 ---

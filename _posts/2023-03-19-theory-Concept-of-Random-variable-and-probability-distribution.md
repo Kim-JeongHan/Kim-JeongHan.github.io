@@ -57,7 +57,7 @@ disqus_comments: true
     
 -   표기법 : 대문자 (X,Y) - 확률 변수 이름, 소문자(x,y)- 확률변수의 값(X=1)
     
-    <img src="https://Kim-JeongHan.github.io/assets/img/theory/probability&statistics/Concept-of-Random-variable-and-probability-distribution-1.png" width="80%">
+    <img src="/assets/img/theory/probability&statistics/Concept-of-Random-variable-and-probability-distribution-1.png" width="80%">
 
 ### ☾ 이산 확률 변수 (discrete random variable)
 
@@ -90,7 +90,7 @@ disqus_comments: true
 -   확률분포 함수의 정의역(domain) - 확률변수
 -   확률분포함수의 치역(range) - 확률(이산), 확률밀도(연속)
 
-    <img src="https://Kim-JeongHan.github.io/assets/img/theory/probability&statistics/Concept-of-Random-variable-and-probability-distribution-2.png" width="80%">
+    <img src="/assets/img/theory/probability&statistics/Concept-of-Random-variable-and-probability-distribution-2.png" width="80%">
 
 <aside> 💡 논문에서 대문자와 소문자를 잘 구분해서 보아야한다.
 
@@ -98,7 +98,7 @@ disqus_comments: true
 
 ### ☾ 확률 분포 함수(Probability distribution function)의 모델
 
- <img src="https://Kim-JeongHan.github.io/assets/img/theory/probability&statistics/Concept-of-Random-variable-and-probability-distribution-3.png" width="80%">
+ <img src="/assets/img/theory/probability&statistics/Concept-of-Random-variable-and-probability-distribution-3.png" width="80%">
 
 ---
 

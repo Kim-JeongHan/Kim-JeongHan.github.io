@@ -1,4 +1,4 @@
-# JeongHan Kim
+# Jeonghan Kim
 
 Personal Jekyll blog for robotics, programming, and theory notes.
 
@@ -11,7 +11,7 @@ bundle install
 bundle exec jekyll serve
 ```
 
-For GitHub Pages, `.github/workflows/deploy.yml` builds the site and publishes `_site` to the Pages branch.
+For GitHub Pages, `.github/workflows/deploy.yml` installs the Bundler dependencies, builds the site, uploads `_site` as a Pages artifact, and deploys it with `actions/deploy-pages`. In the repository settings, set Pages to deploy from GitHub Actions, not from the default branch Jekyll builder.
 
 ## Academic CV
 

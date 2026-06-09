@@ -2,12 +2,12 @@
 # Site settings
 # -----------------------------------------------------------------------------
 
-title: JeongHan Kim # the website title (if blank, full name will be used instead)
-first_name: JeongHan
+title: Jeonghan Kim # the website title (if blank, full name will be used instead)
+first_name: Jeonghan
 middle_name:
 last_name: Kim
 author:
-  name: JeongHan Kim
+  name: Jeonghan Kim
   email: kimjh9813@naver.com
 contact_note: >
   Robotics Software Engineer | Motion Planning and Control
@@ -20,7 +20,7 @@ keywords: robotics, programming, study notes, blog # add your own keywords or le
 lang: ko # the language of your site (for example: en, fr, cn, ru, etc.)
 icon: favicon.ico # the emoji used as the favicon (alternatively, provide image name in /assets/img/)
 
-url: https://Kim-JeongHan.github.io # the base hostname & protocol for your site
+url: https://kim-jeonghan.github.io # the base hostname & protocol for your site
 baseurl: # the subpath of your site, e.g. /blog/. Leave blank for root
 last_updated: false # set to true if you want to display last updated in the footer
 impressum_path: # set to path to include impressum link in the footer, use the same path as permalink in a page, helps to conform with EU GDPR
@@ -333,7 +333,7 @@ display_categories: ["theory", "develop"] # these categories will be displayed o
 
 scholar:
   last_name: [Kim]
-  first_name: [JeongHan]
+  first_name: [Jeonghan]
 
   style: apa
   locale: en

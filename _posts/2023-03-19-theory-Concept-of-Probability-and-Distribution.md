@@ -31,7 +31,7 @@ disqus_comments: true
 ## 확률이 필요한 이유?
 
 ### ☾ 일반 적인 확률
-<img src="https://Kim-JeongHan.github.io/assets/img/theory/probability&statistics/Concept-of-Probability-and-Distribution-1.png" width="80%">
+<img src="/assets/img/theory/probability&statistics/Concept-of-Probability-and-Distribution-1.png" width="80%">
 
 ### ☾ 폭넓은 확률의 정의
 
