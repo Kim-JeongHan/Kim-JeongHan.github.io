@@ -4,6 +4,7 @@ title: Separable Drone-Mobile Robot System
 description: Integrated drone-mobile robot platform for energy-efficient unmanned patrol.
 importance: 2
 category: research
+github: https://github.com/7drone/carrier_ros
 ---
 
 This project developed a drone-mobile robot system where a ground robot carries, charges, and deploys a drone for last-mile patrol over rugged terrain.

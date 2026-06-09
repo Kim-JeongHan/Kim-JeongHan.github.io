@@ -9,7 +9,7 @@ profile:
   image: me.jpg
   image_circular: false
   more_info: >
-    <p>Software Engineer, Motion Algorithm Team</p>
+    <p>Motion Algorithm Team</p>
     <p>Roboe Technologies</p>
 
 selected_papers: false
@@ -44,12 +44,12 @@ My research direction is real-time robot path and motion planning for high-dimen
 
 {% include news.liquid limit=true %}
 
+## [Selected Publications]({{ '/publications/' | relative_url }})
+
+{% include selected_papers.liquid %}
+
 ## Selected Projects
 
 - [Snapbot]({{ '/projects/snapbot/' | relative_url }}) - manipulator-based HRI and computational photography system published at ACM/IEEE HRI 2024.
 - [Separable Drone-Mobile Robot System]({{ '/projects/separable-drone-mobile-robot/' | relative_url }}) - drone-mobile robot platform for energy-efficient unmanned patrol, awarded at ICROS 2023.
 - [Planning - Python 3D Path Planning Library]({{ '/projects/planning-python/' | relative_url }}) - open-source path-planning library for sampling-based planning and visualization.
-
-## [Selected Publications]({{ '/publications/' | relative_url }})
-
-{% include selected_papers.liquid %}

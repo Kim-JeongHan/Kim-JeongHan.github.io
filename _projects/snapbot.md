@@ -4,6 +4,7 @@ title: Snapbot
 description: Computational photography and HRI robot for real-time camera composition.
 importance: 1
 category: research
+github: https://github.com/Plan-Real/Snapbot
 ---
 
 Snapbot is a manipulator-based computational photography system that tracks people and selects camera poses for dynamic human-robot interaction.

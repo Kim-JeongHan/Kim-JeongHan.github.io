@@ -4,6 +4,7 @@ title: Gole Robotics Autonomous Driving Software
 description: Indoor autonomous mobile robot software developed during a robotics internship.
 importance: 2
 category: robotics
+github: https://github.com/Plan-Real/hongdo_system
 ---
 
 At Gole Robotics, this project focused on autonomous driving software for indoor mobile robots.
