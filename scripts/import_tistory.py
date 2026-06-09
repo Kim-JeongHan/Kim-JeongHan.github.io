@@ -481,6 +481,7 @@ def import_posts(limit: int | None, max_pages: int, dry_run: bool, pause: float)
             metadata, content = parse_post(session, summary)
             image_records = localize_images(session, content, summary.post_id, summary.url, dry_run)
             markdown = converter.convert(content)
+            markdown = normalize_inline_math(markdown)
             path = write_post(summary, metadata, markdown, image_records, dry_run)
             print(
                 f"[{index}/{len(summaries)}] {summary.post_id}: {path} "
@@ -499,6 +500,90 @@ def import_posts(limit: int | None, max_pages: int, dry_run: bool, pause: float)
         for failure in failures:
             print(f"- {failure}", file=sys.stderr)
     return 0 if not failures else 1
+
+
+def normalize_inline_math(markdown: str) -> str:
+    """Avoid Markdown table parsing inside inline TeX spans."""
+    lines: list[str] = []
+    in_fence = False
+    for line in markdown.splitlines():
+        if line.startswith("```"):
+            in_fence = not in_fence
+            lines.append(line)
+            continue
+        lines.append(line if in_fence else normalize_inline_math_line(line))
+    return "\n".join(lines) + ("\n" if markdown.endswith("\n") else "")
+
+
+def normalize_inline_math_line(line: str) -> str:
+    parts: list[str] = []
+    cursor = 0
+    while cursor < len(line):
+        if line[cursor] != "$" or is_escaped(line, cursor) or is_double_dollar(line, cursor):
+            parts.append(line[cursor])
+            cursor += 1
+            continue
+
+        end = find_inline_math_end(line, cursor + 1)
+        if end is None:
+            parts.append(line[cursor])
+            cursor += 1
+            continue
+
+        parts.append("$")
+        parts.append(replace_math_pipes(line[cursor + 1 : end]))
+        parts.append("$")
+        cursor = end + 1
+    return "".join(parts)
+
+
+def find_inline_math_end(line: str, start: int) -> int | None:
+    cursor = start
+    while cursor < len(line):
+        if line[cursor] == "$" and not is_escaped(line, cursor) and not is_double_dollar(line, cursor):
+            return cursor
+        cursor += 1
+    return None
+
+
+def is_double_dollar(text: str, index: int) -> bool:
+    return (index > 0 and text[index - 1] == "$") or (index + 1 < len(text) and text[index + 1] == "$")
+
+
+def replace_math_pipes(math: str) -> str:
+    math = math.replace(r"\left|", r"\left\lvert").replace(r"\right|", r"\right\rvert")
+    math = re.sub(r"\\(big|Big|bigg|Bigg)\|", r"\\\1\\rvert", math)
+    raw_pipe_positions = [
+        index for index, char in enumerate(math) if char == "|" and not is_escaped(math, index)
+    ]
+    raw_pipe_count = len(raw_pipe_positions)
+    if raw_pipe_count == 0:
+        return math
+
+    parts: list[str] = []
+    pipe_index = 0
+    for index, char in enumerate(math):
+        if char == "|" and not is_escaped(math, index):
+            is_final_unpaired = raw_pipe_count % 2 == 1 and pipe_index == raw_pipe_count - 1
+            if is_final_unpaired:
+                parts.append(r"\mid")
+            elif pipe_index % 2 == 0:
+                parts.append(r"\lvert ")
+            else:
+                parts.append(r" \rvert")
+            pipe_index += 1
+        else:
+            parts.append(char)
+    return "".join(parts)
+
+
+def is_escaped(text: str, index: int) -> bool:
+    backslashes = 0
+    cursor = index - 1
+    while cursor >= 0 and text[cursor] == "\\":
+        backslashes += 1
+        cursor -= 1
+    return backslashes % 2 == 1
 
 
 def parse_args(argv: Iterable[str]) -> argparse.Namespace:
