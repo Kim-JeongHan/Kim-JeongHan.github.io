@@ -8,9 +8,6 @@ profile:
   align: right
   image: me.jpg
   image_circular: false
-  more_info: >
-    <p>Motion Algorithm Team</p>
-    <p>Roboe Technologies</p>
 
 selected_papers: false
 social: true
@@ -26,9 +23,9 @@ latest_posts:
   limit: 5
 ---
 
-I am a robotics software engineer at Roboe Technologies, where I work on motion planning, robot control, and collision-aware motion execution for industrial robot systems.
+I am a robotics software engineer on the Motion Algorithm Team at Roboe Technologies, where I work on motion planning, control, and collision-aware robot execution.
 
-Before joining Roboe, I worked on autonomous mobile robot software at Gole Robotics. During my undergraduate years at Hanyang University, I also worked on HRI and robotics research through projects such as Snapbot and a separable drone-mobile robot patrol system.
+Before joining Roboe, I worked on autonomous mobile robot software at Gole Robotics. I received my B.S. degree from Hanyang University.
 
 I am interested in real-time robot path and motion planning for high-dimensional, constraint-rich environments, especially methods that can move from theory into reliable real-world robot deployment.
 
