@@ -4,7 +4,7 @@ title: "1 Concept of Probability and Distribution"
 subtitle: "🌙 확률의 개념과 확률 분포"  
 categories: theory  
 tags: 확률과통계 확률의정의 확률의목표 확률변수 확률분포
-comments: true
+disqus_comments: true
 ---
 
 - 요약

@@ -1,6 +1,22 @@
+# JeongHan Kim
 
-## 소개
+Personal Jekyll blog for robotics, programming, and theory notes.
 
-공부하면서 하나씩 하나씩 공부한 내용들을 추가해 나가려고 하고 있습니다.
+This repository now uses the [al-folio](https://github.com/alshedivat/al-folio) v1 theme runtime through Ruby gems, with the existing dated posts preserved under `_posts/`.
 
-프로젝트를 진행하면서 얻게된 내용도 추가할 예정입니다.
+## Local build
+
+```bash
+bundle install
+bundle exec jekyll serve
+```
+
+For GitHub Pages, `.github/workflows/deploy.yml` builds the site and publishes `_site` to the Pages branch.
+
+## Academic CV
+
+The `/cv/` page publishes `assets/pdf/academic-cv.pdf`, synced from the sibling Awesome-CV project:
+
+```bash
+./scripts/sync-awesome-cv.sh
+```

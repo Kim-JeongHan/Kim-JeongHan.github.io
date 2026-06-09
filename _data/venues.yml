@@ -1,0 +1,17 @@
+"AJP":
+  url: https://aapt.scitation.org/journal/ajp
+  color: "#00369f"
+
+"PhysRev":
+  url: https://journals.aps.org/
+
+"Vision":
+  color: "#009f36"
+
+"HRI":
+  url: https://dl.acm.org/conference/hri
+  color: "#6f42c1"
+
+"ICROS":
+  url: https://www.icros.org/
+  color: "#0b7285"

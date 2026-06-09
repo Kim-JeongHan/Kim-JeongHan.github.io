@@ -1,3 +1,11 @@
+---
+layout: post
+title: "ROS pluginlib"
+categories: develop
+tags: ROS pluginlib
+disqus_comments: true
+---
+
 # pluginlib은 왜 사용할까?
 
 무언가를 하기 전에는 왜 이것을 사용하는 지에 대한 이야기를 해야하기에 먼저 pluginlib을 사용하는 이유를 말하려고자한다.

@@ -4,7 +4,7 @@ title: "3 Conditional probability and examples"
 subtitle: "🌙 조건부 확률과 예시를 알아보자."  
 categories: theory  
 tags: 확률과통계  조건부확률
-comments: true
+disqus_comments: true
 use_math: true
 ---
 

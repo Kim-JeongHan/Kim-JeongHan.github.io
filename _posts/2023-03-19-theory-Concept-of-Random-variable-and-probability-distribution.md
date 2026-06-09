@@ -4,7 +4,7 @@ title: "2 Concept of Random variable and probability distribution"
 subtitle: "🌙 확률 변수와 확률분포에 대해 알아보자."  
 categories: theory  
 tags: 확률과통계  확률변수 확률분포
-comments: true
+disqus_comments: true
 ---
 
 - 요약
