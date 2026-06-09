@@ -184,11 +184,29 @@ class HtmlToMarkdown:
     def _clean_raw_html(self, tag: Tag) -> str:
         for noisy in tag.find_all(["script", "style", "noscript"]):
             noisy.decompose()
-        for html_tag in tag.find_all(True):
+        noisy_attrs = {
+            "style",
+            "class",
+            "id",
+            "onclick",
+            "onerror",
+            "border",
+            "width",
+            "height",
+            "cellpadding",
+            "cellspacing",
+            "align",
+            "valign",
+            "bgcolor",
+        }
+        for html_tag in [tag, *tag.find_all(True)]:
             for attr in list(html_tag.attrs):
-                if attr.startswith("data-") or attr in {"style", "class", "id", "onclick", "onerror"}:
+                if attr.startswith("data-") or attr in noisy_attrs:
                     del html_tag.attrs[attr]
-        return str(tag)
+        html = str(tag)
+        if tag.name == "table":
+            return f'<div class="table-responsive tistory-table">\n{html}\n</div>'
+        return html
 
 
 def indent_lines(text: str, prefix: str) -> str:
