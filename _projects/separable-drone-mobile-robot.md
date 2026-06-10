@@ -5,6 +5,7 @@ description: Integrated drone-mobile robot platform for energy-efficient unmanne
 importance: 2
 category: research
 github: https://github.com/7drone/carrier_ros
+hide_from_projects: true
 ---
 
 This project developed a drone-mobile robot system where a ground robot carries, charges, and deploys a drone for last-mile patrol over rugged terrain.

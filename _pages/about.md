@@ -27,7 +27,7 @@ I am a robotics software engineer on the Motion Algorithm Team at Roboe Technolo
 
 Before joining Roboe, I worked on autonomous mobile robot software at Gole Robotics. I received my B.S. degree from Hanyang University.
 
-I am interested in real-time robot path and motion planning for high-dimensional, constraint-rich environments, especially methods that can move from theory into reliable real-world robot deployment.
+I am interested in real-time robot path and motion planning for high-dimensional, constraint-rich environments.
 
 <div class="mb-4">
   <a class="btn btn-sm btn-outline-primary mb-2 mr-2" href="{{ '/cv/' | relative_url }}">CV</a>
@@ -47,6 +47,6 @@ I am interested in real-time robot path and motion planning for high-dimensional
 
 ## Selected Projects
 
-- [Snapbot]({{ '/projects/snapbot/' | relative_url }}) - manipulator-based HRI and computational photography system published at ACM/IEEE HRI 2024.
-- [Separable Drone-Mobile Robot System]({{ '/projects/separable-drone-mobile-robot/' | relative_url }}) - drone-mobile robot platform for energy-efficient unmanned patrol, awarded at ICROS 2023.
 - [Planning - Python 3D Path Planning Library]({{ '/projects/planning-python/' | relative_url }}) - open-source path-planning library for sampling-based planning and visualization.
+- [Gole Robotics Autonomous Driving Software]({{ '/projects/gole-robotics-autonomous-driving/' | relative_url }}) - autonomous mobile robot software with ROS, sensor benchmarking, and development environment standardization.
+- [ERIC_A Indoor Autonomous Delivery Robot]({{ '/projects/eric-a-delivery-robot/' | relative_url }}) - indoor delivery robot integrating ROS navigation, dispatch, and human detection.

@@ -12,7 +12,7 @@ display_categories: [research, robotics, software]
 <div class="publications">
 {% if site.enable_project_categories and page.display_categories %}
   {% for category in page.display_categories %}
-    {% assign categorized_projects = site.projects | where: "category", category %}
+    {% assign categorized_projects = site.projects | where: "category", category | where_exp: "project", "project.hide_from_projects != true" %}
     {% assign sorted_projects = categorized_projects | sort: "importance" %}
     {% if sorted_projects.size > 0 %}
       <h2 class="bibliography" id="{{ category }}">{{ category }}</h2>
@@ -56,7 +56,8 @@ display_categories: [research, robotics, software]
     {% endif %}
   {% endfor %}
 {% else %}
-  {% assign sorted_projects = site.projects | sort: "importance" %}
+  {% assign visible_projects = site.projects | where_exp: "project", "project.hide_from_projects != true" %}
+  {% assign sorted_projects = visible_projects | sort: "importance" %}
   <ol class="bibliography">
     {% for project in sorted_projects %}
       {% case project.category %}

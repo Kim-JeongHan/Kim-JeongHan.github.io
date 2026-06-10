@@ -183,9 +183,20 @@
     <div class="periodical">
       {{ periodical | strip }}
     </div>
-    <div class="periodical">
-      {{ entry.note | strip }}
-    </div>
+    {% if entry.note %}
+      <div class="periodical">
+        {{ entry.note | strip }}
+      </div>
+    {% endif %}
+    {% if entry.award_name %}
+      <div class="periodical">
+        <span class="badge badge-warning">{{ entry.award_name }}</span>
+      </div>
+    {% elsif entry.award %}
+      <div class="periodical">
+        <span class="badge badge-warning">{{ entry.award }}</span>
+      </div>
+    {% endif %}
 
     <!-- Links/Buttons -->
     <div class="links">
