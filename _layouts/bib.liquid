@@ -26,7 +26,115 @@
         {% endif %}
       {% endif %}
       {% if entry.preview %}
-        {% if entry.preview contains '://' %}
+        {% assign preview_lower = entry.preview | downcase %}
+        {% assign preview_is_video = false %}
+        {% if preview_lower contains '.mp4' or preview_lower contains '.webm' or preview_lower contains '.ogg' %}
+          {% assign preview_is_video = true %}
+        {% endif %}
+        {% if preview_is_video %}
+          {% if entry.preview contains '://' %}
+            {% assign entry_path = entry.preview %}
+          {% else %}
+            {% assign entry_path = entry.preview | prepend: '/assets/img/publication_preview/' | relative_url %}
+          {% endif %}
+          {% assign preview_mime_type = 'video/mp4' %}
+          {% if preview_lower contains '.webm' %}
+            {% assign preview_mime_type = 'video/webm' %}
+          {% elsif preview_lower contains '.ogg' %}
+            {% assign preview_mime_type = 'video/ogg' %}
+          {% endif %}
+          <button
+            class="publication-preview-button"
+            type="button"
+            data-publication-video-src="{{ entry_path }}"
+            data-publication-video-type="{{ preview_mime_type }}"
+            data-publication-video-title="{{ entry.title | escape }}"
+            aria-label="Open {{ entry.title | escape }} preview"
+          >
+            <video
+              class="preview publication-preview-video z-depth-1 rounded"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              aria-hidden="true"
+            >
+              <source src="{{ entry_path }}" type="{{ preview_mime_type }}">
+            </video>
+          </button>
+          <script>
+            if (!window.publicationVideoLightboxReady) {
+              window.publicationVideoLightboxReady = true;
+              document.addEventListener("click", function (event) {
+                const trigger = event.target.closest("[data-publication-video-src]");
+                const lightbox = event.target.closest("[data-publication-video-lightbox]");
+
+                if (trigger) {
+                  const src = trigger.getAttribute("data-publication-video-src");
+                  const type = trigger.getAttribute("data-publication-video-type") || "video/mp4";
+                  const title = trigger.getAttribute("data-publication-video-title") || "Publication preview";
+                  const existing = document.querySelector("[data-publication-video-lightbox]");
+                  if (existing) existing.remove();
+
+                  const overlay = document.createElement("div");
+                  overlay.className = "publication-video-lightbox";
+                  overlay.setAttribute("data-publication-video-lightbox", "");
+
+                  const dialog = document.createElement("div");
+                  dialog.className = "publication-video-lightbox__dialog";
+                  dialog.setAttribute("role", "dialog");
+                  dialog.setAttribute("aria-modal", "true");
+                  dialog.setAttribute("aria-label", title);
+
+                  const closeButton = document.createElement("button");
+                  closeButton.className = "publication-video-lightbox__close";
+                  closeButton.type = "button";
+                  closeButton.setAttribute("aria-label", "Close preview");
+                  closeButton.textContent = "\u00d7";
+
+                  const video = document.createElement("video");
+                  video.className = "publication-video-lightbox__video";
+                  video.controls = true;
+                  video.autoplay = true;
+                  video.loop = true;
+                  video.playsInline = true;
+                  video.tabIndex = -1;
+
+                  const source = document.createElement("source");
+                  source.src = src;
+                  source.type = type;
+
+                  video.appendChild(source);
+                  dialog.appendChild(closeButton);
+                  dialog.appendChild(video);
+                  overlay.appendChild(dialog);
+                  document.body.appendChild(overlay);
+                  document.body.classList.add("publication-video-lightbox-open");
+                  video.focus();
+                  return;
+                }
+
+                if (
+                  lightbox &&
+                  (event.target.matches("[data-publication-video-lightbox]") ||
+                    event.target.matches(".publication-video-lightbox__close"))
+                ) {
+                  lightbox.remove();
+                  document.body.classList.remove("publication-video-lightbox-open");
+                }
+              });
+
+              document.addEventListener("keydown", function (event) {
+                if (event.key !== "Escape") return;
+                const lightbox = document.querySelector("[data-publication-video-lightbox]");
+                if (!lightbox) return;
+                lightbox.remove();
+                document.body.classList.remove("publication-video-lightbox-open");
+              });
+            }
+          </script>
+        {% elsif entry.preview contains '://' %}
           <img class="preview z-depth-1 rounded" src="{{ entry.preview }}">
         {% else %}
           {% assign entry_path = entry.preview | prepend: '/assets/img/publication_preview/' %}
