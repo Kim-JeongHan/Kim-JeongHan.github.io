@@ -1,8 +1,12 @@
 ---
 layout: post
 title: "ROS pluginlib"
-categories: develop
-tags: ROS pluginlib
+categories:
+  - Tool
+  - ROS
+tags:
+  - ROS
+  - pluginlib
 disqus_comments: true
 ---
 

@@ -8,7 +8,7 @@
 {%- endcapture -%}
 
 {% assign primary_categories = primary_category_names | split: "||" | uniq | sort %}
-{% assign preferred_primary_categories = "공부||프로그래밍||Tool||알고리즘||제어||책||잡동사니||develop||카테고리 없음" | split: "||" %}
+{% assign preferred_primary_categories = site.data.blog_categories.primary_order %}
 {%- capture ordered_primary_category_names -%}
   {%- for preferred_category in preferred_primary_categories -%}
     {%- if primary_categories contains preferred_category -%}
@@ -22,7 +22,7 @@
   {%- endfor -%}
 {%- endcapture -%}
 {% assign primary_categories = ordered_primary_category_names | split: "||" %}
-{% assign preferred_secondary_categories = "확률과 통계||mpc||로봇공학||최적화||오픈소스 분석||인공지능||Rust||c++||python||ROS||qt" | split: "||" %}
+{% assign preferred_secondary_categories = site.data.blog_categories.secondary_order %}
 {% assign active_category = include.active_category | default: "" %}
 
 <nav class="blog-category-browser" aria-label="Blog categories">

@@ -1,0 +1,24 @@
+primary_order:
+  - 공부
+  - 프로그래밍
+  - Tool
+  - 알고리즘
+  - 제어
+  - 책
+  - 잡동사니
+  - develop
+  - 카테고리 없음
+
+secondary_order:
+  - 확률과 통계
+  - mpc
+  - 로봇공학
+  - 최적화
+  - 오픈소스 분석
+  - 인공지능
+  - Rust
+  - c++
+  - python
+  - 이모저모
+  - ROS
+  - qt
