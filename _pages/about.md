@@ -48,5 +48,4 @@ I am interested in real-time robot path and motion planning for high-dimensional
 ## Selected Projects
 
 - [Planning - Python 3D Path Planning Library]({{ '/projects/planning-python/' | relative_url }}) - open-source path-planning library for sampling-based planning and visualization.
-- [Gole Robotics Autonomous Driving Software]({{ '/projects/gole-robotics-autonomous-driving/' | relative_url }}) - autonomous mobile robot software with ROS, sensor benchmarking, and development environment standardization.
 - [ERIC_A Indoor Autonomous Delivery Robot]({{ '/projects/eric-a-delivery-robot/' | relative_url }}) - indoor delivery robot integrating ROS navigation, dispatch, and human detection.
