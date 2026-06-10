@@ -50,6 +50,18 @@
   text-decoration: none;
 }
 
+.blog-category-parent.active,
+.blog-category-children a.active {
+  color: var(--global-theme-color);
+  font-weight: 700;
+}
+
+.blog-category-parent.active span:last-child,
+.blog-category-children a.active span:last-child {
+  color: var(--global-theme-color);
+  opacity: 1;
+}
+
 .blog-category-all {
   margin-bottom: 0.85rem;
   padding-bottom: 0.85rem;

@@ -23,6 +23,7 @@
 {%- endcapture -%}
 {% assign primary_categories = ordered_primary_category_names | split: "||" %}
 {% assign preferred_secondary_categories = "확률과 통계||mpc||로봇공학||최적화||오픈소스 분석||인공지능||Rust||c++||python||ROS||qt" | split: "||" %}
+{% assign active_category = include.active_category | default: "" %}
 
 <nav class="blog-category-browser" aria-label="Blog categories">
   <p class="blog-category-heading">Browse notes</p>
@@ -74,7 +75,11 @@
       {% endfor %}
 
       <div class="blog-category-group">
-        <a class="blog-category-parent" href="{{ primary_category | slugify | prepend: '/blog/category/' | relative_url }}">
+        <a
+          class="blog-category-parent{% if active_category == primary_category %} active{% endif %}"
+          href="{{ primary_category | slugify | prepend: '/blog/category/' | relative_url }}"
+          {% if active_category == primary_category %}aria-current="page"{% endif %}
+        >
           <span>{{ primary_category }}</span>
           <span>{{ primary_count }}</span>
         </a>
@@ -98,7 +103,11 @@
                 {% endfor %}
 
                 <li>
-                  <a href="{{ secondary_category | slugify | prepend: '/blog/category/' | relative_url }}">
+                  <a
+                    class="{% if active_category == secondary_category %}active{% endif %}"
+                    href="{{ secondary_category | slugify | prepend: '/blog/category/' | relative_url }}"
+                    {% if active_category == secondary_category %}aria-current="page"{% endif %}
+                  >
                     <span>{{ secondary_category }}</span>
                     <span>{{ secondary_count }}</span>
                   </a>
