@@ -1,0 +1,113 @@
+{%- capture primary_category_names -%}
+  {%- for post in site.posts -%}
+    {%- assign primary_category = post.categories | first -%}
+    {%- if primary_category -%}
+      {{ primary_category }}||
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{% assign primary_categories = primary_category_names | split: "||" | uniq | sort %}
+{% assign preferred_primary_categories = "공부||프로그래밍||Tool||알고리즘||제어||책||잡동사니||develop||카테고리 없음" | split: "||" %}
+{%- capture ordered_primary_category_names -%}
+  {%- for preferred_category in preferred_primary_categories -%}
+    {%- if primary_categories contains preferred_category -%}
+      {{ preferred_category }}||
+    {%- endif -%}
+  {%- endfor -%}
+  {%- for primary_category in primary_categories -%}
+    {%- unless primary_category == blank or preferred_primary_categories contains primary_category -%}
+      {{ primary_category }}||
+    {%- endunless -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{% assign primary_categories = ordered_primary_category_names | split: "||" %}
+{% assign preferred_secondary_categories = "확률과 통계||mpc||로봇공학||최적화||오픈소스 분석||인공지능||Rust||c++||python||ROS||qt" | split: "||" %}
+
+<nav class="blog-category-browser" aria-label="Blog categories">
+  <p class="blog-category-heading">Browse notes</p>
+  <a class="blog-category-all" href="{{ '/blog/' | relative_url }}">
+    <span>All notes</span>
+    <span>{{ site.posts.size }}</span>
+  </a>
+
+  {% for primary_category in primary_categories %}
+    {% unless primary_category == blank %}
+      {% assign primary_count = 0 %}
+      {%- capture secondary_category_names -%}
+        {%- for post in site.posts -%}
+          {%- assign post_primary_category = post.categories | first -%}
+          {%- assign post_secondary_category = "" -%}
+          {%- for category in post.categories -%}
+            {%- if forloop.index0 == 1 -%}
+              {%- assign post_secondary_category = category -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if post_primary_category == primary_category -%}
+            {%- assign primary_count = primary_count | plus: 1 -%}
+            {%- if post_secondary_category -%}
+              {{ post_secondary_category }}||
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+
+      {% assign secondary_categories = secondary_category_names | split: "||" | uniq | sort %}
+      {%- capture ordered_secondary_category_names -%}
+        {%- for preferred_category in preferred_secondary_categories -%}
+          {%- if secondary_categories contains preferred_category -%}
+            {{ preferred_category }}||
+          {%- endif -%}
+        {%- endfor -%}
+        {%- for secondary_category in secondary_categories -%}
+          {%- unless secondary_category == blank or preferred_secondary_categories contains secondary_category -%}
+            {{ secondary_category }}||
+          {%- endunless -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+      {% assign secondary_categories = ordered_secondary_category_names | split: "||" %}
+      {% assign secondary_count_total = 0 %}
+      {% for secondary_category in secondary_categories %}
+        {% unless secondary_category == blank %}
+          {% assign secondary_count_total = secondary_count_total | plus: 1 %}
+        {% endunless %}
+      {% endfor %}
+
+      <div class="blog-category-group">
+        <a class="blog-category-parent" href="{{ primary_category | slugify | prepend: '/blog/category/' | relative_url }}">
+          <span>{{ primary_category }}</span>
+          <span>{{ primary_count }}</span>
+        </a>
+
+        {% if secondary_count_total > 0 %}
+          <ul class="blog-category-children">
+            {% for secondary_category in secondary_categories %}
+              {% unless secondary_category == blank %}
+                {% assign secondary_count = 0 %}
+                {% for post in site.posts %}
+                  {% assign post_primary_category = post.categories | first %}
+                  {% assign post_secondary_category = "" %}
+                  {% for category in post.categories %}
+                    {% if forloop.index0 == 1 %}
+                      {% assign post_secondary_category = category %}
+                    {% endif %}
+                  {% endfor %}
+                  {% if post_primary_category == primary_category and post_secondary_category == secondary_category %}
+                    {% assign secondary_count = secondary_count | plus: 1 %}
+                  {% endif %}
+                {% endfor %}
+
+                <li>
+                  <a href="{{ secondary_category | slugify | prepend: '/blog/category/' | relative_url }}">
+                    <span>{{ secondary_category }}</span>
+                    <span>{{ secondary_count }}</span>
+                  </a>
+                </li>
+              {% endunless %}
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endunless %}
+  {% endfor %}
+</nav>
