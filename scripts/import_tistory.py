@@ -805,7 +805,7 @@ def normalize_tex_spacing(math: str) -> str:
     math = restore_missing_tex_subscripts(math)
     math = restore_missing_tex_spacing_escapes(math)
     math = replace_math_asterisks(math)
-    return protect_tex_spacing_escapes(math)
+    return remove_tex_spacing_escapes(math)
 
 
 def restore_missing_tex_subscripts(math: str) -> str:
@@ -815,7 +815,7 @@ def restore_missing_tex_subscripts(math: str) -> str:
 
 
 def restore_missing_tex_spacing_escapes(math: str) -> str:
-    return MISSING_TEX_SPACING_BEFORE_LEFT_RE.sub(r"\g<function>\\!\\left", math)
+    return MISSING_TEX_SPACING_BEFORE_LEFT_RE.sub(r"\g<function>\\left", math)
 
 
 def replace_math_asterisks(math: str) -> str:
@@ -847,18 +847,8 @@ def is_index_in_ranges(index: int, ranges: list[tuple[int, int]]) -> bool:
     return any(start <= index < end for start, end in ranges)
 
 
-def protect_tex_spacing_escapes(math: str) -> str:
-    parts: list[str] = []
-    cursor = 0
-    while cursor < len(math):
-        if math[cursor] == "\\" and cursor + 1 < len(math) and math[cursor + 1] == "!":
-            if not is_escaped(math, cursor):
-                parts.append(r"\\!")
-                cursor += 2
-                continue
-        parts.append(math[cursor])
-        cursor += 1
-    return "".join(parts)
+def remove_tex_spacing_escapes(math: str) -> str:
+    return math.replace(r"\\!", "").replace(r"\!", "")
 
 
 def is_escaped(text: str, index: int) -> bool:
