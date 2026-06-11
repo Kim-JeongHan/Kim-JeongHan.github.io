@@ -2,11 +2,11 @@
   company: Roboe Technologies
   period: 2024 - Present
   description: >
-    I work on motion planning and control for
-    conveyor-mounted mobile robots. My work includes reachability-based
-    workspace analysis, jamming detection, predictive collision shielding,
-    graph-based motion-task execution, and C++ trajectory planning for virtual
-    controllers.
+    I develop motion algorithms for manipulator-based robot systems. My main
+    responsibility is building a Behavior Tree-based framework that runs motion
+    tasks efficiently and implementing the motion path logic behind those tasks.
+    I also work on task-level optimization and virtual controller development,
+    primarily in C++ and Python.
 
 - role: Intern, Autonomous Driving Software
   company: Gole Robotics
