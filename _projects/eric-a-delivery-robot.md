@@ -5,6 +5,7 @@ description: Indoor delivery robot integrating ROS navigation, dispatch, and hum
 importance: 3
 category: robotics
 github: https://github.com/CrashLab-2022/ERIC_A
+website: https://crashlab-2022.github.io/ERIC_A/
 preview: eric-a.jpg
 video: https://www.youtube.com/embed/_MbvD7s8zbo?autoplay=1&rel=0
 ---
