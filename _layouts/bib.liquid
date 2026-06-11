@@ -212,8 +212,32 @@
 
   <!-- Entry bib key -->
   <div id="{{ entry.key }}" class="{% if site.enable_publication_thumbnails %}col-sm-8{% else %}col-sm-10{% endif %}">
+    {% assign publication_title_link = '' %}
+    {% assign publication_title_external = false %}
+    {% if entry.website %}
+      {% assign publication_title_link = entry.website %}
+    {% elsif entry.paper %}
+      {% assign publication_title_link = entry.paper %}
+    {% elsif entry.doi %}
+      {% capture publication_title_link %}https://doi.org/{{ entry.doi }}{% endcapture %}
+    {% elsif entry.url %}
+      {% assign publication_title_link = entry.url %}
+    {% endif %}
+    {% if publication_title_link != '' %}
+      {% if publication_title_link contains '://' %}
+        {% assign publication_title_external = true %}
+      {% else %}
+        {% assign publication_title_link = publication_title_link | relative_url %}
+      {% endif %}
+    {% endif %}
     <!-- Title -->
-    <div class="title">{{ entry.title }}</div>
+    <div class="title">
+      {% if publication_title_link != '' %}
+        <a href="{{ publication_title_link }}" {% if publication_title_external %}target="_blank" rel="external nofollow noopener"{% endif %}>{{ entry.title }}</a>
+      {% else %}
+        {{ entry.title }}
+      {% endif %}
+    </div>
     <!-- Author -->
     <div class="author">
       {% assign author_array_size = entry.author_array | size %}
