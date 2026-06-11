@@ -1,0 +1,39 @@
+{% assign work_experience = site.data.work_experience %}
+
+{% if work_experience %}
+  <div class="publications work-experience">
+    <ol class="bibliography">
+      {% for item in work_experience %}
+        {% assign company_link_external = false %}
+        {% if item.company_url %}
+          {% if item.company_url contains '://' %}
+            {% assign company_link_external = true %}
+          {% endif %}
+        {% endif %}
+
+        <li>
+          <div class="row">
+            <div id="{{ item.company | append: '-' | append: item.role | slugify }}" class="col-sm-10">
+              <div class="title">
+                {{ item.role }} @
+                {% if item.company_url %}
+                  <a href="{{ item.company_url }}" {% if company_link_external %}target="_blank" rel="external nofollow noopener"{% endif %}>{{ item.company }}</a>
+                {% else %}
+                  {{ item.company }}
+                {% endif %}
+                {% if item.period %}
+                  <span class="work-experience-period">({{ item.period }})</span>
+                {% endif %}
+              </div>
+              {% if item.description %}
+                <div class="periodical">
+                  {{ item.description | markdownify | remove: '<p>' | remove: '</p>' | strip }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </li>
+      {% endfor %}
+    </ol>
+  </div>
+{% endif %}

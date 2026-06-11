@@ -1,0 +1,18 @@
+- role: Software Engineer, Motion Algorithm Team
+  company: Roboe Technologies
+  period: 2024 - Present
+  description: >
+    I work on motion planning, control, and collision-aware robot execution for
+    conveyor-mounted mobile robots. My work includes reachability-based
+    workspace analysis, jamming detection, predictive collision shielding,
+    graph-based motion-task execution, and C++ trajectory planning for virtual
+    controllers.
+
+- role: Intern, Autonomous Driving Software
+  company: Gole Robotics
+  period: 2023
+  description: >
+    I worked on autonomous mobile robot software, including packet-based serial
+    communication for embedded controller protocols, sensor benchmarking for
+    IMU, LiDAR, ToF, and barometer candidates, and team development environment
+    standardization with Docker, VS Code, Git, ROS, and ROS 2.
