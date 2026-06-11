@@ -41,7 +41,7 @@ I am interested in real-time robot path and motion planning for high-dimensional
 
 {% include news.liquid limit=true %}
 
-## [Selected Publications]({{ '/publications/' | relative_url }})
+## [Publications]({{ '/publications/' | relative_url }})
 
 {% include selected_papers.liquid %}
 
