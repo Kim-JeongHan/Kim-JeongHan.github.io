@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Snapbot was published at ACM/IEEE HRI 2024, connecting manipulator control, perception, and computational photography for dynamic HRI.
+Snapbot was accepted to ACM/IEEE HRI 2024 as a Late-Breaking Report.
