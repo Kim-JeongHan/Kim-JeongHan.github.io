@@ -1,9 +1,9 @@
 ---
 layout: page
-title: Selected Projects
+title: Projects
 nav_title: Projects
 permalink: /projects/
-description: Selected robotics, HRI, and autonomy projects.
+description: Robotics, HRI, and autonomy projects.
 nav: true
 nav_order: 3
 display_categories: [research, robotics, software]
@@ -32,7 +32,7 @@ display_categories: [research, robotics, software]
         <li>
           <div class="row">
             <div class="col col-sm-2 abbr">
-              <abbr class="badge rounded w-100" style="background-color:{{ badge_color }}">{{ project.category | upcase }}</abbr>
+              {% include project_preview.liquid project=project badge_color=badge_color %}
             </div>
             <div id="{{ project.title | slugify }}" class="col-sm-8">
               <div class="title">
@@ -74,7 +74,7 @@ display_categories: [research, robotics, software]
       <li>
         <div class="row">
           <div class="col col-sm-2 abbr">
-            <abbr class="badge rounded w-100" style="background-color:{{ badge_color }}">{{ project.category | upcase }}</abbr>
+            {% include project_preview.liquid project=project badge_color=badge_color %}
           </div>
           <div id="{{ project.title | slugify }}" class="col-sm-8">
             <div class="title">

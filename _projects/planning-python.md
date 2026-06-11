@@ -5,6 +5,7 @@ description: Unified planner architecture and visual tools for RRT, RRT-Connect,
 importance: 1
 category: software
 github: https://github.com/Kim-JeongHan/Planning
+preview: planning-preview.jpg
 ---
 
 Planning is an open-source Python path-planning library with a unified architecture for sampling-based planners and 3D visualization.
