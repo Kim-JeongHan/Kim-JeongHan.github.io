@@ -85,7 +85,9 @@
       <img class="preview publication-preview-image z-depth-1 rounded" src="{{ preview_path }}" alt="{{ project.title | escape }}">
     </a>
   {% else %}
-    <img class="preview publication-preview-image z-depth-1 rounded" src="{{ preview_path }}" alt="{{ project.title | escape }}">
+    <div class="project-preview">
+      <img class="preview publication-preview-image z-depth-1 rounded" src="{{ preview_path }}" alt="{{ project.title | escape }}">
+    </div>
   {% endif %}
 
   {% if project.video or preview_is_video %}
