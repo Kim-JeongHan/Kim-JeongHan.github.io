@@ -3,10 +3,16 @@
 <div class="publications">
 {% if site.enable_project_categories and display_project_categories %}
   {% for category in display_project_categories %}
+    {% case category %}
+      {% when "open-source" %}
+        {% assign category_label = "Open Source" %}
+      {% else %}
+        {% assign category_label = category %}
+    {% endcase %}
     {% assign categorized_projects = site.projects | where: "category", category | where_exp: "project", "project.hide_from_projects != true" %}
     {% assign sorted_projects = categorized_projects | sort: "importance" %}
     {% if sorted_projects.size > 0 %}
-      <h2 class="bibliography" id="{{ category }}">{{ category }}</h2>
+      <h2 class="bibliography" id="{{ category }}">{{ category_label }}</h2>
       <ol class="bibliography">
       {% for project in sorted_projects %}
         {% case project.category %}
@@ -14,7 +20,7 @@
             {% assign badge_color = "#6f42c1" %}
           {% when "robotics" %}
             {% assign badge_color = "#0b7285" %}
-          {% when "software" %}
+          {% when "open-source" %}
             {% assign badge_color = "#2f9e44" %}
           {% else %}
             {% assign badge_color = "#6c757d" %}
@@ -64,7 +70,7 @@
           {% assign badge_color = "#6f42c1" %}
         {% when "robotics" %}
           {% assign badge_color = "#0b7285" %}
-        {% when "software" %}
+        {% when "open-source" %}
           {% assign badge_color = "#2f9e44" %}
         {% else %}
           {% assign badge_color = "#6c757d" %}

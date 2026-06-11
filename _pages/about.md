@@ -22,7 +22,7 @@ latest_posts:
   scrollable: true
   limit: 5
 
-display_categories: [research, robotics, software]
+display_categories: [research, robotics, open-source]
 ---
 
 I am a robotics software engineer on the Motion Algorithm Team at Roboe Technologies, where I work on motion planning, control, and collision-aware robot execution.

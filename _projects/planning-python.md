@@ -3,7 +3,7 @@ layout: page
 title: Planning - Python 3D Path Planning Library
 description: Unified planner architecture and visual tools for RRT, RRT-Connect, RRG, RRT*, Informed RRT*, PRM, and PRM*.
 importance: 1
-category: software
+category: open-source
 github: https://github.com/Kim-JeongHan/Planning
 preview: planning-preview.jpg
 ---
