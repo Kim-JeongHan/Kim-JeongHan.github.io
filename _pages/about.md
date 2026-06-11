@@ -21,6 +21,8 @@ latest_posts:
   enabled: false
   scrollable: true
   limit: 5
+
+display_categories: [research, robotics, software]
 ---
 
 I am a robotics software engineer on the Motion Algorithm Team at Roboe Technologies, where I work on motion planning, control, and collision-aware robot execution.
@@ -47,7 +49,6 @@ I am interested in real-time robot path and motion planning for high-dimensional
 
 {% include selected_papers.liquid %}
 
-## Projects
+## [Projects]({{ '/projects/' | relative_url }})
 
-- [Planning - Python 3D Path Planning Library]({{ '/projects/planning-python/' | relative_url }}) - open-source path-planning library for sampling-based planning and visualization.
-- [ERIC_A Indoor Autonomous Delivery Robot]({{ '/projects/eric-a-delivery-robot/' | relative_url }}) - indoor delivery robot integrating ROS navigation, dispatch, and human detection.
+{% include projects_list.liquid display_categories=page.display_categories %}
