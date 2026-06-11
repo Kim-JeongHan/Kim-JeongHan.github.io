@@ -25,7 +25,7 @@ latest_posts:
 display_categories: [research, robotics, open-source]
 ---
 
-I am a robotics software engineer on the Motion Algorithm Team at Roboe Technologies, where I work on motion planning, control, and collision-aware robot execution.
+I am a robotics software engineer on the Motion Algorithm Team at Roboe Technologies, where I work on motion planning and control.
 
 Before joining Roboe, I worked on autonomous mobile robot software at Gole Robotics. I received my B.S. degree from Hanyang University.
 

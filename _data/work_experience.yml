@@ -2,7 +2,7 @@
   company: Roboe Technologies
   period: 2024 - Present
   description: >
-    I work on motion planning, control, and collision-aware robot execution for
+    I work on motion planning and control for
     conveyor-mounted mobile robots. My work includes reachability-based
     workspace analysis, jamming detection, predictive collision shielding,
     graph-based motion-task execution, and C++ trajectory planning for virtual
