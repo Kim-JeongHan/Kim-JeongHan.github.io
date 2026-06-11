@@ -5,6 +5,7 @@ description: HRI-focused promotional robot for public-space interaction at Ansan
 importance: 2
 category: robotics
 github: https://github.com/Plan-Real/hongdo_system
+website: https://plan-real.github.io/hongdo_system/
 preview: hongdo-system.jpg
 ---
 

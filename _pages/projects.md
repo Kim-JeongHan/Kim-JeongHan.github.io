@@ -29,6 +29,14 @@ display_categories: [research, robotics, software]
             {% assign badge_color = "#6c757d" %}
         {% endcase %}
         {% assign project_summary = project.content | markdownify | split: "</p>" | first | strip_html | strip %}
+        {% assign project_link = project.url | relative_url %}
+        {% assign project_link_external = false %}
+        {% if project.website %}
+          {% assign project_link = project.website %}
+          {% if project.website contains '://' %}
+            {% assign project_link_external = true %}
+          {% endif %}
+        {% endif %}
         <li>
           <div class="row">
             <div class="col col-sm-2 abbr">
@@ -36,14 +44,14 @@ display_categories: [research, robotics, software]
             </div>
             <div id="{{ project.title | slugify }}" class="col-sm-8">
               <div class="title">
-                <a href="{{ project.url | relative_url }}">{{ project.title }}</a>
+                <a href="{{ project_link }}" {% if project_link_external %}target="_blank" rel="external nofollow noopener"{% endif %}>{{ project.title }}</a>
               </div>
               <div class="author">{{ project.description }}</div>
               <div class="periodical">
                 <em>{{ project_summary }}</em>
               </div>
               <div class="links">
-                <a href="{{ project.url | relative_url }}" class="btn btn-sm z-depth-0" role="button">Details</a>
+                <a href="{{ project_link }}" class="btn btn-sm z-depth-0" role="button" {% if project_link_external %}target="_blank" rel="external nofollow noopener"{% endif %}>Details</a>
                 {% if project.github %}
                   <a href="{{ project.github }}" class="btn btn-sm z-depth-0" role="button" rel="external nofollow noopener" target="_blank">Code</a>
                 {% endif %}
@@ -71,6 +79,14 @@ display_categories: [research, robotics, software]
           {% assign badge_color = "#6c757d" %}
       {% endcase %}
       {% assign project_summary = project.content | markdownify | split: "</p>" | first | strip_html | strip %}
+      {% assign project_link = project.url | relative_url %}
+      {% assign project_link_external = false %}
+      {% if project.website %}
+        {% assign project_link = project.website %}
+        {% if project.website contains '://' %}
+          {% assign project_link_external = true %}
+        {% endif %}
+      {% endif %}
       <li>
         <div class="row">
           <div class="col col-sm-2 abbr">
@@ -78,14 +94,14 @@ display_categories: [research, robotics, software]
           </div>
           <div id="{{ project.title | slugify }}" class="col-sm-8">
             <div class="title">
-              <a href="{{ project.url | relative_url }}">{{ project.title }}</a>
+              <a href="{{ project_link }}" {% if project_link_external %}target="_blank" rel="external nofollow noopener"{% endif %}>{{ project.title }}</a>
             </div>
             <div class="author">{{ project.description }}</div>
             <div class="periodical">
               <em>{{ project_summary }}</em>
             </div>
             <div class="links">
-              <a href="{{ project.url | relative_url }}" class="btn btn-sm z-depth-0" role="button">Details</a>
+              <a href="{{ project_link }}" class="btn btn-sm z-depth-0" role="button" {% if project_link_external %}target="_blank" rel="external nofollow noopener"{% endif %}>Details</a>
               {% if project.github %}
                 <a href="{{ project.github }}" class="btn btn-sm z-depth-0" role="button" rel="external nofollow noopener" target="_blank">Code</a>
               {% endif %}

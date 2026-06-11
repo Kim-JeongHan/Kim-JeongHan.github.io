@@ -1,5 +1,13 @@
 {% assign project = include.project %}
 {% assign badge_color = include.badge_color %}
+{% assign project_link = project.url | relative_url %}
+{% assign project_link_external = false %}
+{% if project.website %}
+  {% assign project_link = project.website %}
+  {% if project.website contains '://' %}
+    {% assign project_link_external = true %}
+  {% endif %}
+{% endif %}
 
 {% if project.preview %}
   {% assign preview_lower = project.preview | downcase %}
@@ -65,7 +73,12 @@
       {% endif %}
     </button>
   {% else %}
-    <a class="publication-preview-link" href="{{ project.url | relative_url }}" aria-label="Open {{ project.title | escape }}">
+    <a
+      class="publication-preview-link"
+      href="{{ project_link }}"
+      aria-label="Open {{ project.title | escape }}"
+      {% if project_link_external %}target="_blank" rel="external nofollow noopener"{% endif %}
+    >
       <img class="preview publication-preview-image z-depth-1 rounded" src="{{ preview_path }}" alt="{{ project.title | escape }}">
     </a>
   {% endif %}
