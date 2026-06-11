@@ -13,13 +13,21 @@
   outline-offset: 3px;
 }
 
-.publication-preview-video {
+.publication-preview-button .preview {
   display: block;
   width: 100%;
   max-width: 200px;
+}
+
+.publication-preview-video {
   aspect-ratio: 16 / 9;
   object-fit: cover;
   pointer-events: none;
+}
+
+.publication-preview-image {
+  height: auto;
+  object-fit: contain;
 }
 
 .publication-video-lightbox {

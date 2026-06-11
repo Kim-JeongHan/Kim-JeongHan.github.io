@@ -31,20 +31,23 @@
         {% if preview_lower contains '.mp4' or preview_lower contains '.webm' or preview_lower contains '.ogg' %}
           {% assign preview_is_video = true %}
         {% endif %}
+        {% assign lightbox_path = '' %}
+        {% assign lightbox_is_embed = false %}
+        {% if entry.video %}
+          {% assign lightbox_path = entry.video %}
+          {% assign lightbox_lower = entry.video | downcase %}
+          {% if lightbox_lower contains 'drive.google.com/file/d/' or lightbox_lower contains 'youtube.com/embed/' or lightbox_lower contains 'player.vimeo.com/video/' %}
+            {% assign lightbox_is_embed = true %}
+          {% endif %}
+        {% endif %}
         {% if preview_is_video %}
           {% if entry.preview contains '://' %}
             {% assign entry_path = entry.preview %}
           {% else %}
             {% assign entry_path = entry.preview | prepend: '/assets/img/publication_preview/' | relative_url %}
           {% endif %}
-          {% assign lightbox_path = entry_path %}
-          {% assign lightbox_is_embed = false %}
-          {% if entry.video %}
-            {% assign lightbox_path = entry.video %}
-            {% assign lightbox_lower = entry.video | downcase %}
-            {% if lightbox_lower contains 'drive.google.com/file/d/' or lightbox_lower contains 'youtube.com/embed/' or lightbox_lower contains 'player.vimeo.com/video/' %}
-              {% assign lightbox_is_embed = true %}
-            {% endif %}
+          {% if lightbox_path == '' %}
+            {% assign lightbox_path = entry_path %}
           {% endif %}
           {% assign preview_mime_type = 'video/mp4' %}
           {% if preview_lower contains '.webm' %}
@@ -73,6 +76,50 @@
               <source src="{{ entry_path }}" type="{{ preview_mime_type }}">
             </video>
           </button>
+        {% elsif entry.preview contains '://' %}
+          {% if entry.video %}
+            <button
+              class="publication-preview-button"
+              type="button"
+              data-publication-video-src="{{ lightbox_path | escape }}"
+              data-publication-video-type="video/mp4"
+              data-publication-video-embed="{{ lightbox_is_embed }}"
+              data-publication-video-title="{{ entry.title | escape }}"
+              aria-label="Open {{ entry.title | escape }} video"
+            >
+              <img class="preview publication-preview-image z-depth-1 rounded" src="{{ entry.preview }}" alt="{{ entry.title | escape }}">
+            </button>
+          {% else %}
+            <img class="preview z-depth-1 rounded" src="{{ entry.preview }}">
+          {% endif %}
+        {% else %}
+          {% assign entry_path = entry.preview | prepend: '/assets/img/publication_preview/' %}
+          {% if entry.video %}
+            <button
+              class="publication-preview-button"
+              type="button"
+              data-publication-video-src="{{ lightbox_path | escape }}"
+              data-publication-video-type="video/mp4"
+              data-publication-video-embed="{{ lightbox_is_embed }}"
+              data-publication-video-title="{{ entry.title | escape }}"
+              aria-label="Open {{ entry.title | escape }} video"
+            >
+              <img class="preview publication-preview-image z-depth-1 rounded" src="{{ entry_path | relative_url }}" alt="{{ entry.title | escape }}">
+            </button>
+          {% else %}
+            {%
+              include figure.liquid
+              loading="eager"
+              path=entry_path
+              sizes = "200px"
+              class="preview z-depth-1 rounded"
+              zoomable=true
+              avoid_scaling=true
+              alt=entry.preview
+            %}
+          {% endif %}
+        {% endif %}
+        {% if entry.video or preview_is_video %}
           <script>
             if (!window.publicationVideoLightboxReady) {
               window.publicationVideoLightboxReady = true;
@@ -158,20 +205,6 @@
               });
             }
           </script>
-        {% elsif entry.preview contains '://' %}
-          <img class="preview z-depth-1 rounded" src="{{ entry.preview }}">
-        {% else %}
-          {% assign entry_path = entry.preview | prepend: '/assets/img/publication_preview/' %}
-          {%
-            include figure.liquid
-            loading="eager"
-            path=entry_path
-            sizes = "200px"
-            class="preview z-depth-1 rounded"
-            zoomable=true
-            avoid_scaling=true
-            alt=entry.preview
-          %}
         {% endif %}
       {% endif %}
     </div>
