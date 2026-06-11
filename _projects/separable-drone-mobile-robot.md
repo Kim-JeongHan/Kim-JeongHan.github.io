@@ -7,7 +7,6 @@ category: research
 github: https://github.com/7drone/carrier_ros
 website: https://7drone.github.io/carrier_ros/
 preview: /assets/img/publication_preview/separable-drone-preview.mp4
-video: https://www.youtube.com/embed/49tMCc3HBR0?autoplay=1&rel=0
 hide_from_projects: true
 ---
 
