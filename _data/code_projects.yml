@@ -1,10 +1,9 @@
 - title: Planning - Python 3D Path Planning Library
   description: >
-    Unified planner architecture and visual tools for RRT, RRT-Connect, RRG,
-    RRT*, Informed RRT*, PRM, and PRM*.
+    Sampling-based path-planning tools with 3D visualization.
   summary: >
-    Planning is an open-source Python path-planning library with a unified
-    architecture for sampling-based planners and 3D visualization.
+    Planning is an open-source Python path-planning library for sampling-based
+    planners and 3D visualization.
   importance: 1
   category: open-source
   github: https://github.com/Kim-JeongHan/Planning
