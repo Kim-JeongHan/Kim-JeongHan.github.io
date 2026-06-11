@@ -14,7 +14,7 @@ tags:
 - control
 last_modified_at: 2025-09-23 22:47:11 +0900
 imported_images:
-- assets/img/tistory/76/image-001.png
+- assets/img/blog/paper-review-model-predictive-control-engineering/image-001.png
 source:
   provider: tistory
   id: 76
@@ -69,7 +69,7 @@ robustness를 검토할때는 singal noise가 매우 중요한 요소가 된다.
 
 input에 대한 제약은 무조건적으로 지켜져야하는데, 이와 대조적으로 output에 대한 제약은 종종 무조건 지켜져야할 필요는 없는 경우가 있다. 이때 slack varibale $ \xi $를 사용해서 constraints를 완화해서 최적화문제를 풀수 있다.
 
-![](/assets/img/tistory/76/image-001.png)
+![](/assets/img/blog/paper-review-model-predictive-control-engineering/image-001.png)
 
 모든 상용 MPC 시스템은 실현가능성을 slack variable을 통해 hard ouput constraints를 완화해 사용한다.
 

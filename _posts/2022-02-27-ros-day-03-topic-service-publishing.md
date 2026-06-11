@@ -13,10 +13,10 @@ tags:
 - Topic
 last_modified_at: 2022-02-27 18:49:38 +0900
 imported_images:
-- assets/img/tistory/6/image-001.png
-- assets/img/tistory/6/image-002.png
-- assets/img/tistory/6/image-003.png
-- assets/img/tistory/6/image-004.png
+- assets/img/blog/ros-day-03-topic-service-publishing/image-001.png
+- assets/img/blog/ros-day-03-topic-service-publishing/image-002.png
+- assets/img/blog/ros-day-03-topic-service-publishing/image-003.png
+- assets/img/blog/ros-day-03-topic-service-publishing/image-004.png
 series: ros-basics
 series_order: 5
 source:
@@ -31,7 +31,7 @@ $ roscore
 $ rosrun turtlesim turtlesim_node
 ```
 
-![](/assets/img/tistory/6/image-001.png)
+![](/assets/img/blog/ros-day-03-topic-service-publishing/image-001.png)
 
 ## 2. 새로운 노드를 생성하고 거북이 방향조정
 
@@ -53,7 +53,7 @@ $ rostopic echo turtle1/cmd_vel
 
 turtle_teleop_key에서 거북이에 명령을 줄때마다 토픽이 보내는 메시지 타입을 볼수 있다.
 
-![](/assets/img/tistory/6/image-002.png)
+![](/assets/img/blog/ros-day-03-topic-service-publishing/image-002.png)
 
 ## 5. 토픽의 메세지 타입 확인하기
 
@@ -83,7 +83,7 @@ $ rostopic pub /turtle1/cmd_vel geometry_msgs/Twist -r 1 -- '[2.0, 0.0, 0.0]' '[
 
 -r의 1 : HZ의 단위 -r 2를 입력하면 2초에 한번씩 실행이 된다.
 
-![](/assets/img/tistory/6/image-003.png)
+![](/assets/img/blog/ros-day-03-topic-service-publishing/image-003.png)
 
 ```lsl
 $ rostopic pub -1 /turtle1/cmd_vel geometry_msgs/Twist -- '[2.0, 0.0, 0.0]' '[0.0, 0.0, 1.8]'
@@ -162,6 +162,6 @@ name: "new_turtle”
 
 💡 이때, 다른 roscore, turtlesim_node를 제외한 다른 터미널창은 꺼주길 바란다.
 
-![](/assets/img/tistory/6/image-004.png)
+![](/assets/img/blog/ros-day-03-topic-service-publishing/image-004.png)
 
 우리는 여기서 turtle1, turtle2의 서비스 밑으로 각각 3개의 topic이 묶여 있는 것을 알수 있다.

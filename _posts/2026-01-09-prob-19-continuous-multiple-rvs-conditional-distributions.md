@@ -11,11 +11,11 @@ categories:
 tags: []
 last_modified_at: 2026-01-16 08:23:27 +0900
 imported_images:
-- assets/img/tistory/83/image-001.png
-- assets/img/tistory/83/image-002.png
-- assets/img/tistory/83/image-003.png
-- assets/img/tistory/83/image-004.png
-- assets/img/tistory/83/image-005.png
+- assets/img/blog/prob-19-continuous-multiple-rvs-conditional-distributions/image-001.png
+- assets/img/blog/prob-19-continuous-multiple-rvs-conditional-distributions/image-002.png
+- assets/img/blog/prob-19-continuous-multiple-rvs-conditional-distributions/image-003.png
+- assets/img/blog/prob-19-continuous-multiple-rvs-conditional-distributions/image-004.png
+- assets/img/blog/prob-19-continuous-multiple-rvs-conditional-distributions/image-005.png
 series: probability-statistics
 series_order: 19
 source:
@@ -49,7 +49,7 @@ $$
 
 따라서 $\frac{f_{XY}(x,y)}{f_Y(y)}$는 조건 $Y=y$가 주어졌을 때 $X$가 $x$ 근방에 있을 상대적 가능성을 1이 되도록 정규화한 밀도로 해석된다.
 
-![](/assets/img/tistory/83/image-001.png)
+![](/assets/img/blog/prob-19-continuous-multiple-rvs-conditional-distributions/image-001.png)
 
 ### 기하학적 해석
 
@@ -57,7 +57,7 @@ Joint PDF를 $(x,y)$ 평면 위에 놓고 생각하면, $y$를 고정했을 때 
 
 Conditional PDF는 단면의 높이를 그대로 쓰는 것이 아니라, 그 단면이 $x$에 대해 적분했을 때 1이 되도록 **전체 스케일을 조정한 함수로 이해하는 것**이 핵심이다.
 
-![](/assets/img/tistory/83/image-002.png)
+![](/assets/img/blog/prob-19-continuous-multiple-rvs-conditional-distributions/image-002.png)
 
 ### Joint Distribution의 분해
 
@@ -141,7 +141,7 @@ $$
 
 → 조건부 확률을 작은 구간으로 근사하고 극한을 취하면 동일한 형태로 유도된다.
 
-![](/assets/img/tistory/83/image-003.png)
+![](/assets/img/blog/prob-19-continuous-multiple-rvs-conditional-distributions/image-003.png)
 
 ## 04_예제: 정의역이 얽힌 Joint PDF에서 Conditional PDF 계산
 
@@ -149,7 +149,7 @@ $$
 
 Joint PDF가 $f_{XY}(x,y)=2e^{-x}e^{-y}$이고 정의역이 $0\le x\le y<\infty$로 주어진다.
 
-![](/assets/img/tistory/83/image-004.png)
+![](/assets/img/blog/prob-19-continuous-multiple-rvs-conditional-distributions/image-004.png)
 
 ### 모델링
 
@@ -224,7 +224,7 @@ $$
 
 이 일반식에서도 핵심은 조건 파트의 Marginalization으로 분모를 계산하고, 정의역에 맞는 적분 범위를 설정해 변수 소거를 올바르게 수행하는 것이다.
 
-![](/assets/img/tistory/83/image-005.png)
+![](/assets/img/blog/prob-19-continuous-multiple-rvs-conditional-distributions/image-005.png)
 
 ## 07_추가자료 : Bayes Theorem과 다변수 Conditional PDF
 

@@ -11,8 +11,8 @@ categories:
 tags: []
 last_modified_at: 2026-01-16 08:24:25 +0900
 imported_images:
-- assets/img/tistory/89/image-001.png
-- assets/img/tistory/89/image-002.png
+- assets/img/blog/prob-23-transform-rvs-introduction/image-001.png
+- assets/img/blog/prob-23-transform-rvs-introduction/image-002.png
 series: probability-statistics
 series_order: 23
 source:
@@ -111,7 +111,7 @@ $$
 - $\lvert a \rvert$는 스케일을 바꾸며, 그에 따라 밀도는 $\frac{1}{\lvert a \rvert}$만큼 보정된다.
 - → 선형 Transformation은 좌표축에서의 늘림과 이동이므로, 확률 보존을 위해 밀도가 역스케일로 조정된다는 점이 핵심이다.
 
-![](/assets/img/tistory/89/image-001.png)
+![](/assets/img/blog/prob-23-transform-rvs-introduction/image-001.png)
 
 ## 04_예제 2: Quadratic Transformation $Y=X^2$
 
@@ -152,7 +152,7 @@ $Y=X^2$로 정의될 때, $f_Y(y)$를 CDF 방법으로 유도한다.
 - 스케일 보정 계수 $\frac{1}{2\sqrt{y}}$는 $y=x^2$의 기울기 $g'(x)=2x$에 의해 결정되며, $\lvert dx/dy \rvert=\frac{1}{\lvert 2x \rvert}$가 각 preimage에 붙는다.
 - → many-to-one Transformation에서는 원상의 개수만큼 항이 생기고, 각 항은 Jacobian 계수로 보정된다는 구조가 핵심이다.
 
-![](/assets/img/tistory/89/image-002.png)
+![](/assets/img/blog/prob-23-transform-rvs-introduction/image-002.png)
 
 ### Estimation적 해석
 

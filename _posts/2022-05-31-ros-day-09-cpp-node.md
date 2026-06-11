@@ -12,7 +12,7 @@ tags:
 - ROS
 last_modified_at: 2022-06-07 17:57:47 +0900
 imported_images:
-- assets/img/tistory/14/image-001.png
+- assets/img/blog/ros-day-09-cpp-node/image-001.png
 series: ros-basics
 series_order: 12
 source:
@@ -56,7 +56,7 @@ int main(int argc, char **argv)
 
 버퍼란? 데이터를 한 곳에서 다른 한 곳으로 전송하는 동안 일시적으로 그 데이터를 보관하는 [메모리](https://ko.wikipedia.org/wiki/%EB%A9%94%EB%AA%A8%EB%A6%AC)의 영역이다. **버퍼링**(buffering)이란 버퍼를 활용하는 방식 또는 버퍼를 채우는 동작을 말한다.
 
-![](/assets/img/tistory/14/image-001.png)
+![](/assets/img/blog/ros-day-09-cpp-node/image-001.png)
 
 - ros::Rate loop_rate(10) -> 데이터를 보내는 주파수를 정하는 것이다. 단위는 HZ이다.
 - while(ros::ok()) -> Ctrl+C키가 눌러지거나 ROS가 모든 노드를 중지하면 노드를 정지시킨다.

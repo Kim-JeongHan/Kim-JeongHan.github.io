@@ -13,10 +13,10 @@ tags:
 - gil
 last_modified_at: 2025-03-16 00:06:28 +0900
 imported_images:
-- assets/img/tistory/26/image-001.png
-- assets/img/tistory/26/image-002.png
-- assets/img/tistory/26/image-003.png
-- assets/img/tistory/26/image-004.png
+- assets/img/blog/python-parallel-programming-gil/image-001.png
+- assets/img/blog/python-parallel-programming-gil/image-002.png
+- assets/img/blog/python-parallel-programming-gil/image-003.png
+- assets/img/blog/python-parallel-programming-gil/image-004.png
 source:
   provider: tistory
   id: 26
@@ -36,7 +36,7 @@ source:
 
 ### Python의 설계원칙
 
-![](/assets/img/tistory/26/image-001.png)
+![](/assets/img/blog/python-parallel-programming-gil/image-001.png)
 
 파이썬은 유저입장에서 매우 직관적이고 접근성있게 만들어진 언어이다.
 
@@ -54,15 +54,15 @@ source:
 
 이말을 다시한번 설명해보자면 우리가 10초 짜리 Task를 4개 가지고 있을때, single Thread에서는 40초가 걸린다.
 
-![](/assets/img/tistory/26/image-002.png)
+![](/assets/img/blog/python-parallel-programming-gil/image-002.png)
 
 이 Task를 두개의 쓰레드를 사용하면 두개의 쓰레드에서 작업을 나누어 관리함으로, 시간의 소요가 20초로 단축된다.
 
-![](/assets/img/tistory/26/image-003.png)
+![](/assets/img/blog/python-parallel-programming-gil/image-003.png)
 
 이러한 것이 병렬프로그래밍의 장점인데 파이썬의 Thread는 GIL에 의해서 다르게 작동된다.
 
-![](/assets/img/tistory/26/image-004.png)
+![](/assets/img/blog/python-parallel-programming-gil/image-004.png)
 
 바로 병렬인것처럼 작동되는 것이다. 똑같이 40초가 걸리는 것을 알수 있다. 이렇게 Thread를 동시에 실행되는 것을 막고 하나씩 번갈아가면서 수행하는 것을 GIL이라고 하며, 이를 컨텍스트 스위칭이라고한다.
 

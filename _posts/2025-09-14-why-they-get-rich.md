@@ -9,13 +9,13 @@ categories:
 tags: []
 last_modified_at: 2025-09-14 19:10:49 +0900
 imported_images:
-- assets/img/tistory/71/image-001.jpg
+- assets/img/blog/why-they-get-rich/image-001.jpg
 source:
   provider: tistory
   id: 71
 ---
 
-![](/assets/img/tistory/71/image-001.jpg)
+![](/assets/img/blog/why-they-get-rich/image-001.jpg)
 
 저자는 책 내내 국가가 화폐시스템을 독점하고 마음대로 다룰 수 있는 상황을 나쁜 화폐로 지정하고, 금과같은 국가가 마음대로 다루기 어려운 것을 좋은화폐로 지정한다.
 

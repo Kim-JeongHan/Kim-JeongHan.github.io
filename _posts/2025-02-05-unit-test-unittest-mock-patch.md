@@ -13,7 +13,7 @@ tags:
 - unittest
 last_modified_at: 2025-07-17 14:42:30 +0900
 imported_images:
-- assets/img/tistory/16/image-001.png
+- assets/img/blog/unit-test-unittest-mock-patch/image-001.png
 source:
   provider: tistory
   id: 16
@@ -23,7 +23,7 @@ Unit Test를 진행하다 보면, 데이터베이스 또는 외부 API에 의존
 
 이 경우에 외부 API를 호출하기는 불가능한 경우가 많다. 이러한 상황에서 단위 테스트를 작성할 때, 외부의 의존하는 부분을 가짜로 대체하는 기법이 자주 사용된다. 이를 모킹(Mocking)이라고 한다.
 
-![image.png](/assets/img/tistory/16/image-001.png)
+![image.png](/assets/img/blog/unit-test-unittest-mock-patch/image-001.png)
 
 ## unittest.mock이란?
 

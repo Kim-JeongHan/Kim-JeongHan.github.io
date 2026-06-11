@@ -11,8 +11,8 @@ categories:
 tags: []
 last_modified_at: 2026-01-16 08:24:03 +0900
 imported_images:
-- assets/img/tistory/87/image-001.png
-- assets/img/tistory/87/image-002.png
+- assets/img/blog/prob-20-covariance-two-rvs/image-001.png
+- assets/img/blog/prob-20-covariance-two-rvs/image-002.png
 series: probability-statistics
 series_order: 20
 source:
@@ -41,9 +41,9 @@ $$
 - $x,P(x)$평면으로의 해석 : 높은 확률값을 갖는 어떤 random variable의 범위라고 좀더 정확하게 이야기할수 있다.
 - $t,x$평면으로의 해석 : 반복적으로 random variable 발생시킬때, 평균값을 기준으로 편차의 크기가 얼마나 큰지로 볼수 있다.
 
-![](/assets/img/tistory/87/image-001.png)
+![](/assets/img/blog/prob-20-covariance-two-rvs/image-001.png)
 
-![](/assets/img/tistory/87/image-002.png)
+![](/assets/img/blog/prob-20-covariance-two-rvs/image-002.png)
 
 - 물리적, 수학적 : Sinal의 engegy or power
   $x^2(t) \rightarrow \text{power}$, $\frac{1}{T}\int_{0}^{T} x(t), dt \rightarrow \text{Mean of engergy}$

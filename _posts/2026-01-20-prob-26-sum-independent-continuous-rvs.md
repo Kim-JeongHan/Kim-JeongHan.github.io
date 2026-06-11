@@ -11,8 +11,8 @@ categories:
 tags: []
 last_modified_at: 2026-01-20 17:32:53 +0900
 imported_images:
-- assets/img/tistory/92/image-001.png
-- assets/img/tistory/92/image-002.png
+- assets/img/blog/prob-26-sum-independent-continuous-rvs/image-001.png
+- assets/img/blog/prob-26-sum-independent-continuous-rvs/image-002.png
 series: probability-statistics
 series_order: 26
 source:
@@ -180,7 +180,7 @@ $S_k$는 independent 합이므로 PDF는 반복 Convolution으로 계산된다.
 
 $k=2$에서 $S_2=T_1+T_2$이므로 Convolution을 적용한다.
 
-![](/assets/img/tistory/92/image-001.png)
+![](/assets/img/blog/prob-26-sum-independent-continuous-rvs/image-001.png)
 
 $$
 f_{S_2}(s)=\int_{-\infty}^{\infty} f_T(\tau)\,f_T(s-\tau)\,d\tau
@@ -194,7 +194,7 @@ $$
 
 $k=3$에서 $S_3=S_2+T_3$이므로 다시 Convolution을 적용한다.
 
-![](/assets/img/tistory/92/image-002.png)
+![](/assets/img/blog/prob-26-sum-independent-continuous-rvs/image-002.png)
 
 $$
 f_{S_3}(s)=\int_{0}^{s} f_{S_2}(\tau)\,f_T(s-\tau)\,d\tau=\int_{0}^{s} \lambda^2\tau e^{-\lambda\tau}\,\lambda e^{-\lambda(s-\tau)}\,d\tau

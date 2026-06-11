@@ -10,7 +10,7 @@ categories:
 tags: []
 last_modified_at: 2025-08-24 23:38:39 +0900
 imported_images:
-- assets/img/tistory/60/image-001.png
+- assets/img/blog/ransac-concept-practice/image-001.png
 source:
   provider: tistory
   id: 60
@@ -209,7 +209,7 @@ plt.grid(True)
 plt.show()
 ```
 
-![](/assets/img/tistory/60/image-001.png)
+![](/assets/img/blog/ransac-concept-practice/image-001.png)
 
 # Lo-RANSAC 개념
 

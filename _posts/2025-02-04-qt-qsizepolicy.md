@@ -11,8 +11,8 @@ tags:
 - QT
 last_modified_at: 2025-02-04 21:45:11 +0900
 imported_images:
-- assets/img/tistory/15/image-001.png
-- assets/img/tistory/15/image-002.png
+- assets/img/blog/qt-qsizepolicy/image-001.png
+- assets/img/blog/qt-qsizepolicy/image-002.png
 source:
   provider: tistory
   id: 15
@@ -97,10 +97,10 @@ window.show()
 app.exec()
 ```
 
-![](/assets/img/tistory/15/image-001.png)
+![](/assets/img/blog/qt-qsizepolicy/image-001.png)
 
 최소 크기
-![](/assets/img/tistory/15/image-002.png)
+![](/assets/img/blog/qt-qsizepolicy/image-002.png)
 
 늘린 크기
 

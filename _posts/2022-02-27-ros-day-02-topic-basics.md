@@ -14,7 +14,7 @@ tags:
 - Topic
 last_modified_at: 2022-02-27 04:22:28 +0900
 imported_images:
-- assets/img/tistory/5/image-001.png
+- assets/img/blog/ros-day-02-topic-basics/image-001.png
 series: ros-basics
 series_order: 4
 source:
@@ -119,4 +119,4 @@ rospy.spin()
 
 마지막으로 rqt_graph를 보자
 
-![](/assets/img/tistory/5/image-001.png)
+![](/assets/img/blog/ros-day-02-topic-basics/image-001.png)

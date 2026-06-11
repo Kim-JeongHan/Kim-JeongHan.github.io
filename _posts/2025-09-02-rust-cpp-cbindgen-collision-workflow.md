@@ -15,7 +15,7 @@ tags:
 - rust
 last_modified_at: 2025-09-02 22:59:21 +0900
 imported_images:
-- assets/img/tistory/68/image-001.png
+- assets/img/blog/rust-cpp-cbindgen-collision-workflow/image-001.png
 source:
   provider: tistory
   id: 68
@@ -68,7 +68,7 @@ cbindgen과 Corrosion을 함께 사용하면 Rust-C++ 통합 환경을 좀더 �
 
 ### 프로젝트 구조
 
-![](/assets/img/tistory/68/image-001.png)
+![](/assets/img/blog/rust-cpp-cbindgen-collision-workflow/image-001.png)
 
 ### 주요 구성 요소
 

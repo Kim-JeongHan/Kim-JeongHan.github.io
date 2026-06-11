@@ -14,7 +14,7 @@ tags:
 - angular-velocity
 last_modified_at: 2025-08-24 23:10:10 +0900
 imported_images:
-- assets/img/tistory/59/image-001.png
+- assets/img/blog/modern-robotics-rotation-matrix-angular-velocity/image-001.png
 series: modern-robotics
 series_order: 3
 source:
@@ -24,7 +24,7 @@ source:
 
 ### Rotation Matrix와 Angular Velocity의 관계
 
-![](/assets/img/tistory/59/image-001.png)
+![](/assets/img/blog/modern-robotics-rotation-matrix-angular-velocity/image-001.png)
 
 위 그림을 참고하여, 어떤 회전하는 물체에 단위축 $\{ \hat{x}, \hat{y}, \hat{z} \}$으로 구성된 좌표계가 있다고 하자.
 

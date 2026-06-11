@@ -9,7 +9,7 @@ categories:
 tags: []
 last_modified_at: 2025-09-16 00:49:33 +0900
 imported_images:
-- assets/img/tistory/72/image-001.png
+- assets/img/blog/pyroki-robot-kinematic-optimization/image-001.png
 source:
   provider: tistory
   id: 72
@@ -27,7 +27,7 @@ robot kinematics에 최적화를 위한 범용적인 tool을 만들겠다.
 2. Extensible : cost weights 튜닝을 위한 real-time interface제공, 자동화된 differctionation을 통한 빠른 prototyping이 가능하게 해줌 analytical Jacobian지원
 3. Cross-platform : CPU, NPU, TPU 모두 지원
 
-![](/assets/img/tistory/72/image-001.png)
+![](/assets/img/blog/pyroki-robot-kinematic-optimization/image-001.png)
 
 ## 비용함수(composable cost function로 modular 방식으로 디자인)
 

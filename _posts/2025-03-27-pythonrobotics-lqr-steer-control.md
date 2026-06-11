@@ -11,7 +11,7 @@ categories:
 tags: []
 last_modified_at: 2025-04-02 00:44:47 +0900
 imported_images:
-- assets/img/tistory/37/image-001.png
+- assets/img/blog/pythonrobotics-lqr-steer-control/image-001.png
 series: pythonrobotics-analysis
 series_order: 2
 source:
@@ -43,7 +43,7 @@ def main():
 
 (k : 곡률)
 
-![](/assets/img/tistory/37/image-001.png)
+![](/assets/img/blog/pythonrobotics-lqr-steer-control/image-001.png)
 
 interpolate된 경로
 

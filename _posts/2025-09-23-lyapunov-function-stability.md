@@ -13,7 +13,7 @@ tags:
 - stability
 last_modified_at: 2025-09-23 20:24:53 +0900
 imported_images:
-- assets/img/tistory/78/image-001.png
+- assets/img/blog/lyapunov-function-stability/image-001.png
 source:
   provider: tistory
   id: 78
@@ -34,7 +34,7 @@ Lyapunov function은 시스템 상태 $x$에 대해 정의되는 스칼라 함�
 
 ## 직관적인 이해
 
-![](/assets/img/tistory/78/image-001.png)
+![](/assets/img/blog/lyapunov-function-stability/image-001.png)
 
 Lyapunov function을 물리적 에너지 함수로 비유하면 쉽다.
 

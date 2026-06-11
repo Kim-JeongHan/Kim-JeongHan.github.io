@@ -12,9 +12,9 @@ tags:
 - rospy.spin
 last_modified_at: 2022-03-03 04:18:22 +0900
 imported_images:
-- assets/img/tistory/8/image-001.png
-- assets/img/tistory/8/image-002.png
-- assets/img/tistory/8/image-003.png
+- assets/img/blog/ros-day-04-rospy-spin/image-001.png
+- assets/img/blog/ros-day-04-rospy-spin/image-002.png
+- assets/img/blog/ros-day-04-rospy-spin/image-003.png
 series: ros-basics
 series_order: 7
 source:
@@ -70,7 +70,7 @@ sub = rospy.Subscriber('complex', Complex, callback)
 rospy.spin()
 ```
 
-![](/assets/img/tistory/8/image-001.png)
+![](/assets/img/blog/ros-day-04-rospy-spin/image-001.png)
 
 2. callback 함수 외부에서 print가 추가 된 노드
 
@@ -94,7 +94,7 @@ rospy.spin()
 
 print는 한번 실행되었다.
 
-![](/assets/img/tistory/8/image-002.png)
+![](/assets/img/blog/ros-day-04-rospy-spin/image-002.png)
 
 #### 3. while not ropsy..is_shutdown에 들어가 있는 pirnt
 
@@ -116,6 +116,6 @@ while not rospy.is_shutdown():
 rospy.spin()
 ```
 
-![](/assets/img/tistory/8/image-003.png)
+![](/assets/img/blog/ros-day-04-rospy-spin/image-003.png)
 
 while not ropsy..is_shutdown에 갇쳐있다. 여기서 우리는 rospy.spin은 topic이 subsrcibe노드가 도착하더라도 작동하지 않았다는 것을 알수 있다.

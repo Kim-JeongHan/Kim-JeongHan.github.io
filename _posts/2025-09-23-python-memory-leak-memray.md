@@ -13,7 +13,7 @@ tags:
 - memory-leak
 last_modified_at: 2025-09-23 16:30:27 +0900
 imported_images:
-- assets/img/tistory/77/image-001.png
+- assets/img/blog/python-memory-leak-memray/image-001.png
 source:
   provider: tistory
   id: 77
@@ -58,7 +58,7 @@ memray summary memray-p.py.1184031.bin
 리포트를 보면, 대부분의 메모리가 mv3_infer_from_ros_image → torch.Tensor.to() 경로에서 반복적으로 할당되고 있었다.
 특히 to() 호출로 인해 **4.9GB 이상**이 GPU 메모리에 누적된 것이 확인되었다.
 
-![](/assets/img/tistory/77/image-001.png)
+![](/assets/img/blog/python-memory-leak-memray/image-001.png)
 
 ## 5. 원인
 

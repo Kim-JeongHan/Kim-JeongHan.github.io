@@ -11,9 +11,9 @@ categories:
 tags: []
 last_modified_at: 2026-01-19 10:16:14 +0900
 imported_images:
-- assets/img/tistory/91/image-001.png
-- assets/img/tistory/91/image-002.png
-- assets/img/tistory/91/image-003.png
+- assets/img/blog/prob-25-transform-rvs-multiple-rvs/image-001.png
+- assets/img/blog/prob-25-transform-rvs-multiple-rvs/image-002.png
+- assets/img/blog/prob-25-transform-rvs-multiple-rvs/image-003.png
 series: probability-statistics
 series_order: 25
 source:
@@ -163,7 +163,7 @@ $$
 이 결과는 $(x_1,x_2)$ 평면의 미소 면적 요소가 선형 transformation에 의해 평균적으로 3배 스케일되며, 확률 보존을 위해 Joint PDF 높이가 $1/3$만큼 보정된다는 의미를 갖는다.
 → 선형 transformation에서 $\lvert J \rvert$는 면적 스케일 팩터이고, $1/\lvert J \rvert$는 밀도 스케일 보정 항이다.
 
-![](/assets/img/tistory/91/image-001.png)
+![](/assets/img/blog/prob-25-transform-rvs-multiple-rvs/image-001.png)
 
 ## 05_dimension reduction transformation
 
@@ -260,13 +260,13 @@ $$
 
 **결과 해석**: dimension reduction에서의 변수 소거는 보조 변수 방향으로 확률을 적분해 누적하는 과정이며, $Y_1=X_1+X_2$의 경우에는 동일한 합 $y_1$을 만드는 모든 조합 $(x_1,x_2)$의 기여가 적분으로 합쳐져 $f_{Y_1}(y_1)$가 결정된다.
 
-![](/assets/img/tistory/91/image-002.png)
+![](/assets/img/blog/prob-25-transform-rvs-multiple-rvs/image-002.png)
 
 ## 06_핵심 응용 Gaussian random variable generation
 
 ### Box-Muller transformation
 
-![](/assets/img/tistory/91/image-003.png)
+![](/assets/img/blog/prob-25-transform-rvs-multiple-rvs/image-003.png)
 
 - 목표: 두개의 unifrom distribution$U_1,U_2$으로부터 두개의 Gaussian random variable $Z,W$을 생성하는 것이다.
 - 조건 : 서로 독립인 $U_1,U_2$가 Uniform distribution을 따라 $U_1,U_2\sim Uniform(0,1)$존재한다.

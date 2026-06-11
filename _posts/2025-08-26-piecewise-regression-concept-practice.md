@@ -10,8 +10,8 @@ categories:
 tags: []
 last_modified_at: 2025-08-27 00:34:57 +0900
 imported_images:
-- assets/img/tistory/62/image-001.png
-- assets/img/tistory/62/image-002.png
+- assets/img/blog/piecewise-regression-concept-practice/image-001.png
+- assets/img/blog/piecewise-regression-concept-practice/image-002.png
 source:
   provider: tistory
   id: 62
@@ -260,7 +260,7 @@ seg2: len=0.291, t=[-0.99164729 -0.12897923], n=[-0.12897923  0.99164729], d=0.6
 seg3: len=3.895, t=[-0.99510089  0.09886464], n=[0.09886464 0.99510089], d=1.191
 ```
 
-![](/assets/img/tistory/62/image-001.png)
+![](/assets/img/blog/piecewise-regression-concept-practice/image-001.png)
 
 ### 2) 구간의 개수와 경계 위치 모두 모르는 경우
 
@@ -397,4 +397,4 @@ Chosen by BIC → S = 3
  seg3: length=1.995, n=[-0.09991873  0.9949956 ], d=0.0957
 ```
 
-![](/assets/img/tistory/62/image-002.png)
+![](/assets/img/blog/piecewise-regression-concept-practice/image-002.png)

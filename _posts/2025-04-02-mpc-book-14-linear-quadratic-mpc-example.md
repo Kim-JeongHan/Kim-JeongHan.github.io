@@ -14,8 +14,8 @@ tags:
 - example
 last_modified_at: 2025-04-17 22:03:20 +0900
 imported_images:
-- assets/img/tistory/42/image-001.png
-- assets/img/tistory/42/image-002.png
+- assets/img/blog/mpc-book-14-linear-quadratic-mpc-example/image-001.png
+- assets/img/blog/mpc-book-14-linear-quadratic-mpc-example/image-002.png
 series: mpc-study
 series_order: 14
 source:
@@ -159,7 +159,7 @@ $$ \text{sat}(z) = \begin{cases} 1 & \text{if } z > 1 \\ z & \text{if } -1 \le z
 
 ## 결과
 
-![](/assets/img/tistory/42/image-001.png)
+![](/assets/img/blog/mpc-book-14-linear-quadratic-mpc-example/image-001.png)
 
 ## 예제) 초기 상태 x = 10의 결과
 
@@ -240,4 +240,4 @@ plt.tight_layout()
 plt.show()
 ```
 
-![](/assets/img/tistory/42/image-002.png)
+![](/assets/img/blog/mpc-book-14-linear-quadratic-mpc-example/image-002.png)

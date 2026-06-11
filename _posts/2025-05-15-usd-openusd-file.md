@@ -9,7 +9,7 @@ categories:
 tags: []
 last_modified_at: 2025-05-15 12:41:05 +0900
 imported_images:
-- assets/img/tistory/48/image-001.jpg
+- assets/img/blog/usd-openusd-file/image-001.jpg
 series: usd-notes
 series_order: 1
 source:
@@ -19,7 +19,7 @@ source:
 
 # USD란 무엇인가?
 
-![](/assets/img/tistory/48/image-001.jpg)
+![](/assets/img/blog/usd-openusd-file/image-001.jpg)
 
 컴퓨터 그래픽 영화나 게임을 제작하는 파이프라인은 대량의 3D 데이터를 생성하고 전달하게 된다. 이 데이터는 장면 기술(scene description)이라 불리며, 각 애플리케이션(모델링, 애니메이션, 렌더링 등)은 고유한 형식의 장면 기술을 사용한다. 이로 인해 다양한 도구 간 데이터 교환이 어려워진다.
 

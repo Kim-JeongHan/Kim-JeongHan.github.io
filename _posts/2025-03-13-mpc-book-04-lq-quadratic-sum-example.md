@@ -14,7 +14,7 @@ tags:
 - quadratic-cost
 last_modified_at: 2025-03-18 23:00:47 +0900
 imported_images:
-- assets/img/tistory/24/image-001.png
+- assets/img/blog/mpc-book-04-lq-quadratic-sum-example/image-001.png
 series: mpc-study
 series_order: 4
 source:
@@ -109,7 +109,7 @@ $$
 
 타원 등고선 그림
 
-![](/assets/img/tistory/24/image-001.png)
+![](/assets/img/blog/mpc-book-04-lq-quadratic-sum-example/image-001.png)
 
 ### **4. 일반화된 형태**
 

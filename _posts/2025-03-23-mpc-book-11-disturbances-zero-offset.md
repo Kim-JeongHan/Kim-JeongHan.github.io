@@ -14,7 +14,7 @@ tags:
 - offset-free
 last_modified_at: 2025-03-24 23:32:10 +0900
 imported_images:
-- assets/img/tistory/33/image-001.png
+- assets/img/blog/mpc-book-11-disturbances-zero-offset/image-001.png
 series: mpc-study
 series_order: 11
 source:
@@ -115,7 +115,7 @@ $$ \begin{aligned} E u_s &\leq e \\ F C x_s &\leq f - F C_d \hat{d}_s \end{align
 
 위 MPC 알고리즘에 의해 제어되는 system은 아래와 같은 그림으로 보여질 수 있다.
 
-![](/assets/img/tistory/33/image-001.png)
+![](/assets/img/blog/mpc-book-11-disturbances-zero-offset/image-001.png)
 
 추가적으로 정리하자면,
 

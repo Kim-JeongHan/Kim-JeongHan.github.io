@@ -13,10 +13,10 @@ tags:
 - robot-geometry
 last_modified_at: 2025-05-09 08:25:44 +0900
 imported_images:
-- assets/img/tistory/47/image-001.jpg
-- assets/img/tistory/47/image-002.png
-- assets/img/tistory/47/image-003.png
-- assets/img/tistory/47/image-004.png
+- assets/img/blog/paper-review-foam-robot-geometry/image-001.jpg
+- assets/img/blog/paper-review-foam-robot-geometry/image-002.png
+- assets/img/blog/paper-review-foam-robot-geometry/image-003.png
+- assets/img/blog/paper-review-foam-robot-geometry/image-004.png
 source:
   provider: tistory
   id: 47
@@ -50,11 +50,11 @@ mesh를 다듬는 파이프라인을 구축한다.
 
 - **Laplacian Smoothing**: 인접한 정점 평균을 통해 표면을 부드럽게 만든다.
 
-![](/assets/img/tistory/47/image-001.jpg)
+![](/assets/img/blog/paper-review-foam-robot-geometry/image-001.jpg)
 
 - **Humphrey’s Classes Filter (HC Filter)**: Laplacian에서 발생할 수 있는 부피 축소를 보정해 원형에 가까운 표면을 회복시킨다.
 
-![](/assets/img/tistory/47/image-002.png)
+![](/assets/img/blog/paper-review-foam-robot-geometry/image-002.png)
 
 smoothing 처리 전후
 
@@ -74,7 +74,7 @@ smoothing 처리 전후
 
 #### 실험 1. Collision/Distance Query 속도
 
-![](/assets/img/tistory/47/image-003.png)
+![](/assets/img/blog/paper-review-foam-robot-geometry/image-003.png)
 
 무작위 100,000개의 queries들을 생성해서 collision distance 측정을 진행했다.
 
@@ -85,7 +85,7 @@ smoothing 처리 전후
 
 #### 실험 2. 병렬 시뮬레이터 적용 (Genesis)
 
-![](/assets/img/tistory/47/image-004.png)
+![](/assets/img/blog/paper-review-foam-robot-geometry/image-004.png)
 
 - 병렬 시뮬레이션에서 FPS 기준으로 약 **10% 성능 향상**
 

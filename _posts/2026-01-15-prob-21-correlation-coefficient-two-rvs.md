@@ -11,9 +11,9 @@ categories:
 tags: []
 last_modified_at: 2026-01-16 08:23:51 +0900
 imported_images:
-- assets/img/tistory/86/image-001.png
-- assets/img/tistory/86/image-002.png
-- assets/img/tistory/86/image-003.png
+- assets/img/blog/prob-21-correlation-coefficient-two-rvs/image-001.png
+- assets/img/blog/prob-21-correlation-coefficient-two-rvs/image-002.png
+- assets/img/blog/prob-21-correlation-coefficient-two-rvs/image-003.png
 series: probability-statistics
 series_order: 21
 source:
@@ -85,8 +85,8 @@ $$
 - ${\rho_{XY}=-1}$ → 음의 기울기 직선 위에 완전히 정렬된다.
 - ${\rho_{XY}\approx 0}$ → 특정 방향성이 약해 원형에 가까운 구름으로 보이는 경향이 있다.
 
-![](/assets/img/tistory/86/image-001.png)
-![](/assets/img/tistory/86/image-002.png)
+![](/assets/img/blog/prob-21-correlation-coefficient-two-rvs/image-001.png)
+![](/assets/img/blog/prob-21-correlation-coefficient-two-rvs/image-002.png)
 
 ## 03_예제
 
@@ -103,7 +103,7 @@ $$
 
 ### 사진에서의 RGB와 Y의 상관관계
 
-![](/assets/img/tistory/86/image-003.png)
+![](/assets/img/blog/prob-21-correlation-coefficient-two-rvs/image-003.png)
 
 이미지 센서에서 밝기 신호 ${Y}$는 ${R,G,B}$조합으로 생성되며, 시각적으로 중요한 목표는 ${Y}$를 잘 보존하는 것이다.
 

@@ -15,7 +15,7 @@ tags:
 - Turtle
 last_modified_at: 2022-02-25 03:46:50 +0900
 imported_images:
-- assets/img/tistory/4/image-001.png
+- assets/img/blog/ros-day-01-roslaunch-turtlesim-package/image-001.png
 series: ros-basics
 series_order: 3
 source:
@@ -87,7 +87,7 @@ $ catkin_make
 $ roslaunch turtle remapping.launch
 ```
 
-![](/assets/img/tistory/4/image-001.png)
+![](/assets/img/blog/ros-day-01-roslaunch-turtlesim-package/image-001.png)
 
 ```html
 git clone https://github.com/jeong-han-kim/turtle

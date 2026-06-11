@@ -28,7 +28,7 @@ from bs4 import BeautifulSoup, NavigableString, Tag
 
 BASE_URL = "https://upright-wing.tistory.com"
 POSTS_DIR = Path("_posts")
-IMAGES_DIR = Path("assets/img/tistory")
+IMAGES_DIR = Path("assets/img/blog")
 USER_AGENT = (
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/125.0 Safari/537.36"
@@ -349,12 +349,12 @@ def parse_listed_date(value: str) -> str:
 def localize_images(
     session: requests.Session,
     content: Tag,
-    post_id: str,
+    post_slug: str,
     source_url: str,
     dry_run: bool,
 ) -> list[dict]:
     image_records: list[dict] = []
-    image_dir = IMAGES_DIR / post_id
+    image_dir = IMAGES_DIR / post_slug
     if not dry_run:
         image_dir.mkdir(parents=True, exist_ok=True)
 
@@ -431,10 +431,10 @@ def write_post(
     metadata: dict,
     markdown: str,
     image_records: list[dict],
+    slug: str,
     dry_run: bool,
 ) -> Path:
     published = parse_iso_datetime(metadata["published"])
-    slug = slugify_title(metadata["title"], fallback=f"tistory-{summary.post_id}")
     filename = POSTS_DIR / f"{published:%Y-%m-%d}-{slug}.md"
     categories = split_category(metadata["category"])
     front_matter = {
@@ -523,10 +523,11 @@ def import_posts(limit: int | None, max_pages: int, dry_run: bool, pause: float)
     for index, summary in enumerate(summaries, start=1):
         try:
             metadata, content = parse_post(session, summary)
-            image_records = localize_images(session, content, summary.post_id, summary.url, dry_run)
+            slug = slugify_title(metadata["title"], fallback=f"tistory-{summary.post_id}")
+            image_records = localize_images(session, content, slug, summary.url, dry_run)
             markdown = converter.convert(content)
             markdown = normalize_inline_math(markdown)
-            path = write_post(summary, metadata, markdown, image_records, dry_run)
+            path = write_post(summary, metadata, markdown, image_records, slug, dry_run)
             print(
                 f"[{index}/{len(summaries)}] {summary.post_id}: {path} "
                 f"({len(image_records)} images)",

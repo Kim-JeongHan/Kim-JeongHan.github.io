@@ -13,9 +13,9 @@ tags:
 - Gradient
 last_modified_at: 2025-03-03 03:37:55 +0900
 imported_images:
-- assets/img/tistory/19/image-001.png
-- assets/img/tistory/19/image-002.png
-- assets/img/tistory/19/image-003.png
+- assets/img/blog/gradient-matrix-derivatives/image-001.png
+- assets/img/blog/gradient-matrix-derivatives/image-002.png
+- assets/img/blog/gradient-matrix-derivatives/image-003.png
 source:
   provider: tistory
   id: 19
@@ -31,7 +31,7 @@ $$ \begin{array}{|c|c|} \hline y & \frac{\partial y}{\partial x} \\ \hline Ax & 
 
 ### 2. 기울기 (Gradient)와 최적화
 
-![](/assets/img/tistory/19/image-001.png)
+![](/assets/img/blog/gradient-matrix-derivatives/image-001.png)
 
 기울기는 다변수 함수의 변화율을 나타내며, **함수의 최소값 또는 최대값을 찾는 데 핵심적인 역할**을 한다.
 
@@ -64,7 +64,7 @@ $$ x \leftarrow x - \alpha \nabla_x f(x) $$
 - Convex 함수에서는 **Local Minimum**이 **Global Minimum** 이 된다.
 - Non-Convex 함수에서는 여러 개의 **Local Minimum** 이 존재할 수 있어, 반드시 **Global Minimum**이 되지는 않는다
 
-![](/assets/img/tistory/19/image-002.png)
+![](/assets/img/blog/gradient-matrix-derivatives/image-002.png)
 
 ### 4. 경사하강법의 수렴성 (Convergence of Gradient Descent)
 
@@ -73,4 +73,4 @@ $$ x \leftarrow x - \alpha \nabla_x f(x) $$
 - 전역 최소값(Global Minimum)과 지역 최소값(Local Minimum)이 같기 때문에, 적절한 학습률을 사용하면 수렴한다.
 - 수렴 속도를 높이기 위해 **모멘텀(Momentum) 기반 기법**이나 **적응형 학습률(Adaptive Learning Rate) 기법**을 적용할 수 있다.
 
-![](/assets/img/tistory/19/image-003.png)
+![](/assets/img/blog/gradient-matrix-derivatives/image-003.png)

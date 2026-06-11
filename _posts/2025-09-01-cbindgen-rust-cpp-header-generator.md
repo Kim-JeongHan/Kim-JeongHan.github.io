@@ -13,7 +13,7 @@ tags:
 - rust
 last_modified_at: 2025-09-01 23:28:32 +0900
 imported_images:
-- assets/img/tistory/67/image-001.png
+- assets/img/blog/cbindgen-rust-cpp-header-generator/image-001.png
 source:
   provider: tistory
   id: 67
@@ -213,7 +213,7 @@ int main() {
 빌드를 진행해보면 target/include/cbindgen_test.h가 생기는 것을 확인할 수 있다.
 헤더가 자동생성되었고, debug로 빌드시 debug폴더안에 release로 빌드시 release폴더안에 libcbindgen_test.so, libcbindgen_test.a, libcbindgen_test.d가 생기는 것을 확인할 수 있다.
 
-![](/assets/img/tistory/67/image-001.png)
+![](/assets/img/blog/cbindgen-rust-cpp-header-generator/image-001.png)
 
 빌드하기
 

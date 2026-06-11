@@ -13,9 +13,9 @@ tags:
 - optimization
 last_modified_at: 2025-03-03 03:10:26 +0900
 imported_images:
-- assets/img/tistory/18/image-001.png
-- assets/img/tistory/18/image-002.png
-- assets/img/tistory/18/image-003.png
+- assets/img/blog/optimization-convex-optimization/image-001.png
+- assets/img/blog/optimization-convex-optimization/image-002.png
+- assets/img/blog/optimization-convex-optimization/image-003.png
 source:
   provider: tistory
   id: 18
@@ -105,7 +105,7 @@ $$ \begin{aligned} &\bullet \quad f:\mathbb{R}^n \to \mathbb{R} \text{ is a conv
 
 두 점 x,y 사이의 Linear Interpolation을 을 통해, Convex Optimization와 Convex set좀더 직관적으로 이해할 수 있다.
 
-![](/assets/img/tistory/18/image-001.png)
+![](/assets/img/blog/optimization-convex-optimization/image-001.png)
 
 $$ \vec{z} = \vec{y} + \theta (\vec{x} - \vec{y}), \quad 0 \leq \theta \leq 1 \\ = \theta \vec{x} + (1 - \theta) \vec{y} $$
 
@@ -115,13 +115,13 @@ $$ \vec{z} = \alpha \vec{x} + \beta \vec{y}, \quad \alpha + \beta = 1 \quad \tex
 
 ## Convex Function and Convex Set
 
-![](/assets/img/tistory/18/image-002.png)
+![](/assets/img/blog/optimization-convex-optimization/image-002.png)
 
 $$ \begin{aligned} & \textbf{for any } x,y \in \mathbb{R}^n \textbf{ and } \theta \in [0,1] \\ & \ f(\theta x + (1 - \theta)y) \leq \theta f(x) + (1 - \theta) f(y) \end{aligned} $$
 
 - 이는 함수가 중간값에서 최댓값을 가지지 않으며,Linear Interpolation이 가능함을 의미한다.
 
-![](/assets/img/tistory/18/image-003.png)
+![](/assets/img/blog/optimization-convex-optimization/image-003.png)
 
 $$ \begin{aligned} & \textbf{for a } x,y \in \mathcal{C} \textbf{ and } \theta \in [0,1], \\ & \theta x + (1 - \theta)y \in \mathcal{C} \end{aligned} $$
 

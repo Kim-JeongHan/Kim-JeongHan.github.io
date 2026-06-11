@@ -11,9 +11,9 @@ categories:
 tags: []
 last_modified_at: 2026-01-16 08:23:15 +0900
 imported_images:
-- assets/img/tistory/82/image-001.png
-- assets/img/tistory/82/image-002.png
-- assets/img/tistory/82/image-003.png
+- assets/img/blog/prob-17-continuous-multiple-rvs-introduction/image-001.png
+- assets/img/blog/prob-17-continuous-multiple-rvs-introduction/image-002.png
+- assets/img/blog/prob-17-continuous-multiple-rvs-introduction/image-003.png
 series: probability-statistics
 series_order: 17
 source:
@@ -41,7 +41,7 @@ $$
 
 이 표현은 2차원 평면에서 점 ${(x,y)}$를 기준으로 왼쪽 아래 영역 전체에 대한 누적 확률을 의미한다. Joint CDF는 확률의 누적 분포를 나타내며, 이를 통해 Joint PDF가 정의된다.
 
-![](/assets/img/tistory/82/image-001.png)
+![](/assets/img/blog/prob-17-continuous-multiple-rvs-introduction/image-001.png)
 
 Joint PDF는 Joint CDF를 각 변수에 대해 편미분하여 얻는다.
 
@@ -134,7 +134,7 @@ $$
 
 ### 해설
 
-![](/assets/img/tistory/82/image-002.png)
+![](/assets/img/blog/prob-17-continuous-multiple-rvs-introduction/image-002.png)
 
 - ${X}$와 ${Y}$는 구간 ${[0,50]}$에서 Uniform Distribution을 따른다.
 - 각 변수의 Marginal PDF는 다음과 같다.
@@ -161,7 +161,7 @@ $$
 \begin{aligned}f_{XY}(x, y)&= 2 e^{-(x+y)}, \quad 0 \le x \le y,\quad 0 \le y\end{aligned}
 $$
 
-![](/assets/img/tistory/82/image-003.png)
+![](/assets/img/blog/prob-17-continuous-multiple-rvs-introduction/image-003.png)
 
 ### 문제1 : X의 Marginal PDF 계산
 

@@ -11,8 +11,8 @@ tags:
 - 데이터분석
 last_modified_at: 2025-08-20 22:09:30 +0900
 imported_images:
-- assets/img/tistory/54/image-001.png
-- assets/img/tistory/54/image-002.png
+- assets/img/blog/plotjuggler-data-analysis/image-001.png
+- assets/img/blog/plotjuggler-data-analysis/image-002.png
 source:
   provider: tistory
   id: 54
@@ -29,7 +29,7 @@ source:
 - CSV / .bag 파일 지원: 기록된 ROS bag 파일이나 CSV 파일을 불러와 분석 가능
 - 수학 표현식 지원: Plot 내에서 필드 간 연산 및 파생 변수 계산 가능 (예: error=desired−actualerror = desired - actualerror=desired−actual)
 
-![](/assets/img/tistory/54/image-001.png)
+![](/assets/img/blog/plotjuggler-data-analysis/image-001.png)
 
 ### **설치**
 
@@ -40,7 +40,7 @@ sudo apt install ros-${ROS_DISTRO}-plotjuggler \
 
 ### **고급기능**
 
-![](/assets/img/tistory/54/image-002.png)
+![](/assets/img/blog/plotjuggler-data-analysis/image-002.png)
 
 간단한 함수 및, plugin 지원
 

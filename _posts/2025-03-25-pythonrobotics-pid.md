@@ -11,8 +11,8 @@ categories:
 tags: []
 last_modified_at: 2025-03-26 08:57:34 +0900
 imported_images:
-- assets/img/tistory/36/image-001.png
-- assets/img/tistory/36/image-002.png
+- assets/img/blog/pythonrobotics-pid/image-001.png
+- assets/img/blog/pythonrobotics-pid/image-002.png
 series: pythonrobotics-analysis
 series_order: 1
 source:
@@ -80,7 +80,7 @@ $$ \Delta s_i = \sqrt{\sum_{j=0}^{i-1}(x_{i+1} - x_i)^2 + \sum_{j=0}^{i-1}(y_{i+
 
 2. x와 y의 위치를 거리를 통하여 cubic spline 보간한다. 이를 통해, x,y의 좌표집합은 연속적인 그래프가된다.
 
-![](/assets/img/tistory/36/image-001.png)
+![](/assets/img/blog/pythonrobotics-pid/image-001.png)
 
 x = [0, 1, 2, 3, 4],  y = [0, 2, 1, 2, 0]
 
@@ -131,7 +131,7 @@ $$ \theta_e = \theta - \theta_{\text{ref}} $$
 
 - 제어 입력(각속도) \( \omega \)
 
-![](/assets/img/tistory/36/image-002.png)
+![](/assets/img/blog/pythonrobotics-pid/image-002.png)
 
 - \( \kappa \): 경로 곡률
 

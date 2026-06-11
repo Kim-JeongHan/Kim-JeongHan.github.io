@@ -12,9 +12,9 @@ tags:
 - rotation-matrix
 last_modified_at: 2025-08-20 23:58:23 +0900
 imported_images:
-- assets/img/tistory/58/image-001.png
-- assets/img/tistory/58/image-002.png
-- assets/img/tistory/58/image-003.png
+- assets/img/blog/modern-robotics-rotation-matrix/image-001.png
+- assets/img/blog/modern-robotics-rotation-matrix/image-002.png
+- assets/img/blog/modern-robotics-rotation-matrix/image-003.png
 series: modern-robotics
 series_order: 2
 source:
@@ -129,8 +129,8 @@ $R=Rot( \hat\omega ,\theta)$
 
 이를 사용하여 벡터나 프레임을 회전시킬 수 있다.
 
-![](/assets/img/tistory/58/image-001.png)
-![](/assets/img/tistory/58/image-002.png)
+![](/assets/img/blog/modern-robotics-rotation-matrix/image-001.png)
+![](/assets/img/blog/modern-robotics-rotation-matrix/image-002.png)
 
 ### 기준 프레임에 따른 회전의 차이
 
@@ -145,6 +145,6 @@ $R=Rot( \hat\omega ,\theta)$
 
 이는 전혀 다른 두 결과를 보인다.
 
-![](/assets/img/tistory/58/image-003.png)
+![](/assets/img/blog/modern-robotics-rotation-matrix/image-003.png)
 
 따라서 벡터를 회전시키기 위해서는 이미 벡터가 표현되어 있는 좌표계안에서 연산이 이루어진다는 것을 의미하여, v'=Rv로 표현된다.

@@ -13,7 +13,7 @@ tags:
 - 패키지
 last_modified_at: 2022-05-03 18:36:28 +0900
 imported_images:
-- assets/img/tistory/10/image-001.png
+- assets/img/blog/ros-day-07-file-system-package-commands/image-001.png
 series: ros-basics
 series_order: 9
 source:
@@ -43,7 +43,7 @@ source:
 
 rqt_dep를 사용하는 직관적으로 의존성관계를 확인할수 있다.
 
-![](/assets/img/tistory/10/image-001.png)
+![](/assets/img/blog/ros-day-07-file-system-package-commands/image-001.png)
 
 빨간색: 현재 커서가 건드리고 있는 패키지입니다.
 

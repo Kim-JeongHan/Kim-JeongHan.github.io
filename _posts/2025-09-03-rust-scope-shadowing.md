@@ -13,7 +13,7 @@ tags:
 - shadowing
 last_modified_at: 2025-09-03 01:22:54 +0900
 imported_images:
-- assets/img/tistory/70/image-001.png
+- assets/img/blog/rust-scope-shadowing/image-001.png
 source:
   provider: tistory
   id: 70
@@ -79,4 +79,4 @@ shadowed in outer block: 2
 3. 이제 shadowed_binding은 abc로 변한다. 그 뒤 작은 scope를 빠져나오면 abc가 아닌 1로 변한다.(겉에 옷을 변한 것으로 생각)
 4. 마지막으로, 같은 영역에서 shadowed_binding은 2가 된다.
 
-![](/assets/img/tistory/70/image-001.png)
+![](/assets/img/blog/rust-scope-shadowing/image-001.png)

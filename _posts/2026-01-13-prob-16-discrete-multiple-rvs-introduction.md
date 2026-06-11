@@ -11,7 +11,7 @@ categories:
 tags: []
 last_modified_at: 2026-01-16 08:23:40 +0900
 imported_images:
-- assets/img/tistory/85/image-001.png
+- assets/img/blog/prob-16-discrete-multiple-rvs-introduction/image-001.png
 series: probability-statistics
 series_order: 16
 source:
@@ -202,7 +202,7 @@ $$
 \begin{aligned}P(X = x)&= \sum_{y} P(x, y), \P(Y = y)&= \sum_{x} P(x, y)\end{aligned}
 $$
 
-![](/assets/img/tistory/85/image-001.png)
+![](/assets/img/blog/prob-16-discrete-multiple-rvs-introduction/image-001.png)
 
 ### **3. Marginal → Joint (불가능)**
 

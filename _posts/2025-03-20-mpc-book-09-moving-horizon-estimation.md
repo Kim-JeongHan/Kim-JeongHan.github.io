@@ -14,7 +14,7 @@ tags:
 - state-estimation
 last_modified_at: 2025-03-23 22:46:54 +0900
 imported_images:
-- assets/img/tistory/31/image-001.png
+- assets/img/blog/mpc-book-09-moving-horizon-estimation/image-001.png
 series: mpc-study
 series_order: 9
 source:
@@ -29,7 +29,7 @@ source:
 Moving Horizon Estimation(MHE)은 비선형 시스템 모델을 사용하거나 상태 추정 시 제약 조건을 고려해야 할 때 사용하는 기법이다.
 기존의 Kalman 필터(KF)나 Least Squares Estimation(LSE)와 비교하여, MHE는 최근 N개의 측정값만을 사용하여 상태를 추정하는 특징을 갖는다.
 
-![](/assets/img/tistory/31/image-001.png)
+![](/assets/img/blog/mpc-book-09-moving-horizon-estimation/image-001.png)
 
 ## MHE의 필요성
 

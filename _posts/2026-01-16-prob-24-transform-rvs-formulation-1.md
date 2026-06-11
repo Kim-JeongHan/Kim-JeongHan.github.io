@@ -11,10 +11,10 @@ categories:
 tags: []
 last_modified_at: 2026-01-16 12:59:38 +0900
 imported_images:
-- assets/img/tistory/90/image-001.png
-- assets/img/tistory/90/image-002.png
-- assets/img/tistory/90/image-003.png
-- assets/img/tistory/90/image-004.png
+- assets/img/blog/prob-24-transform-rvs-formulation-1/image-001.png
+- assets/img/blog/prob-24-transform-rvs-formulation-1/image-002.png
+- assets/img/blog/prob-24-transform-rvs-formulation-1/image-003.png
+- assets/img/blog/prob-24-transform-rvs-formulation-1/image-004.png
 series: probability-statistics
 series_order: 24
 source:
@@ -54,7 +54,7 @@ source:
 
 ## 03_monotonically increasing transform function
 
-![](/assets/img/tistory/90/image-001.png)
+![](/assets/img/blog/prob-24-transform-rvs-formulation-1/image-001.png)
 
 ### 공식 유도
 
@@ -88,7 +88,7 @@ transform function의 기울기가 크면 같은 확률량이 더 넓은 $y$ 구
 
 ## 04_monotonically decreasing transform function
 
-![](/assets/img/tistory/90/image-002.png)
+![](/assets/img/blog/prob-24-transform-rvs-formulation-1/image-002.png)
 
 ### 공식 유도
 
@@ -117,7 +117,7 @@ $$
 
 ## 05_non-monotonic transform function
 
-![](/assets/img/tistory/90/image-003.png)
+![](/assets/img/blog/prob-24-transform-rvs-formulation-1/image-003.png)
 
 ## 공식 유도
 
@@ -197,7 +197,7 @@ $y$에서의 확률 밀도는 $x=\sqrt{y}$와 $x=-\sqrt{y}$ 두 지점에서 매
 
 따라서 $X$를 estimation error로 해석하면 $Y$는 error magnitude에 비례하는 energy 형태의 지표로 해석될 수 있으며, 제어 및 신호처리에서는 error의 방향보다 energy 관점의 크기 평가가 더 직접적인 성능 지표가 되는 경우가 많다.
 
-![](/assets/img/tistory/90/image-004.png)
+![](/assets/img/blog/prob-24-transform-rvs-formulation-1/image-004.png)
 
 특히 $X$가 Gaussian distribution을 따를 때 $Y=X^2$는 Chi-squared distribution 계열로 연결되며, 이 연결은 hypothesis test나 confidence interval과 같은 통계적 추론에서 에너지 기반 통계량을 구성하는 표준적인 형태로 사용된다.
 
