@@ -6,7 +6,7 @@ importance: 2
 category: robotics
 github: https://github.com/Plan-Real/hongdo_system
 website: https://plan-real.github.io/hongdo_system/
-preview: hongdo-system.jpg
+preview: hongdo-preview.mp4
 video: https://www.youtube.com/embed/49tMCc3HBR0?autoplay=1&rel=0
 ---
 
