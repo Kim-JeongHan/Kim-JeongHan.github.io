@@ -48,7 +48,7 @@
 
   {% if project.video or preview_is_video %}
     <button
-      class="publication-preview-button"
+      class="publication-preview-button project-preview"
       type="button"
       data-publication-video-src="{{ lightbox_path | escape }}"
       data-publication-video-type="{{ preview_mime_type }}"
@@ -74,7 +74,7 @@
     </button>
   {% else %}
     <a
-      class="publication-preview-link"
+      class="publication-preview-link project-preview"
       href="{{ project_link }}"
       aria-label="Open {{ project.title | escape }}"
       {% if project_link_external %}target="_blank" rel="external nofollow noopener"{% endif %}

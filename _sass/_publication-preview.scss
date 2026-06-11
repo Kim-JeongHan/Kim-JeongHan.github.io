@@ -34,6 +34,21 @@
   display: block;
 }
 
+.project-preview {
+  max-width: 160px;
+}
+
+.project-preview .preview {
+  width: 100%;
+  max-width: 160px;
+  height: 110px;
+  object-fit: cover;
+}
+
+.project-preview .publication-preview-video {
+  aspect-ratio: auto;
+}
+
 .publication-video-lightbox {
   position: fixed;
   inset: 0;
