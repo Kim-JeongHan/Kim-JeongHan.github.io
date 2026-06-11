@@ -51,7 +51,7 @@ display_categories: [research, robotics, software]
                 <em>{{ project_summary }}</em>
               </div>
               <div class="links">
-                <a href="{{ project_link }}" class="btn btn-sm z-depth-0" role="button" {% if project_link_external %}target="_blank" rel="external nofollow noopener"{% endif %}>Details</a>
+                <a href="{{ project_link }}" class="btn btn-sm z-depth-0" role="button" {% if project_link_external %}target="_blank" rel="external nofollow noopener"{% endif %}>Website</a>
                 {% if project.github %}
                   <a href="{{ project.github }}" class="btn btn-sm z-depth-0" role="button" rel="external nofollow noopener" target="_blank">Code</a>
                 {% endif %}
@@ -101,7 +101,7 @@ display_categories: [research, robotics, software]
               <em>{{ project_summary }}</em>
             </div>
             <div class="links">
-              <a href="{{ project_link }}" class="btn btn-sm z-depth-0" role="button" {% if project_link_external %}target="_blank" rel="external nofollow noopener"{% endif %}>Details</a>
+              <a href="{{ project_link }}" class="btn btn-sm z-depth-0" role="button" {% if project_link_external %}target="_blank" rel="external nofollow noopener"{% endif %}>Website</a>
               {% if project.github %}
                 <a href="{{ project.github }}" class="btn btn-sm z-depth-0" role="button" rel="external nofollow noopener" target="_blank">Code</a>
               {% endif %}
