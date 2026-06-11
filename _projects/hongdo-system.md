@@ -6,8 +6,7 @@ importance: 2
 category: robotics
 github: https://github.com/Plan-Real/hongdo_system
 website: https://plan-real.github.io/hongdo_system/
-preview: hongdo-preview.mp4
-video: https://www.youtube.com/embed/49tMCc3HBR0?autoplay=1&rel=0
+preview: hongdo-system.jpg
 ---
 
 ![Hongdo mascot robot interacting with visitors]({{ '/assets/img/projects/hongdo-system.jpg' | relative_url }})
