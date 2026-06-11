@@ -40,12 +40,19 @@
   cursor: default;
 }
 
-.publication-video-lightbox__video {
+.publication-video-lightbox__video,
+.publication-video-lightbox__frame {
   display: block;
   width: 100%;
+  aspect-ratio: 16 / 9;
   max-height: 82vh;
+  border: 0;
   border-radius: 8px;
   background: #000;
+}
+
+.publication-video-lightbox__video {
+  object-fit: contain;
 }
 
 .publication-video-lightbox__close {

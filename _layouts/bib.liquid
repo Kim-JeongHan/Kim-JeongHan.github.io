@@ -37,6 +37,15 @@
           {% else %}
             {% assign entry_path = entry.preview | prepend: '/assets/img/publication_preview/' | relative_url %}
           {% endif %}
+          {% assign lightbox_path = entry_path %}
+          {% assign lightbox_is_embed = false %}
+          {% if entry.video %}
+            {% assign lightbox_path = entry.video %}
+            {% assign lightbox_lower = entry.video | downcase %}
+            {% if lightbox_lower contains 'drive.google.com/file/d/' or lightbox_lower contains 'youtube.com/embed/' or lightbox_lower contains 'player.vimeo.com/video/' %}
+              {% assign lightbox_is_embed = true %}
+            {% endif %}
+          {% endif %}
           {% assign preview_mime_type = 'video/mp4' %}
           {% if preview_lower contains '.webm' %}
             {% assign preview_mime_type = 'video/webm' %}
@@ -46,8 +55,9 @@
           <button
             class="publication-preview-button"
             type="button"
-            data-publication-video-src="{{ entry_path }}"
+            data-publication-video-src="{{ lightbox_path | escape }}"
             data-publication-video-type="{{ preview_mime_type }}"
+            data-publication-video-embed="{{ lightbox_is_embed }}"
             data-publication-video-title="{{ entry.title | escape }}"
             aria-label="Open {{ entry.title | escape }} preview"
           >
@@ -73,6 +83,7 @@
                 if (trigger) {
                   const src = trigger.getAttribute("data-publication-video-src");
                   const type = trigger.getAttribute("data-publication-video-type") || "video/mp4";
+                  const isEmbed = trigger.getAttribute("data-publication-video-embed") === "true";
                   const title = trigger.getAttribute("data-publication-video-title") || "Publication preview";
                   const existing = document.querySelector("[data-publication-video-lightbox]");
                   if (existing) existing.remove();
@@ -93,25 +104,38 @@
                   closeButton.setAttribute("aria-label", "Close preview");
                   closeButton.textContent = "\u00d7";
 
-                  const video = document.createElement("video");
-                  video.className = "publication-video-lightbox__video";
-                  video.controls = true;
-                  video.autoplay = true;
-                  video.loop = true;
-                  video.playsInline = true;
-                  video.tabIndex = -1;
-
-                  const source = document.createElement("source");
-                  source.src = src;
-                  source.type = type;
-
-                  video.appendChild(source);
                   dialog.appendChild(closeButton);
-                  dialog.appendChild(video);
+
+                  if (isEmbed) {
+                    const iframe = document.createElement("iframe");
+                    iframe.className = "publication-video-lightbox__frame";
+                    iframe.src = src;
+                    iframe.title = title;
+                    iframe.allow = "autoplay; encrypted-media; fullscreen; picture-in-picture";
+                    iframe.allowFullscreen = true;
+                    iframe.tabIndex = -1;
+                    dialog.appendChild(iframe);
+                  } else {
+                    const video = document.createElement("video");
+                    video.className = "publication-video-lightbox__video";
+                    video.controls = true;
+                    video.autoplay = true;
+                    video.loop = true;
+                    video.playsInline = true;
+                    video.tabIndex = -1;
+
+                    const source = document.createElement("source");
+                    source.src = src;
+                    source.type = type;
+
+                    video.appendChild(source);
+                    dialog.appendChild(video);
+                  }
+
                   overlay.appendChild(dialog);
                   document.body.appendChild(overlay);
                   document.body.classList.add("publication-video-lightbox-open");
-                  video.focus();
+                  dialog.querySelector(".publication-video-lightbox__video, .publication-video-lightbox__frame").focus();
                   return;
                 }
 
