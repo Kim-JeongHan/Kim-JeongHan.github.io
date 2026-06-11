@@ -1,0 +1,370 @@
+---
+layout: post
+title: '[확률과 통계 18] Discrete Multiple RVs - Conditional Distributions'
+date: 2026-01-09 15:32:28 +0900
+slug: prob-18-discrete-multiple-rvs-conditional-distributions
+render_with_liquid: false
+use_math: true
+categories:
+- 공부
+- 확률과 통계
+tags: []
+last_modified_at: 2026-01-16 08:22:51 +0900
+series: probability-statistics
+series_order: 18
+source:
+  provider: tistory
+  id: 81
+---
+
+# 01) **Conditional Distributions**
+
+## 00_서론
+
+---
+
+discrete random variable에서 Conditional Probability는 사건 ${A}$가 일어났다는 정보로 표본공간을 제한한 뒤 그 안에서 확률을 다시 계산하는 개념이다.
+
+# 01_Conditional probability의 정의
+
+---
+
+### 한개의 RV의 conditional probability
+
+한개의 discrete random variable $X$가 있을때 conditional distribution은 아래와 같의 된다.
+
+$$
+\begin{aligned}P(x \mid A)&= \frac{P_X(x)}{P_X(x \in A)},\quad \text{for } A \subset S_X\end{aligned}
+$$
+
+$A$는 X의 sample space에 포함된 임의의 subset을 의미한다.
+
+$$
+\begin{aligned}\sum_{x \in A} P(x \mid A) = 1,\quad \text{for } A \subset S_X\end{aligned}`
+$$
+
+### 두개의 RV의 Conditonal probability
+
+두 discrete random variable ${X}$와 ${Y}$가 있을 때 Conditonal probability는 다음과 같이 정의된다.
+
+$$
+\begin{aligned}P(x \mid y)&= \frac{P_{XY}(x, Y = y)}{P_Y(Y = y)},\quad \text{for } \forall x \in S_X\end{aligned}
+$$
+
+- ${P_{XY}(X=x, Y = y)}$ : Joint Distribution에서 특정 점 ${(x,y)}$의 확률이다.
+- ${P(Y=y)}$는 조건이 되는 사건 ${Y=y}$의 Marginal Probability이다.
+- 분수 형태는 Joint Probability를 조건 사건의 확률로 나누어 재정규화(re-normalization)하는 구조이다.
+
+### 확률적 해석
+
+Conditonal probability ${P(X=x\mid Y=y)}$는 ${Y=y}$가 이미 관측되었다고 가정한 상태에서 ${X}$가 가질 수 있는 값들의 확률 분포를 다시 정의한 것이다.
+
+Joint Distribution을 ${Y=y}$로 고정해 한 단면을 취한것과 같고, 이는 ${X}$축 방향으로 1차원 분포가 남는데, 이 분포를 합이 1이 되도록 재정규화한 결과가 Conditional probability distribution이다.
+
+### 기하학적 해석
+
+2차원 Joint Distribution 표에서 ${Y=y}$에 해당하는 한 행(row)만 남겨두고, 그 행의 값들을 전체 합이 1이 되도록 스케일링하면 ${P(X=\cdot\mid Y=y)}$가 된다.
+
+Marginalization이 전체 방향으로 합을 내서 차원을 줄이는 연산이라면, Conditioning은 특정 값으로 단면을 고정해 부분 공간에서 분포를 새로 만드는 연산이다.
+
+### Conditional probability distribution이 유효한 분포인 이유
+
+조건이 고정된 상황에서 ${X}$의 모든 가능한 값에 대한 확률 합은 항상 1이어야 한다.
+
+$$
+\begin{aligned}\sum_x P(X=x\mid Y=y)&=\sum_x\frac{P(X=x,Y=y)}{P(Y=y)} \ &=\frac{\sum_x P(X=x,Y=y)}{P(Y=y)} \ &=\frac{P(Y=y)}{P(Y=y)}=1\end{aligned}
+$$
+
+- ${\sum_x P(X=x,Y=y)=P(Y=y)}$는 Joint Distribution에서 ${Y=y}$를 고정했을 때 모든 ${x}$를 합한 값이 Marginal Probability가 된다는 의미이다.
+
+따라서 Conditional probability distribution는 항상 올바른 확률 분포가 된다.
+
+## 02_Joint, Marginalization, Conditional의 연결
+
+### Joint Distribution → Marginalization
+
+Joint Distribution에서 ${Y}$를 제거하고 ${X}$만의 분포를 얻는 Marginalization은 다음과 같다.
+
+$$
+P(X=x)=\sum_y P(X=x,Y=y)
+$$
+
+이 식은 Joint Distribution을 ${Y}$방향으로 모두 합쳐서 ${X}$축에 투영하는 연산으로 해석된다.
+
+### Joint Distribution → Conditional Distribution
+
+Joint Distribution에서 ${Y=y}$로 단면을 고정하고 ${X}$의 분포를 얻는 Conditioning은 다음과 같다.
+
+$$
+P(X=x\mid Y=y)=\frac{P(X=x,Y=y)}{P(Y=y)}
+$$
+
+이 식은 단면을 취한 뒤 합이 1이 되도록 재정규화하는 연산으로 해석된다.
+
+### Law of Total Probability와의 동일 구조
+
+Marginalization과 Law of Total Probability는 동일한 목표를 다른 형태로 표현한다.
+
+$$
+\begin{aligned}P(X=x)&=\sum_y P(X=x,Y=y) \&=\sum_y P(X=x\mid Y=y)P(Y=y)\end{aligned}
+$$
+
+- ${P(X=x,Y=y)=P(X=x\mid Y=y)P(Y=y)}$는 Joint를 Conditional과 Marginal의 곱으로 분해하는 관계이다.
+- 이 분해를 ${y}$에 대해 합하면 ${X}$의 Marginal Probability가 된다.
+
+## 03_예제 1: 키와 몸무게
+
+### 조건
+
+$$
+\begin{aligned}S_X &= {, x \mid 150\text{ cm} \le x \le 190\text{ cm} } \ S_Y &= {, y \mid 50\text{ kg} \le y \le 90\text{ kg} }\end{aligned}
+$$
+
+### conditional Probability
+
+- $\begin{aligned}P(x \mid y) :\; P(x \mid Y = 60\text{ kg})\end{aligned}$
+  → 몸무게 60인 사람들의 키($X$)의 확률 분포(marginal of $X$)
+- $\begin{aligned}P(y \mid x) :\; P(y \mid X = 170\text{ kg})\end{aligned}$
+  → 키 170kg인 사람들의 몸무게 (Y)의 확률분포(marginal of $Y$)
+
+## 04_예제 2: 동전 3회 던지기에서 Conditional Distribution
+
+### 문제 정의
+
+- 동전을 3회 던진다.
+- ${X}$: 첫 번째 던진 결과, 앞면 1, 뒷면 0.
+- ${Y}$: 3회에서 앞면이 나온 총 횟수, ${Y\in{0,1,2,3}}$.
+
+### 풀이
+
+- 각 시행은 independent이며 공정하므로 모든 길이 3의 결과는 확률 ${1/8}$을 갖는다.
+- ${X}$와 ${Y}$는 independent가 아니며, Joint Distribution으로 의존성이 표현된다.
+
+### Joint Distribution과 Marginal Probability
+
+아래 표는 ${P(X=x,Y=y)}$를 나타낸다.
+
+<div class="table-responsive tistory-table">
+<table>
+<tbody>
+<tr>
+<td>${P(X=x,Y=y)}$</td>
+<td>${Y=0}$</td>
+<td>${Y=1}$</td>
+<td>${Y=2}$</td>
+<td>${Y=3}$</td>
+<td>${P(X=x)}$</td>
+</tr>
+<tr>
+<td>${X=0}$</td>
+<td>${1/8}$</td>
+<td>${2/8}$</td>
+<td>${1/8}$</td>
+<td>${0}$</td>
+<td>${4/8}$</td>
+</tr>
+<tr>
+<td>${X=1}$</td>
+<td>${0}$</td>
+<td>${1/8}$</td>
+<td>${2/8}$</td>
+<td>${1/8}$</td>
+<td>${4/8}$</td>
+</tr>
+<tr>
+<td>${P(Y=y)}$</td>
+<td>${1/8}$</td>
+<td>${3/8}$</td>
+<td>${3/8}$</td>
+<td>${1/8}$</td>
+<td>${1}$</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+### conditional distribution의 계산
+
+$P(X=x\mid Y=y)=\frac{P(X=x,Y=y)}{P(Y=y)}$를 각 ${y}$에 대해 적용한다.
+
+<div class="table-responsive tistory-table">
+<table>
+<tbody>
+<tr>
+<td>${P(X\mid Y)}$</td>
+<td>${Y=0}$</td>
+<td>${Y=1}$</td>
+<td>${Y=2}$</td>
+<td>${Y=3}$</td>
+</tr>
+<tr>
+<td>${X=0}$</td>
+<td>1</td>
+<td>2/3</td>
+<td>1/3</td>
+<td>0</td>
+</tr>
+<tr>
+<td>${X=1}$</td>
+<td>0</td>
+<td>1/3</td>
+<td>2/3</td>
+<td>1</td>
+</tr>
+<tr>
+<td>합</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+- 각 열은 조건 ${Y=y}$가 고정된 상태에서 ${X}$의 완전한 분포이며 합이 1이 된다.
+  $P(Y=y\mid X=x)=\frac{P(X=x,Y=y)}{P(X=x)}$를 각 ${x}$에 대해 적용한다.
+
+<div class="table-responsive tistory-table">
+<table>
+<tbody>
+<tr>
+<td>${P(Y=y\mid X=x)}$</td>
+<td>${X=0}$</td>
+<td>${X=1}$</td>
+</tr>
+<tr>
+<td>${Y=0}$</td>
+<td>1/4</td>
+<td>0</td>
+</tr>
+<tr>
+<td>${Y=1}$</td>
+<td>1/2</td>
+<td>1/4</td>
+</tr>
+<tr>
+<td>${Y=2}$</td>
+<td>1/4</td>
+<td>1/2</td>
+</tr>
+<tr>
+<td>${Y=3}$</td>
+<td>0</td>
+<td>1/4</td>
+</tr>
+<tr>
+<td>합</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+- ${X}$가 주어지면 ${Y}$의 가능한 값의 범위와 확률 질량이 바뀐다.
+- ${X=0}$이면 ${Y=3}$은 불가능하고, ${X=1}$이면 ${Y=0}$이 불가능하다.
+
+## 05_Conditional Mean
+
+### 정의
+
+Conditional part의 RV는 fix시키고, 나머지 RV의 평균을 구하자.
+
+$$
+\begin{aligned}
+E[X \mid y]
+&= \sum_{x \in S_X} x, P(x \mid Y = y),
+\quad \text{for a fixed } y \in S_Y
+\end{aligned}
+$$
+
+- 의미는 조건 ${Y=y}$ 아래에서의 ${X}$의 평균이다.
+
+### 조건 변수의 함수로서의 해석
+
+${E[X\mid Y=y]}$는 ${y}$가 바뀌면 값이 바뀌므로 상수가 아니라 함수 ${g(y)}$로 해석해야 한다.
+
+$$
+E[X\mid Y]=g(Y)
+$$
+
+이 관점은 continuous random variable로 확장될 때 핵심이 되며, 조건부 평균이 조건 변수에 대한 함수 형태로 유도되는 구조와 직접 연결된다.
+
+### Single RV의 conditional Mean
+
+$$
+\begin{aligned}\text{for an RV: }\quad E[X \mid A]&= \sum_{x \in A} x, P(x \mid A),\quad \text{for } A \subset S_X\end{aligned}
+$$
+
+### 키 몸무게 예제에서의 conditioanal Expectation
+
+- $$
+  \begin{aligned}
+  E[X \mid y] :\; E(X \mid Y = 60\text{ kg})
+  \end{aligned}
+  $$
+  - 몸무게가 60인 사람들에 대한 키 평균($Y=y$에 따라 달라진다. $g(y)$)
+- $$
+  \begin{aligned}
+  E[Y \mid x] :\; E(Y \mid X = 170\text{ cm})
+  \end{aligned}
+  $$
+  - 키 170 인 사람들에 대해서의 몸무게 평균($X=x$에 따라 달라진다.$h(x)$)
+
+### 동전 예제로 계산
+
+${E[X\mid Y=y]}$계산
+
+- ${E[X\mid Y=0]=0}$
+- ${E[X\mid Y=1]=1/3}$
+- ${E[X\mid Y=2]=2/3}$
+- ${E[X\mid Y=3]=1}$
+
+${E[Y\mid X=x]}$계산
+
+- ${E[Y\mid X=0]=0\cdot(1/4)+1\cdot(1/2)+2\cdot(1/4)+3\cdot0=1}$
+- ${E[Y\mid X=1]=0\cdot0+1\cdot(1/4)+2\cdot(1/2)+3\cdot(1/4)=2}$
+
+## 06_Conditional Probability of Multiple discrete RVs
+
+conditional part는 특정 변수로 fix가 되고 나머지는 joint probability distribution이다.
+
+$$
+\begin{aligned}P(x, y \mid z)&= \frac{P_{XYZ}(x, y, Z = z)}{P_Z(Z = z)},\quad \text{for } \forall (x, y) \in (S_X, S_Y)\end{aligned}
+$$
+
+- Conditional Joint Distribution: ${P(X,Y\mid Z=z)}$
+- Multiple Conditions: ${P(X=x\mid Y=y,Z=z)}$
+- 조건으로 고정되는 변수가 늘어나면 표본공간이 더 좁아지고, 남는 변수들에 대해 Conditional Distribution이 정의된다.
+
+### continuous random variable에서의 Conditional PDF
+
+두 continuous random variable ${X}$와 ${Y}$의 Joint PDF를 ${f_{XY}(x,y)}$, ${Y}$의 Marginal PDF를 ${f_Y(y)}$라 하면 Conditional PDF는 다음과 같이 정의된다.
+
+$$
+f_{X\mid Y}(x\mid y)=\frac{f_{XY}(x,y)}{f_Y(y)},\quad f_Y(y)>0
+$$
+
+- discrete random variable에서의 합이 continuous random variable에서는 적분으로 바뀐다.
+- $$
+  \begin{aligned}f_Y(y)&=\int_{-\infty}^{\infty} f_{XY}(x,y),dx\end{aligned}
+  $$
+- 정규화 성질도 합 대신 적분으로 표현된다.
+- $$
+  \int_{-\infty}^{\infty} f_{X\mid Y}(x\mid y),dx=1
+  $$
+
+### continuous random variable에서의 Conditional Expectation
+
+Conditional Expectation은 적분 형태로 확장된다.
+
+$$E[X\mid Y=y]=\int_{-\infty}^{\infty} x,f_{X\mid Y}(x\mid y),dx$$
+
+이때 ${E[X\mid Y]}$는 ${Y}$에 대한 함수로서 random variable의 형태 ${g(Y)}$로 해석된다.
+
+## 결론
+
+Conditional Distribution은 Joint Distribution을 특정 조건으로 고정한 뒤 재정규화하여 얻는 분포이며, Conditional Expectation은 그 조건부 분포에 대한 평균으로서 조건 변수의 함수로 해석된다.
+
+[https://www.youtube.com/watch?v=JCgOkP-3myA](https://www.youtube.com/watch?v=JCgOkP-3myA)

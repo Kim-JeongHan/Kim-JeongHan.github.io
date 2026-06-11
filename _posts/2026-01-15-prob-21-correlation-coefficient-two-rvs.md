@@ -1,0 +1,204 @@
+---
+layout: post
+title: '[확률과 통계 21] Correlation Coefficient of two RVs'
+date: 2026-01-15 10:28:11 +0900
+slug: prob-21-correlation-coefficient-two-rvs
+render_with_liquid: false
+use_math: true
+categories:
+- 공부
+- 확률과 통계
+tags: []
+last_modified_at: 2026-01-16 08:23:51 +0900
+imported_images:
+- assets/img/tistory/86/image-001.png
+- assets/img/tistory/86/image-002.png
+- assets/img/tistory/86/image-003.png
+series: probability-statistics
+series_order: 21
+source:
+  provider: tistory
+  id: 86
+---
+
+# 01) **Correlation Coefficient**
+
+## 00_서론
+
+공분산 ${\mathrm{Cov}(X,Y)}$는 two random variables의 선형적 동반 변동을 측정하지만 값의 크기가 단위와 scale에 직접 의존한다는 한계를 가진다.
+
+이 문제를 해결하기 위해 공분산을 표준편차로 정규화한 상관계수 ${\rho_{XY}}$를 정의하며 이는 항상 -1$과 1 사이에 존재하므로 서로 다른 변수 쌍의 선형 관계를 비교 가능한 형태로 제공한다.
+
+## 01_상관계수의 정의
+
+$$
+\begin{aligned}
+\rho_{XY}
+= \frac{E\left[(X - \mu_X)(Y - \mu_Y)\right]}{\sigma_X \sigma_Y}
+&= \frac{E[XY] - \mu_X \mu_Y}{\sigma_X \sigma_Y} \\
+\sigma_X=\sqrt{\mathrm{Var}(X)}, \quad \sigma_Y=\sqrt{\mathrm{Var}(Y)}
+\end{aligned}
+$$
+
+이 식에서 분자 ${\mathrm{Cov}(X,Y)}$는 함께 방향성을 나타내고 분모 ${\sigma_X\sigma_Y}$는 각 변수의 변동성 크기를 제거하여 unitless한 비율로 만든다.
+
+따라서 ${\rho_{XY}}$는 단위가 제거된 순수한 선형 관계의 측정치이며 공분산이 갖던 scale-dependency를 정규화 과정으로 제거한다.
+
+### 표준화 관점의 재해석
+
+$$
+Z_X=\frac{X-\mu_X}{\sigma_X},\quad Z_Y=\frac{Y-\mu_Y}{\sigma_Y}
+$$
+
+${Z_X}$와 ${Z_Y}$는 각각 ${\mathbb{E}[Z_X]=0}$, ${\mathrm{Var}(Z_X)=1}$을 만족하는 standardized random variable이다.
+
+상관계수는 standardized variables의 공분산과 동일하게 해석된다.
+
+$$
+\rho_{XY}=\mathbb{E}[Z_X Z_Y]
+$$
+
+→ 상관계수는 두 변수를 평균 0, 분산 1로 맞춘 뒤 그 둘이 함께 움직이는 정도를 측정한 값이다.
+
+## 02_상관계수의 해석
+
+### 부호의 의미
+
+- ${\rho_{XY}>0}$ → ${X}$가 커질수록 ${Y}$도 커지는 경향이 있다.
+- ${\rho_{XY}<0}$ → ${X}$가 커질수록 ${Y}$는 작아지는 경향이 있다.
+- ${\rho_{XY}=0}$ → 선형 관계 관점에서 uncorrelated이다.
+
+→ 부호는 관계의 방향성만을 제공하며 인과관계를 의미하지 않는다.
+
+### 크기의 의미
+
+- ${\lvert \rho_{XY} \rvert\to 1}$ → 데이터가 거의 직선에 가깝게 분포하는 strong linear relationship을 가진다.
+- ${\lvert \rho_{XY} \rvert\to 0}$ → linear relationship이 약하거나 거의 없다.
+
+→ ${\rho_{XY}=0}$은 linear dependence가 없음을 의미하지만 independence를 의미하지는 않는다.
+
+### 기하학적 해석
+
+2D scatter plot에서 ${\rho_{XY}}$는 점 구름이 어느 방향으로 길게 늘어지는지를 설명한다.
+
+- ${\rho_{XY}=1}$ → 양의 기울기 직선 위에 완전히 정렬된다.
+- ${\rho_{XY}=-1}$ → 음의 기울기 직선 위에 완전히 정렬된다.
+- ${\rho_{XY}\approx 0}$ → 특정 방향성이 약해 원형에 가까운 구름으로 보이는 경향이 있다.
+
+![](/assets/img/tistory/86/image-001.png)
+![](/assets/img/tistory/86/image-002.png)
+
+## 03_예제
+
+### 양의 상관관계의 예시 ${\rho_{XY}>0}$
+
+- 인과 관계
+- 신장-체중
+- 비만 지수 콜레스테롤 지수
+
+### 음의 상관계수의 예시 ${\rho_{XY}<0}$
+
+- 인과관계, 반작용
+- 주당 평균운동시간 - 콜레스테롤 수치
+
+### 사진에서의 RGB와 Y의 상관관계
+
+![](/assets/img/tistory/86/image-003.png)
+
+이미지 센서에서 밝기 신호 ${Y}$는 ${R,G,B}$조합으로 생성되며, 시각적으로 중요한 목표는 ${Y}$를 잘 보존하는 것이다.
+
+이때 각 채널과 ${Y}$ 사이의 상관계수 ${\rho(Y,R)}$, ${\rho(Y,G)}$, ${\rho(Y,B)}$를 측정하면 어떤 채널이 밝기 복원에 더 유효한지를 scale에 무관하게 비교할 수 있다.
+
+- ${\rho(Y,G)}$가 상대적으로 크면 ${G}$가 밝기 정보와 가장 강한 선형 관계를 가진다.
+- ${\rho(Y,R)}$, ${\rho(Y,B)}$가 상대적으로 작으면 같은 샘플 수를 배정했을 때 ${Y}$ 복원 기여가 작아질 수 있다.
+
+→ 이러한 해석은 제한된 센서 자원에서 ${Y}$에 더 큰 기여를 하는 채널을 더 촘촘히 샘플링하는 설계 전략으로 이어질 수 있다.
+
+## 04_핵심 성질
+
+### 1. 선형 관계에서의 값
+
+두 변수가 ${Y=aX+b}$, ${a\ne0}$를 만족하면 다음이 성립한다.
+
+$$
+\rho_{XY}=\frac{a}{|a|}
+$$
+
+1. ${\mu_Y=\mathbb{E}[aX+b]=a\mu_X+b}$
+2. $$
+   \begin{aligned}
+   \sigma_Y^2= E\left[(Y - E[Y])^2\right] = E\left[a^2 (X - E[X])^2\right] = a^2 \sigma_X^2
+   \end{aligned}
+   $$
+   이므로 ${\sigma_Y=\lvert a \rvert\sigma_X}$
+3. $\sigma_{XY} = a^2 \sigma_X^2$
+   $$
+   \begin{aligned}\sigma_{XY}&= E[XY] - E[X]\,(aE[X] + b) \\&= E[aX^2 + bX] - aE[X]^2 - bE[X] \\&= aE[X^2] + bE[X] - aE[X]^2 - bE[X] \\
+   &=a^2\bigl(\sigma_X^2 + E[X]^2\bigr) - a^2 E[X]^2 \\
+   &= a^2 \sigma_X^2
+   \end{aligned}
+   $$
+4. $\rho_{XY}= \begin{cases} +1, & a > 0, \\ -1, & a < 0 \end{cases}$
+   $$
+   \begin{aligned}{\rho_{XY}=\frac{a\sigma_X^2}{\sigma_X\cdot |a|\sigma_X}=\frac{a}{|a|}=} \begin{cases}
+   +1, & a > 0, \\
+   -1, & a < 0
+   \end{cases}
+   \end{aligned}
+   $$
+
+### 2. Normalization
+
+$$
+1\le \rho_{XY}\le 1
+$$
+
+이 범위는 Cauchy-Schwarz inequality로부터 도출된다.
+
+#### Cauchy-Schwarz inequality의 두 형태와 등호 조건
+
+**Cauchy-Schwarz inequality**는 내적 공간에서 두 대상의 내적이 각자의 크기 곱을 넘지 못한다는 성질이며, 그림처럼 벡터 형태와 함수 형태로 동일하게 표현된다.
+
+- **Vector form**에서 두 벡터 ${u, v \in \mathbb{R}^n}$에 대해 다음이 성립한다.
+- $$
+  (u^\top v)^2 \le (u^\top u)(v^\top v)=|u|^2|v|^2
+  $$
+- **Function form**에서 적분 내적 ${\langle f,g\rangle=\int f(x)g(x),dx}$를 두면 다음이 성립한다.
+- $$
+  \left(\int f(x)g(x),dx\right)^2 \le \left(\int f(x)^2,dx\right)\left(\int g(x)^2,dx\right)
+  $$
+- 등호 =는 두 대상이 같은 방향일 때 성립하며, 벡터에서는 ${u=c,v}$인 경우에, 함수에서는 거의 모든 점에서 ${f(x)=c,g(x)}$인 경우에 해당한다.
+
+$\sigma_{XY}$을 적분형태의 $\langle f,g\rangle$ 내적표현으로 바꾼다.
+
+$$
+\begin{aligned}\sigma_{XY}&= \iint (x - m_X)(y - m_Y)\, f_{XY}(x, y)\, dx\, dy \\[6pt]&= \iint (x - m_X)\sqrt{f_{XY}(x, y)} \;      (y - m_Y)\sqrt{f_{XY}(x, y)} \, dx\, dy \\[6pt]&= \iint f \cdot g \, dx\, dy\end{aligned}
+$$
+
+이를 제곱하여 Cauchy-Schwarz inequality를 사용한다.
+
+$$
+\begin{aligned}\left(\iint (x - m_X)\sqrt{f_{XY}(x,y)} \;      (y - m_Y)\sqrt{f_{XY}(x,y)} \, dx\, dy\right)^2&\le\left(\iint (x - m_X)^2 f_{XY}(x,y)\, dx\, dy\right)\left(\iint (y - m_Y)^2 f_{XY}(x,y)\, dx\, dy\right)
+\\
+\sigma_{XY}^2&\le\sigma_{X}^2\sigma_{Y}^2
+\end{aligned}
+$$
+
+양변을 ${\sigma_X^2\sigma_Y^2}$로 나누면 다음을 얻는다.
+
+$$
+\begin{aligned}\rho_{XY}^2&= \frac{\sigma_{XY}^2}{\sigma_X^2 \sigma_Y^2}\le 1\end{aligned}
+$$
+
+→ 정규화가 선형 관계의 크기를 강제로 표준 범위에 넣는 핵심 메커니즘이다.
+
+## 05_활용 시 주의점
+
+- 상관계수는 numeric scale이 의미를 가지는 변수에서 해석이 가장 명확하다.
+- 임의의 label을 숫자로 코딩한 명목형 변수는 값의 차이가 의미를 갖지 않으므로 상관계수 해석이 제한될 수 있다.
+- ${\lvert \rho_{XY} \rvert}$가 크면 한 변수로 다른 변수를 linear model로 예측할 때 유리할 수 있으며 이는 linear regression의 기본 가정과 연결된다.
+- 그러나 ${\lvert \rho_{XY} \rvert}$가 작아도 non-linear dependence가 존재할 수 있으므로 scatter plot 확인이나 비선형 모델 검토가 필요하다.
+
+## 06_결론
+
+상관계수는 공분산을 표준편차로 정규화하여 만든 값이며 -1부터 1 사이의 범위에서 two random variables의 선형 관계 방향과 강도를 비교 가능하게 요약한다.

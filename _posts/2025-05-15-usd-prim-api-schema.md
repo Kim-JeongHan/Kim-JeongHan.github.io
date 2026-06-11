@@ -1,0 +1,142 @@
+---
+layout: post
+title: USD(Universal Scene Description)- prim 상태 관리와 API 스키마 적용법
+date: 2025-05-15 16:32:39 +0900
+slug: usd-prim-api-schema
+render_with_liquid: false
+categories:
+- 카테고리 없음
+tags: []
+last_modified_at: 2025-05-15 16:32:39 +0900
+series: usd-notes
+series_order: 2
+source:
+  provider: tistory
+  id: 49
+---
+
+Pixar에서 개발한 USD(Universal Scene Description)의 prim 구조와 활성화 상태 관리 방법을 정리했다.
+
+### Active / Inactive
+
+USD에서는 prim의 활성 상태(active 여부)를 통해 stage에서 특정 prim을 보이거나 숨길 수 있다. 이는 일종의 비파괴적 삭제 기능으로, prim을 완전히 지우지 않으면서도 무시할 수 있게 해준다. 기본적으로 prim은 활성화되어 있어 stage 탐색 시 포함되지만, UsdPrim::SetActive(false)로 비활성화하면 해당 prim은 물론 그 하위 prim들도 stage에 나타나지 않게 된다.
+
+이 기능은 복잡한 scene에서 필요 없는 요소를 임시로 제거하거나, 특정 조건에서만 활성화되어야 하는 구성 요소를 관리할 때 유용하다. 비활성화된 prim도 상위 layer에서 active=true로 다시 설정하면 stage에 복원할 수 있다.
+
+```flix
+def Xform "Parent" (
+    active = false
+)
+{
+    def Mesh "Child1"
+    {
+    }
+}
+```
+
+---
+
+### API Schema
+
+API 스키마는 prim에 특정 기능을 추가하거나 관련 데이터를 추출하기 위한 일종의 인터페이스 역할을 한다. 일부 경우에는 prim의 정의에도 영향을 줄 수 있다.
+USD의 객체 모델 기준으로 보면, API 스키마는 [UsdAPISchemaBase](https://openusd.org/dev/api/class_usd_a_p_i_schema_base.html)를 상속하지만 [UsdTyped](https://openusd.org/dev/api/class_usd_typed.html)는 상속하지 않는다.
+즉, [UsdPrim::IsA<UsdModelAPI>()](https://openusd.org/release/api/class_usd_prim.html#a6cc1b146723c266ae69fb873bcb2df67)는 항상 false를 반환한다.
+Typed 스키마가 “is a”라는 의미라면, API 스키마는 “has a”에 가까운 개념이다.
+
+API 스키마는 다음과 같이 세 가지 유형이 있다:
+
+- non-applied
+- single-apply
+- multiple-apply
+
+---
+
+#### Non-applied API Schema
+
+non-applied 스키마는 가장 기본적인 형태로, 관련 속성이나 메타데이터에 접근하거나 설정하는 API만 제공하며, prim의 타입이나 정의에는 어떤 영향도 주지 않는다.
+[UsdModelAPI](https://openusd.org/dev/api/class_usd_model_a_p_i.html)가 대표적인 예다. 이 스키마는 모델 및 자산과 관련된 prim 메타데이터 몇 가지를 다루기 위한 용도다.
+
+이 스키마는 prim에 **존재하는지 여부를 확인할 방법은 없고**, 단지 관련 메서드를 사용해서 메타데이터에 접근할 뿐이다.
+
+```css
+Usd.ModelAPI(prim).SetKind(Kind.Tokens.subcomponent)
+```
+
+또한 사용 목적에 따라, 다양한 typed 스키마에 흩어져 있는 관련 속성을 한 API 스키마로 통합하여 사용할 수도 있다. 이를 통해 더 간결한 코드 구조를 만들 수 있다.
+
+### Single / Multiple Apply API Schema
+
+applied API 스키마는 prim에 명시적으로 적용되며, 해당 prim의 정의에 실제로 영향을 준다. apiSchemas 메타데이터에 기록되어 내장 속성을 추가하거나, UsdPrim::HasAPI<...>()와 같은 presence query로 확인할 수도 있다.
+
+가장 일반적인 형태는 single-apply 타입이다. 이 경우 스키마를 사용하기 전에 먼저 prim에 적용해야 한다.
+
+**typed schema 사용 방식:**
+
+```reasonml
+mesh = UsdGeom.Mesh.Define(stage, path)
+mesh.CreateSubdivisionSchemeAttr().Set(UsdGeom.Tokens.bilinear)
+```
+
+**applied API schema 사용 방식:**
+
+```reasonml
+bindingAPI = UsdShade.MaterialBindingAPI.Apply(prim)
+bindingAPI.Bind(materialPrim)
+```
+
+typed 스키마는 prim을 생성할 때 타입을 지정하지만, applied API 스키마는 기존 prim에 기능을 추가하는 방식으로 동작한다.
+
+#### Multiple-apply API Schema
+
+multiple-apply 스키마는 하나의 prim에 여러 번 적용할 수 있다. 이때는 각 인스턴스를 구분하기 위한 instance name이 필요하다. 이 이름은 스키마 속성의 네임스페이스 일부로 사용된다.
+
+[UsdCollectionAPI](https://openusd.org/dev/api/class_usd_collection_a_p_i.html)는 대표적인 multiple-apply 스키마이며, [UsdShadeMaterialBindingAPI](https://openusd.org/dev/api/class_usd_shade_material_binding_a_p_i.html)와 함께 사용되어 여러 prim 컬렉션에 재질을 바인딩할 수 있다.
+
+### 언제 Applied API Schema를 만들어야 할까?
+
+파이프라인에서 다양한 prim 타입에 공통적으로 적용되는 속성이나 메타데이터 그룹이 있을 경우, 이를 applied API 스키마로 구성하는 것이 좋다.
+
+예를 들어 모든 gprim에 3개의 속성을 공통적으로 작성해야 한다면, 기존 [UsdGeomGprim](https://openusd.org/dev/api/class_usd_geom_gprim.html) 스키마를 상속하는 대신 applied API 스키마로 정의하는 것이 더 효율적이다. 상속 방식은 기존 DCC 툴에서의 호환성을 깨뜨릴 수 있기 때문이다.
+
+API 스키마는 [USD 스키마 생성 도구](https://openusd.org/dev/api/_usd__page__generating_new_schema.html)를 통해 만들 수 있으며, 필요한 경우 커스텀 메서드도 추가할 수 있다.
+우리는 내장 속성이 없는 non-applied 스키마를 만들 때도 이 도구를 사용해 일관성을 유지한다.
+
+좋다. 요청한 내용을 이전 스타일에 맞춰 자연스럽게 의역하고, 코드와 설명을 구분하여 구성했다. 하이퍼링크도 보존 가능하도록 문맥을 정리했다.
+
+---
+
+### Assembly
+
+USD에서 **Assembly**는 Model의 한 유형이다. 다른 모델들을 의미 있는 단위로 묶은 그룹 모델(group model)로 볼 수 있다.
+복잡한 씬을 관리하거나 상위 레벨의 자산을 정의할 때 사용되며, 주로 다른 모델들에 대한 참조로 구성된다. 그리고 그 자체가 하나의 독립된 자산(asset)으로 발행되기도 한다.
+
+**예시: Assembly 자산 정의**
+
+```elixir
+def Xform "Forest_set" (
+    kind = "assembly"
+)
+{
+    # 깊은 네임스페이스 구조 속에서 다른 자산들을 참조할 수 있음
+}
+```
+
+더 자세한 내용은 [Model Hierarchy](https://openusd.org/dev/api/_usd__model_hierarchy.html) 항목을 참고하면 좋다.
+
+---
+
+### Asset
+
+Asset은 콘텐츠 제작 파이프라인에서 자주 등장하는 개념이다. USD에서 asset은 **문자열 식별자를 통해 식별되고 위치를 찾을 수 있는 리소스 단위**를 의미한다. 예를 들어 UV 텍스처 파일 하나일 수도 있고, 여러 파일로 구성된 묶음일 수도 있다.
+
+USD는 자산 종속성 분석과 같은 작업을 원활하게 하기 위해 asset이라는 **전용 문자열 타입**을 제공한다. 이 타입을 사용하면 자산을 참조하는 메타데이터나 속성을 빠르고 명확하게 식별할 수 있다.
+
+자산은 일반적으로 **버전 관리되고 발행되는** 특성을 가진다. USD에서는 자산 관리와 분석을 돕기 위해 AssetInfo라는 스키마도 함께 제공한다.
+
+.usda 형식에서는 일반 문자열과 구분하기 위해 다음과 같은 문법을 사용한다:
+
+- 일반 자산 경로: @경로@
+- 경로에 @가 포함된 경우: @@@경로@@@
+- @@@ 자체가 포함된 경우: \\@@@로 이스케이프
+
+이러한 방식은 파서가 asset 문자열을 일반 문자열과 구분하는 데 도움이 되며, 실제 구현에서 안정성을 높이는 데 기여한다.

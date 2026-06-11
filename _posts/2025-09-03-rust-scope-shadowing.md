@@ -1,0 +1,82 @@
+---
+layout: post
+title: Rust의 scope와 shadowing
+date: 2025-09-03 01:22:28 +0900
+slug: rust-scope-shadowing
+render_with_liquid: false
+categories:
+- 프로그래밍
+- Rust
+tags:
+- rust
+- scope
+- shadowing
+last_modified_at: 2025-09-03 01:22:54 +0900
+imported_images:
+- assets/img/tistory/70/image-001.png
+source:
+  provider: tistory
+  id: 70
+---
+
+Rust의 변수는 scope를 가지며, 해당 공간안에서만 살아있다. scope는 {}으로 설명된다.
+
+```rust
+fn main() {
+    // This binding lives in the main function
+    let long_lived_binding = 1;
+
+    // This is a block, and has a smaller scope than the main function
+    {
+        // This binding only exists in this block
+        let short_lived_binding = 2;
+
+        println!("inner short: {}", short_lived_binding);
+    }
+    // End of the block
+
+    // Error! `short_lived_binding` doesn't exist in this scope
+    println!("outer short: {}", short_lived_binding);
+    // FIXME ^ Comment out this line
+
+    println!("outer long: {}", long_lived_binding);
+}
+```
+
+위의 코드를 실행시켜보면 block밖에서 short_lived_bindg을 호출하면 에러가 발생한다.
+이는, block안에서만 살아있던 short_lived_binding이 scope를 빠져나가면서 사라짐을 의미한다.
+
+또한 rust에서 let으로 선언되는 변수는 기본적으로 immutable이지만, shadowing은 가능하다.
+아래는 shadowing의 예시이다.
+
+```rust
+fn main() {
+    let shadowed_binding = 1;
+
+    {
+        println!("before being shadowed: {}", shadowed_binding);
+
+        // This binding *shadows* the outer one
+        let shadowed_binding = "abc";
+
+        println!("shadowed in inner block: {}", shadowed_binding);
+    }
+    println!("outside inner block: {}", shadowed_binding);
+
+    // This binding *shadows* the previous binding
+    let shadowed_binding = 2;
+    println!("shadowed in outer block: {}", shadowed_binding);
+}
+>>>
+before being shadowed: 1
+shadowed in inner block: abc
+outside inner block: 1
+shadowed in outer block: 2
+```
+
+1. 첫번째 출력은 좀더 큰 scope에 있는 shadowed_binding이 출력된다.
+2. 다음 scope에 들어가면서, shadowed_binding은 작은 scope에서 shadowing되며, abc로 변한다.(겉에 옷을 입었다고 생각하면 편하다.)
+3. 이제 shadowed_binding은 abc로 변한다. 그 뒤 작은 scope를 빠져나오면 abc가 아닌 1로 변한다.(겉에 옷을 변한 것으로 생각)
+4. 마지막으로, 같은 영역에서 shadowed_binding은 2가 된다.
+
+![](/assets/img/tistory/70/image-001.png)

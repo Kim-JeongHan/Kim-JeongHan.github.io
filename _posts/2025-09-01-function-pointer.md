@@ -1,0 +1,77 @@
+---
+layout: post
+title: 함수 포인터(function pointer)
+date: 2025-09-01 22:30:50 +0900
+slug: function-pointer
+render_with_liquid: false
+categories:
+- 프로그래밍
+- c++
+tags:
+- C++
+- 함수포인터
+last_modified_at: 2025-09-01 22:31:11 +0900
+source:
+  provider: tistory
+  id: 65
+---
+
+```cpp
+typedef bool (*validateFcn)(int, int);
+```
+
+## 함수포인터란?
+
+포인터가 다른 변수의 주소를 저장하는 변수라는 것을 배웠다. 이와 유사하게 함수 포인터(function pointer)는 함수를 가리키는 변수다. 즉, 함수의 주소를 저장하는 변수다.
+
+```cpp
+int sum(int a, int b) {
+  return a + b;
+}
+
+int subtract(int a, int b) {
+  return a - b;
+}
+
+int main() {
+  int (*func_ptr)(int, int);
+  func_ptr = NULL;
+
+  func_ptr = &sum;
+  int result = func_ptr(5, 4);
+  printf("Sum: %d\n", result);
+
+  func_ptr = &subtract;
+  result = func_ptr(5, 4);
+  printf("Subtract: %d\n", result);
+
+  return 0;
+}
+```
+
+위 예시에서 int (*func_ptr)(int, int);가 함수포인터로 사용되었고, 이는 함수처럼 사용이 가능하다.
+
+## 함수포인터의 활용
+
+### typedef를 활용한 이쁘게 만들기
+
+위와 같은 두개의 int 인자를 활용하고 bool을 반환하는 validateFcn이라는 함수 포인터를 정의한다.
+
+```cpp
+bool validate(int x, int y, bool (*fcnPtr)(int, int))
+bool validate(int x, int y, validateFcn pfcn)
+```
+
+실제로 위 두가지 함수는 같은 의미를 말한다.
+
+- using을 사용
+
+```cpp
+using validateFcn = bool(*)(int, int); c++11
+```
+
+c++ 11부터는 using을 사용해도 된다.
+
+---
+
+함수포인터는 이제 C에서만 사용되는 구식 문법이다. C++로 넘어오면서 std::function을 주로 사용한다. c++를 사용할수 있는 상황이라면 std::function을 사용하는 것이 좋다.

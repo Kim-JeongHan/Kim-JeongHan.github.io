@@ -1,0 +1,167 @@
+---
+layout: post
+title: python uv - 파이썬 패키지 관리의 트렌드
+date: 2025-04-17 01:03:43 +0900
+slug: python-uv-package-management
+render_with_liquid: false
+categories:
+- 프로그래밍
+- python
+tags:
+- UV
+last_modified_at: 2025-04-17 01:50:46 +0900
+series: python-uv
+series_order: 1
+source:
+  provider: tistory
+  id: 44
+---
+
+Python 생태계는 오랫동안 다양한 패키지 관리 도구들을 사용해왔다. 대표적인 것이 바로 pip인데, 요즘 Rust로 구현된 **uv**라는 새로운 도구가 빠르게 유행이라고 해서 게시글을 작성하게 되었다.
+
+이 글에서는 Python의 패키지 관리자인 **uv**를 소개하고, 기존 도구와의 차이점 및 사용법을 알아보겠다.
+
+### uv란 무엇인가?
+
+**uv**는 Astral에서 개발한 차세대 Python 프로젝트 관리 도구로, 기존 pip, virtualenv, poetry 등을 대체하면서, 빠르고 단순하게 사용할 수 있도록 설계되었다. Rust 기반 구현 덕에, 메모리 safe하며, 최적화된 성능이 특징이다.
+
+1. **통합 인터페이스**: 가상환경 관리(venv), 의존성 해결(pip), Python 버전 관리(pyenv) 등을 단일 도구로 통합
+2. **크로스 플랫폼**: .uv.lock 파일을 통해 모든 개발자가 동일한 의존성 환경을 유지할 수 있다. 즉 운영체제 및 플랫폼 독립적이다.
+3. **최적화된 성능**: Rust의 컴파일러 최적화와 스레드 세이프 캐시 관리로 기존 도구 대비 10-100배 빠른 처리 속도. 사용해보면 놀랍도록 빠르다.
+
+### 기존 툴들과 기능 비교 분석
+
+<div class="table-responsive tistory-table">
+<table>
+<tbody>
+<tr>
+<td>기능</td>
+<td>uv</td>
+<td>pip + venv</td>
+<td><span>poetry</span></td>
+<td>pipenv</td>
+</tr>
+<tr>
+<td>Python 버전 관리</td>
+<td>O (내장)</td>
+<td>X (pyenv 필요)</td>
+<td><span>O</span></td>
+<td><span>O</span></td>
+</tr>
+<tr>
+<td>의존성 해결</td>
+<td><span>O</span> (고속)</td>
+<td>✓ (느림)</td>
+<td><span>O</span></td>
+<td><span>O</span></td>
+</tr>
+<tr>
+<td>빌드 시스템</td>
+<td><span>O</span> (간편)</td>
+<td><span>X</span></td>
+<td><span>O</span></td>
+<td><span>O</span></td>
+</tr>
+<tr>
+<td>플랫폼 잠금 파일</td>
+<td><span>O</span> (.uv.lock)</td>
+<td><span>X</span></td>
+<td><span>O</span> (poetry.lock)</td>
+<td><span>O</span> (Pipfile.lock)</td>
+</tr>
+<tr>
+<td>설치 속도</td>
+<td>10-100배 빠름</td>
+<td>표준</td>
+<td>느림</td>
+<td>느림</td>
+</tr>
+<tr>
+<td>가상환경 생성</td>
+<td>1초 이내</td>
+<td>3-5초</td>
+<td>5-10초</td>
+<td>5-10초</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+---
+
+### uv 설치 방법
+
+```bash
+# 쉘 스크립트를 통한 설치
+curl -Ls https://astral.sh/uv/install.sh | bash
+
+# brew 사용 시
+brew install astral-sh/uv/uv
+
+# 윈도우 사용시
+powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+설치 확인
+
+```ada
+uv --version
+```
+
+## uv 프로젝트 구조
+
+```bash
+├── 프로젝트 루트
+│   ├── .venv (가상환경)
+│   ├── pyproject.toml (의존성 정의)
+│   └── .uv.lock (플랫폼 독립적 잠금 파일)
+└── 캐시 디렉토리 (전역/프로젝트별 최적화 버전)
+```
+
+전역 캐시와 프로젝트별 캐시를 분리하여 의존성 해결 시 중복 다운로드를 최소화하는 구조 사용
+
+### uv 사용법
+
+#### 가상환경 생성
+
+```bash
+uv venv
+source .venv/bin/activate
+
+#파이썬 버전선택
+uv venv -p 3.11
+```
+
+#### 패키지 설치
+
+```cmake
+uv pip install requests
+```
+
+#### requirements.txt 생성
+
+```ebnf
+uv pip compile
+```
+
+#### 기존 requirements 설치
+
+```cmake
+uv pip install -r requirements.txt
+```
+
+#### 캐시 관리
+
+```ebnf
+uv cache clean
+```
+
+---
+
+### 언제 uv를 써야 할까?
+
+uv가 특히 적합한 경우는 다음과 같다.
+
+- 빠른 개발환경 구축이 필요한 경우
+- CI/CD 파이프라인 속도 개선이 중요한 경우
+- 기존 pip 환경을 개선하고 싶은 경우

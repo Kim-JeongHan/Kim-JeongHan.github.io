@@ -1,0 +1,922 @@
+#!/usr/bin/env python3
+"""Import public Tistory posts into this Jekyll repository.
+
+The importer intentionally uses only dependencies already present in the
+project environment: requests, BeautifulSoup, and PyYAML.
+"""
+
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import json
+import mimetypes
+import posixpath
+import re
+import sys
+import time
+import unicodedata
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Iterable
+from urllib.parse import urljoin, urlparse
+
+import requests
+import yaml
+from bs4 import BeautifulSoup, NavigableString, Tag
+
+
+BASE_URL = "https://upright-wing.tistory.com"
+POSTS_DIR = Path("_posts")
+IMAGES_DIR = Path("assets/img/tistory")
+USER_AGENT = (
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/125.0 Safari/537.36"
+)
+SKIP_CLASSES = {
+    "container_postbtn",
+    "another_category",
+    "revenue_unit_wrap",
+    "adsbygoogle",
+}
+
+SLUG_REPLACEMENTS = {
+    "c++": "cpp",
+    "ros 공부": "ros",
+    "qt공부": "qt",
+    "확률과 통계": "probability-statistics",
+    "로봇공학": "robotics",
+    "논문리뷰": "paper-review",
+    "분석": "analysis",
+    "비교분석": "comparison",
+    "비교": "comparison",
+    "개념": "",
+    "설치": "install",
+    "명령어": "commands",
+    "패키지": "package",
+    "생성": "create",
+    "의존성 주입": "dependency-injection",
+    "데이터 분석": "data-analysis",
+    "앞으로의 계획": "future-plan",
+    "왜 그들만 부자가 되는가": "why-they-get-rich",
+    "로봇공학과에서의 docker": "docker-for-robotics",
+    "이란?": "",
+    "란?": "",
+    "이란": "",
+    "란": "",
+}
+
+
+@dataclass(frozen=True)
+class PostSummary:
+    post_id: str
+    url: str
+    title: str
+    category: str
+    listed_date: str
+
+
+class HtmlToMarkdown:
+    def convert(self, root: Tag) -> str:
+        blocks = [self._convert_node(child, block=True).strip() for child in root.children]
+        markdown = "\n\n".join(block for block in blocks if block)
+        markdown = markdown.replace("\xa0", " ")
+        markdown = re.sub(r"\n{3,}", "\n\n", markdown)
+        return markdown.strip() + "\n"
+
+    def _convert_node(self, node, block: bool = False) -> str:
+        if isinstance(node, NavigableString):
+            return str(node)
+        if not isinstance(node, Tag):
+            return ""
+        if self._should_skip(node):
+            return ""
+
+        name = node.name.lower()
+        if name in {"script", "style", "noscript"}:
+            return ""
+        if name in {"h1", "h2", "h3", "h4", "h5", "h6"}:
+            level = int(name[1])
+            return f"{'#' * level} {self._inline(node).strip()}"
+        if name == "p":
+            return self._inline(node).strip()
+        if name == "br":
+            return "\n"
+        if name == "hr":
+            trailing = self._children_as_blocks(node)
+            return "---" + (f"\n\n{trailing}" if trailing else "")
+        if name == "pre":
+            return self._convert_pre(node)
+        if name in {"ul", "ol"}:
+            return self._convert_list(node, ordered=(name == "ol"))
+        if name == "li":
+            return self._inline(node).strip()
+        if name == "blockquote":
+            body = self._children_as_blocks(node)
+            return "\n".join(f"> {line}" if line else ">" for line in body.splitlines())
+        if name == "img":
+            return self._convert_image(node)
+        if name == "figure":
+            return self._children_as_blocks(node)
+        if name == "figcaption":
+            return self._inline(node).strip()
+        if name == "table":
+            return self._clean_raw_html(node)
+        if name in {"strong", "b"}:
+            text = self._inline(node).strip()
+            return f"**{text}**" if text else ""
+        if name in {"em", "i"}:
+            text = self._inline(node).strip()
+            return f"*{text}*" if text else ""
+        if name == "code":
+            if node.find_parent("pre"):
+                return node.get_text()
+            text = node.get_text().replace("\n", " ").strip()
+            if not text:
+                return ""
+            fence = "`" if "`" not in text else "``"
+            return f"{fence}{text}{fence}"
+        if name == "a":
+            href = node.get("href", "").strip()
+            text = self._inline(node).strip()
+            if not href:
+                return text
+            if href.startswith("/"):
+                href = urljoin(BASE_URL, href)
+            if not text:
+                text = href
+            return f"[{text}]({href})"
+        if name in {"sup", "sub"}:
+            return self._clean_raw_html(node)
+        if block:
+            return self._children_as_blocks(node)
+        return self._inline(node)
+
+    def _children_as_blocks(self, tag: Tag) -> str:
+        blocks = [self._convert_node(child, block=True).strip() for child in tag.children]
+        return "\n\n".join(block for block in blocks if block)
+
+    def _inline(self, tag: Tag) -> str:
+        parts = [self._convert_node(child, block=False) for child in tag.children]
+        text = "".join(parts)
+        text = text.replace("\xa0", " ")
+        text = re.sub(r"[ \t]+\n", "\n", text)
+        text = re.sub(r"\n[ \t]+", "\n", text)
+        return text
+
+    def _convert_pre(self, tag: Tag) -> str:
+        code = tag.find("code")
+        code_text = code.get_text() if code else tag.get_text()
+        language = ""
+        classes = list(tag.get("class", [])) + list(code.get("class", []) if code else [])
+        for class_name in classes:
+            match = re.match(r"(?:language-|lang-)?([A-Za-z0-9_+-]+)$", class_name)
+            if match and match.group(1).lower() not in {"nix", "bashshell"}:
+                language = match.group(1)
+                break
+        return f"```{language}\n{code_text.rstrip()}\n```"
+
+    def _convert_list(self, tag: Tag, ordered: bool) -> str:
+        lines: list[str] = []
+        index = 1
+        for child in tag.find_all("li", recursive=False):
+            marker = f"{index}. " if ordered else "- "
+            body_parts: list[str] = []
+            nested_parts: list[str] = []
+            for item_child in child.children:
+                if isinstance(item_child, Tag) and item_child.name in {"ul", "ol"}:
+                    nested = self._convert_list(item_child, ordered=(item_child.name == "ol"))
+                    nested_parts.append(indent_lines(nested, "  "))
+                else:
+                    body_parts.append(self._convert_node(item_child, block=False))
+            body = "".join(body_parts).strip()
+            body_lines = body.splitlines() or [""]
+            lines.append(marker + body_lines[0])
+            continuation_prefix = " " * len(marker)
+            for line in body_lines[1:]:
+                lines.append(continuation_prefix + line)
+            lines.extend(nested_parts)
+            index += 1
+        return "\n".join(lines)
+
+    def _convert_image(self, tag: Tag) -> str:
+        src = tag.get("src", "").strip()
+        alt = tag.get("alt", "").strip()
+        return f"![{alt}]({src})" if src else ""
+
+    def _should_skip(self, tag: Tag) -> bool:
+        classes = set(tag.get("class", []))
+        return bool(classes & SKIP_CLASSES)
+
+    def _clean_raw_html(self, tag: Tag) -> str:
+        for noisy in tag.find_all(["script", "style", "noscript"]):
+            noisy.decompose()
+        noisy_attrs = {
+            "style",
+            "class",
+            "id",
+            "onclick",
+            "onerror",
+            "border",
+            "width",
+            "height",
+            "cellpadding",
+            "cellspacing",
+            "align",
+            "valign",
+            "bgcolor",
+        }
+        for html_tag in [tag, *tag.find_all(True)]:
+            for attr in list(html_tag.attrs):
+                if attr.startswith("data-") or attr in noisy_attrs:
+                    del html_tag.attrs[attr]
+        html = str(tag)
+        if tag.name == "table":
+            return f'<div class="table-responsive tistory-table">\n{html}\n</div>'
+        return html
+
+
+def indent_lines(text: str, prefix: str) -> str:
+    return "\n".join(prefix + line if line else line for line in text.splitlines())
+
+
+def fetch(session: requests.Session, url: str) -> requests.Response:
+    response = session.get(url, timeout=30)
+    response.raise_for_status()
+    return response
+
+
+def discover_posts(session: requests.Session, max_pages: int) -> list[PostSummary]:
+    posts: dict[str, PostSummary] = {}
+    empty_pages = 0
+    for page in range(1, max_pages + 1):
+        url = BASE_URL if page == 1 else f"{BASE_URL}/?page={page}"
+        soup = BeautifulSoup(fetch(session, url).text, "html.parser")
+        page_new = 0
+        for entry in soup.select("div.list_content"):
+            link = entry.select_one("a.link_post[href]")
+            if not link:
+                continue
+            post_url = urljoin(BASE_URL, link["href"])
+            post_id = post_url.rstrip("/").rsplit("/", 1)[-1]
+            if not post_id.isdigit() or post_id in posts:
+                continue
+            title_node = entry.select_one(".tit_post")
+            category_node = entry.select_one(".detail_info .link_cate")
+            date_node = entry.select_one(".detail_info .txt_date")
+            posts[post_id] = PostSummary(
+                post_id=post_id,
+                url=post_url,
+                title=clean_text(title_node.get_text(" ", strip=True) if title_node else ""),
+                category=clean_text(category_node.get_text(" ", strip=True) if category_node else ""),
+                listed_date=clean_text(date_node.get_text(" ", strip=True) if date_node else ""),
+            )
+            page_new += 1
+        empty_pages = empty_pages + 1 if page_new == 0 else 0
+        print(f"discovered page {page}: +{page_new} posts", file=sys.stderr)
+        if empty_pages >= 2 and posts:
+            break
+    return sorted(posts.values(), key=lambda post: int(post.post_id), reverse=True)
+
+
+def parse_post(session: requests.Session, summary: PostSummary) -> tuple[dict, Tag]:
+    soup = BeautifulSoup(fetch(session, summary.url).text, "html.parser")
+    content = (
+        soup.select_one("#article-view .contents_style")
+        or soup.select_one("#article-view .tt_article_useless_p_margin")
+        or soup.select_one("#article-view")
+    )
+    if not content:
+        raise RuntimeError(f"Could not find article content in {summary.url}")
+
+    for noisy in content.select(".container_postbtn, .another_category, script, style, noscript"):
+        noisy.decompose()
+
+    title = meta_content(soup, "og:title") or summary.title
+    published = meta_content(soup, "article:published_time") or parse_listed_date(summary.listed_date)
+    modified = meta_content(soup, "article:modified_time")
+    category = parse_entry_info(soup).get("categoryLabel") or summary.category
+    tags = parse_tiara_tags(soup)
+
+    metadata = {
+        "title": clean_text(title),
+        "published": published,
+        "modified": modified,
+        "category": clean_text(category),
+        "tags": [clean_text(tag) for tag in tags if clean_text(tag)],
+    }
+    return metadata, content
+
+
+def meta_content(soup: BeautifulSoup, key: str) -> str:
+    node = soup.find("meta", attrs={"property": key}) or soup.find("meta", attrs={"name": key})
+    return node.get("content", "").strip() if node else ""
+
+
+def parse_entry_info(soup: BeautifulSoup) -> dict:
+    match = re.search(r"window\.T\.entryInfo\s*=\s*(\{.*?\});", str(soup), flags=re.S)
+    if not match:
+        return {}
+    try:
+        return json.loads(match.group(1))
+    except json.JSONDecodeError:
+        return {}
+
+
+def parse_tiara_tags(soup: BeautifulSoup) -> list[str]:
+    match = re.search(r"window\.tiara\s*=\s*(\{.*?\})</script>", str(soup), flags=re.S)
+    if not match:
+        return []
+    try:
+        data = json.loads(match.group(1))
+    except json.JSONDecodeError:
+        return []
+    tags = data.get("entry", {}).get("tags", [])
+    return tags if isinstance(tags, list) else []
+
+
+def parse_listed_date(value: str) -> str:
+    value = value.strip()
+    for fmt in ("%Y. %m. %d. %H:%M", "%Y. %-m. %-d. %H:%M"):
+        try:
+            parsed = dt.datetime.strptime(value, fmt)
+            return parsed.replace(tzinfo=dt.timezone(dt.timedelta(hours=9))).isoformat()
+        except ValueError:
+            continue
+    return ""
+
+
+def localize_images(
+    session: requests.Session,
+    content: Tag,
+    post_id: str,
+    source_url: str,
+    dry_run: bool,
+) -> list[dict]:
+    image_records: list[dict] = []
+    image_dir = IMAGES_DIR / post_id
+    if not dry_run:
+        image_dir.mkdir(parents=True, exist_ok=True)
+
+    for index, image in enumerate(content.find_all("img"), start=1):
+        source = best_image_url(image)
+        if not source:
+            continue
+        local_rel, status = download_image(session, source, image_dir, index, source_url, dry_run)
+        if local_rel:
+            image["src"] = "/" + local_rel.as_posix()
+            for attr in list(image.attrs):
+                if attr not in {"src", "alt", "title", "width", "height"}:
+                    del image.attrs[attr]
+            image_records.append({"source": source, "local": local_rel.as_posix(), "status": status})
+        else:
+            image_records.append({"source": source, "local": "", "status": status})
+    return image_records
+
+
+def best_image_url(image: Tag) -> str:
+    candidates = [
+        image.get("data-origin-src"),
+        image.get("data-src"),
+        image.get("src"),
+        image.parent.get("data-url") if isinstance(image.parent, Tag) else "",
+        image.parent.get("data-phocus") if isinstance(image.parent, Tag) else "",
+    ]
+    for candidate in candidates:
+        if not candidate:
+            continue
+        candidate = candidate.strip()
+        if "no-image" in candidate:
+            continue
+        if candidate.startswith("//"):
+            return "https:" + candidate
+        return candidate
+    return ""
+
+
+def download_image(
+    session: requests.Session,
+    source: str,
+    image_dir: Path,
+    index: int,
+    referer: str,
+    dry_run: bool,
+) -> tuple[Path | None, str]:
+    if dry_run:
+        parsed = urlparse(source)
+        suffix = suffix_from_path(parsed.path) or ".img"
+        return image_dir / f"image-{index:03d}{suffix}", "dry-run"
+    try:
+        response = session.get(source, timeout=30, headers={"Referer": referer})
+        response.raise_for_status()
+    except requests.RequestException as exc:
+        return None, f"failed: {exc}"
+
+    content_type = response.headers.get("content-type", "").split(";", 1)[0].strip()
+    suffix = mimetypes.guess_extension(content_type) or suffix_from_path(urlparse(source).path) or ".img"
+    if suffix == ".jpe":
+        suffix = ".jpg"
+    target = image_dir / f"image-{index:03d}{suffix}"
+    target.write_bytes(response.content)
+    return target, "downloaded"
+
+
+def suffix_from_path(path: str) -> str:
+    suffix = Path(posixpath.basename(path)).suffix.lower()
+    return suffix if re.fullmatch(r"\.[a-z0-9]{2,5}", suffix) else ""
+
+
+def write_post(
+    summary: PostSummary,
+    metadata: dict,
+    markdown: str,
+    image_records: list[dict],
+    dry_run: bool,
+) -> Path:
+    published = parse_iso_datetime(metadata["published"])
+    slug = slugify_title(metadata["title"], fallback=f"tistory-{summary.post_id}")
+    filename = POSTS_DIR / f"{published:%Y-%m-%d}-{slug}.md"
+    categories = split_category(metadata["category"])
+    front_matter = {
+        "layout": "post",
+        "title": metadata["title"],
+        "date": published.strftime("%Y-%m-%d %H:%M:%S %z"),
+        "slug": slug,
+        "render_with_liquid": False,
+        "categories": categories or ["tistory"],
+        "tags": metadata["tags"],
+        "source": {
+            "provider": "tistory",
+            "id": int(summary.post_id),
+        },
+    }
+    if metadata.get("modified"):
+        front_matter["last_modified_at"] = parse_iso_datetime(metadata["modified"]).strftime(
+            "%Y-%m-%d %H:%M:%S %z"
+        )
+    if has_math(markdown):
+        front_matter["use_math"] = True
+    if image_records:
+        front_matter["imported_images"] = [record["local"] for record in image_records if record["local"]]
+
+    rendered = "---\n"
+    rendered += yaml.safe_dump(front_matter, allow_unicode=True, sort_keys=False, width=1000)
+    rendered += "---\n\n"
+    rendered += markdown
+
+    if not dry_run:
+        POSTS_DIR.mkdir(parents=True, exist_ok=True)
+        filename.write_text(rendered, encoding="utf-8")
+    return filename
+
+
+def parse_iso_datetime(value: str) -> dt.datetime:
+    if value.endswith("Z"):
+        value = value[:-1] + "+00:00"
+    parsed = dt.datetime.fromisoformat(value)
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=dt.timezone(dt.timedelta(hours=9)))
+    return parsed
+
+
+def split_category(category: str) -> list[str]:
+    return [part.strip() for part in category.split("/") if part.strip()]
+
+
+def slugify_title(title: str, fallback: str = "post") -> str:
+    value = title.lower()
+    for old, new in sorted(SLUG_REPLACEMENTS.items(), key=lambda item: len(item[0]), reverse=True):
+        value = value.replace(old.lower(), new)
+    value = value.replace("->", " to ")
+    value = unicodedata.normalize("NFKD", value)
+    words = re.findall(r"[a-z0-9]+", value)
+    stop_words = {"the", "a", "an", "and", "or", "of", "to", "with", "for", "in", "on", "is", "are"}
+    slug = "-".join(word for word in words if word not in stop_words)
+    return slug or fallback
+
+
+def clean_text(value: str) -> str:
+    value = value.replace("\xa0", " ")
+    return re.sub(r"\s+", " ", value).strip()
+
+
+def has_math(markdown: str) -> bool:
+    return bool(re.search(r"\$\$|\\\(|\\\)|\\begin\{|\\frac|\\sum|\\int|\\math", markdown))
+
+
+def build_session() -> requests.Session:
+    session = requests.Session()
+    session.headers.update({"User-Agent": USER_AGENT, "Accept-Language": "ko,en;q=0.8"})
+    return session
+
+
+def import_posts(limit: int | None, max_pages: int, dry_run: bool, pause: float) -> int:
+    session = build_session()
+    converter = HtmlToMarkdown()
+    summaries = discover_posts(session, max_pages)
+    if limit:
+        summaries = summaries[:limit]
+    print(f"found {len(summaries)} posts", file=sys.stderr)
+
+    written = 0
+    failures: list[str] = []
+    for index, summary in enumerate(summaries, start=1):
+        try:
+            metadata, content = parse_post(session, summary)
+            image_records = localize_images(session, content, summary.post_id, summary.url, dry_run)
+            markdown = converter.convert(content)
+            markdown = normalize_inline_math(markdown)
+            path = write_post(summary, metadata, markdown, image_records, dry_run)
+            print(
+                f"[{index}/{len(summaries)}] {summary.post_id}: {path} "
+                f"({len(image_records)} images)",
+                file=sys.stderr,
+            )
+            written += 1
+        except Exception as exc:  # noqa: BLE001 - keep import going and report all failures.
+            failures.append(f"{summary.url}: {exc}")
+            print(f"failed {summary.url}: {exc}", file=sys.stderr)
+        if pause:
+            time.sleep(pause)
+
+    if failures:
+        print("\nFailures:", file=sys.stderr)
+        for failure in failures:
+            print(f"- {failure}", file=sys.stderr)
+    return 0 if not failures else 1
+
+
+MATH_ENVIRONMENTS = {
+    "align",
+    "align*",
+    "aligned",
+    "alignat",
+    "alignat*",
+    "array",
+    "bmatrix",
+    "Bmatrix",
+    "cases",
+    "equation",
+    "equation*",
+    "gather",
+    "gather*",
+    "gathered",
+    "matrix",
+    "pmatrix",
+    "split",
+    "subarray",
+    "Vmatrix",
+    "vmatrix",
+}
+MATH_ENVIRONMENT_BEGIN_RE = re.compile(r"^(\s*)\\begin\{([A-Za-z*]+)\}")
+MULTILINE_INLINE_MATH_ENVIRONMENT_BEGIN_RE = re.compile(
+    r"^(?P<prefix>\s*(?:(?:[-*+]|\d+\.)\s+)?)"
+    r"\$(?P<body>\\begin\{(?P<environment>[A-Za-z*]+)\}.*)$"
+)
+MISSING_TEX_SPACING_BEFORE_LEFT_RE = re.compile(
+    r"(?<!\\)"
+    r"(?P<function>"
+    r"\\(?:exp|sin|cos|tan|log|ln)"
+    r"|\\mathrm\{[A-Za-z]+\}"
+    r"|\\operatorname\{[A-Za-z]+\}"
+    r"|[PE]"
+    r"|[Ff]_(?:\{[A-Za-z0-9]+\}|[A-Za-z0-9]+)"
+    r")"
+    r"!\\left"
+)
+MISSING_TEX_EVALUATION_SUBSCRIPT_RE = re.compile(
+    r"(?P<bar>\\(?:big|Big|bigg|Bigg)?\|)\*\{"
+)
+MISSING_TEX_BRACED_SUBSCRIPT_RE = re.compile(
+    r"(?<![\\A-Za-z])(?P<symbol>[Ff])\*\{"
+    r"(?P<body>\\(?:mathbf|boldsymbol)\{[^{}]+\}|[A-Za-z0-9]+)"
+    r"\}"
+)
+MISSING_TEX_COMMAND_SUBSCRIPT_RE = re.compile(
+    r"(?P<symbol>\\(?:mathbf|boldsymbol)\{[^{}]+\})\*(?P<subscript>[A-Za-z0-9])"
+)
+
+
+def normalize_inline_math(markdown: str) -> str:
+    """Keep imported TeX intact before Markdown/Kramdown parses it."""
+    markdown = wrap_multiline_inline_math_environments(markdown)
+    markdown = wrap_bare_math_environments(markdown)
+    lines: list[str] = []
+    in_fence = False
+    in_display_math = False
+    for line in markdown.splitlines():
+        if line.startswith("```"):
+            in_fence = not in_fence
+            lines.append(line)
+            continue
+        if in_fence:
+            lines.append(line)
+            continue
+        normalized_line, in_display_math = normalize_math_line_segments(line, in_display_math)
+        lines.append(normalized_line)
+    return "\n".join(lines) + ("\n" if markdown.endswith("\n") else "")
+
+
+def wrap_multiline_inline_math_environments(markdown: str) -> str:
+    lines = markdown.splitlines()
+    wrapped: list[str] = []
+    in_fence = False
+    in_display_math = False
+    index = 0
+
+    while index < len(lines):
+        line = lines[index]
+        if line.startswith("```"):
+            in_fence = not in_fence
+            wrapped.append(line)
+            index += 1
+            continue
+
+        match = None if in_fence or in_display_math else match_multiline_inline_math_environment(line)
+        if match:
+            prefix, environment, body = match
+            content_indent = " " * len(prefix)
+            end_marker = f"\\end{{{environment}}}"
+
+            wrapped.append(f"{prefix}$$")
+            wrapped.append(f"{content_indent}{body}")
+            index += 1
+
+            while index < len(lines):
+                block_line = lines[index]
+                end_index = block_line.find(end_marker)
+                closing_dollar = (
+                    find_inline_math_end(block_line, end_index + len(end_marker))
+                    if end_index >= 0
+                    else None
+                )
+                if closing_dollar is None:
+                    wrapped.append(block_line)
+                    index += 1
+                    continue
+
+                before_close = block_line[:closing_dollar].rstrip()
+                trailing_text = block_line[closing_dollar + 1 :].strip()
+                wrapped.append(before_close)
+                wrapped.append(f"{content_indent}$$")
+                if trailing_text:
+                    wrapped.append(f"{content_indent}{trailing_text}")
+                index += 1
+                break
+            continue
+
+        wrapped.append(line)
+        if not in_fence:
+            in_display_math = update_display_math_state(line, in_display_math)
+        index += 1
+
+    return "\n".join(wrapped) + ("\n" if markdown.endswith("\n") else "")
+
+
+def match_multiline_inline_math_environment(line: str) -> tuple[str, str, str] | None:
+    match = MULTILINE_INLINE_MATH_ENVIRONMENT_BEGIN_RE.match(line)
+    if not match:
+        return None
+    prefix = match.group("prefix")
+    environment = match.group("environment")
+    if environment not in MATH_ENVIRONMENTS:
+        return None
+    dollar_index = len(prefix)
+    if find_inline_math_end(line, dollar_index + 1) is not None:
+        return None
+    return prefix, environment, match.group("body")
+
+
+def wrap_bare_math_environments(markdown: str) -> str:
+    lines = markdown.splitlines()
+    wrapped: list[str] = []
+    in_fence = False
+    in_display_math = False
+    index = 0
+
+    while index < len(lines):
+        line = lines[index]
+        if line.startswith("```"):
+            in_fence = not in_fence
+            wrapped.append(line)
+            index += 1
+            continue
+
+        match = None if in_fence or in_display_math else match_bare_math_environment(line)
+        if match:
+            indent, environment = match
+            block = [line]
+            end_marker = f"\\end{{{environment}}}"
+            while end_marker not in block[-1] and index + 1 < len(lines):
+                index += 1
+                block.append(lines[index])
+
+            wrapped.append(f"{indent}$$")
+            wrapped.extend(block)
+            wrapped.append(f"{indent}$$")
+            index += 1
+            continue
+
+        wrapped.append(line)
+        if not in_fence:
+            in_display_math = update_display_math_state(line, in_display_math)
+        index += 1
+
+    return "\n".join(wrapped) + ("\n" if markdown.endswith("\n") else "")
+
+
+def match_bare_math_environment(line: str) -> tuple[str, str] | None:
+    if "$" in line:
+        return None
+    match = MATH_ENVIRONMENT_BEGIN_RE.match(line)
+    if not match:
+        return None
+    indent, environment = match.groups()
+    if environment not in MATH_ENVIRONMENTS:
+        return None
+    return indent, environment
+
+
+def normalize_math_line_segments(line: str, in_display_math: bool) -> tuple[str, bool]:
+    parts: list[str] = []
+    cursor = 0
+    while cursor < len(line):
+        delimiter = find_display_math_delimiter(line, cursor)
+        if delimiter is None:
+            segment = line[cursor:]
+            parts.append(
+                normalize_tex_spacing(segment)
+                if in_display_math
+                else normalize_inline_math_line(segment)
+            )
+            return "".join(parts), in_display_math
+
+        segment = line[cursor:delimiter]
+        parts.append(
+            normalize_tex_spacing(segment)
+            if in_display_math
+            else normalize_inline_math_line(segment)
+        )
+        parts.append("$$")
+        in_display_math = not in_display_math
+        cursor = delimiter + 2
+
+    return "".join(parts), in_display_math
+
+
+def update_display_math_state(line: str, in_display_math: bool) -> bool:
+    cursor = 0
+    while True:
+        delimiter = find_display_math_delimiter(line, cursor)
+        if delimiter is None:
+            return in_display_math
+        in_display_math = not in_display_math
+        cursor = delimiter + 2
+
+
+def find_display_math_delimiter(line: str, start: int) -> int | None:
+    cursor = start
+    while cursor < len(line) - 1:
+        if line[cursor : cursor + 2] == "$$" and not is_escaped(line, cursor):
+            return cursor
+        cursor += 1
+    return None
+
+
+def normalize_inline_math_line(line: str) -> str:
+    parts: list[str] = []
+    cursor = 0
+    while cursor < len(line):
+        if line[cursor] != "$" or is_escaped(line, cursor) or is_double_dollar(line, cursor):
+            parts.append(line[cursor])
+            cursor += 1
+            continue
+
+        end = find_inline_math_end(line, cursor + 1)
+        if end is None:
+            parts.append(line[cursor])
+            cursor += 1
+            continue
+
+        parts.append("$")
+        parts.append(replace_math_pipes(normalize_tex_spacing(line[cursor + 1 : end])))
+        parts.append("$")
+        cursor = end + 1
+    return "".join(parts)
+
+
+def find_inline_math_end(line: str, start: int) -> int | None:
+    cursor = start
+    while cursor < len(line):
+        if line[cursor] == "$" and not is_escaped(line, cursor) and not is_double_dollar(line, cursor):
+            return cursor
+        cursor += 1
+    return None
+
+
+def is_double_dollar(text: str, index: int) -> bool:
+    return (index > 0 and text[index - 1] == "$") or (index + 1 < len(text) and text[index + 1] == "$")
+
+
+def replace_math_pipes(math: str) -> str:
+    math = math.replace(r"\left|", r"\left\lvert").replace(r"\right|", r"\right\rvert")
+    math = re.sub(r"\\(big|Big|bigg|Bigg)\|", r"\\\1\\rvert", math)
+    raw_pipe_positions = [
+        index for index, char in enumerate(math) if char == "|" and not is_escaped(math, index)
+    ]
+    raw_pipe_count = len(raw_pipe_positions)
+    if raw_pipe_count == 0:
+        return math
+
+    parts: list[str] = []
+    pipe_index = 0
+    for index, char in enumerate(math):
+        if char == "|" and not is_escaped(math, index):
+            is_final_unpaired = raw_pipe_count % 2 == 1 and pipe_index == raw_pipe_count - 1
+            if is_final_unpaired:
+                parts.append(r"\mid")
+            elif pipe_index % 2 == 0:
+                parts.append(r"\lvert ")
+            else:
+                parts.append(r" \rvert")
+            pipe_index += 1
+        else:
+            parts.append(char)
+    return "".join(parts)
+
+
+def normalize_tex_spacing(math: str) -> str:
+    math = restore_missing_tex_subscripts(math)
+    math = restore_missing_tex_spacing_escapes(math)
+    math = replace_math_asterisks(math)
+    return remove_tex_spacing_escapes(math)
+
+
+def restore_missing_tex_subscripts(math: str) -> str:
+    math = MISSING_TEX_EVALUATION_SUBSCRIPT_RE.sub(r"\g<bar>_{", math)
+    math = MISSING_TEX_BRACED_SUBSCRIPT_RE.sub(r"\g<symbol>_{\g<body>}", math)
+    return MISSING_TEX_COMMAND_SUBSCRIPT_RE.sub(r"\g<symbol>_\g<subscript>", math)
+
+
+def restore_missing_tex_spacing_escapes(math: str) -> str:
+    return MISSING_TEX_SPACING_BEFORE_LEFT_RE.sub(r"\g<function>\\left", math)
+
+
+def replace_math_asterisks(math: str) -> str:
+    protected_ranges = math_environment_command_ranges(math)
+    parts: list[str] = []
+    for index, char in enumerate(math):
+        if (
+            char == "*"
+            and not is_escaped(math, index)
+            and not is_index_in_ranges(index, protected_ranges)
+        ):
+            replacement = r"\ast"
+            if index + 1 < len(math) and (math[index + 1].isalpha() or math[index + 1] == "\\"):
+                replacement += " "
+            parts.append(replacement)
+        else:
+            parts.append(char)
+    return "".join(parts)
+
+
+def math_environment_command_ranges(math: str) -> list[tuple[int, int]]:
+    return [
+        (match.start(), match.end())
+        for match in re.finditer(r"\\(?:begin|end)\{[^}]*\}", math)
+    ]
+
+
+def is_index_in_ranges(index: int, ranges: list[tuple[int, int]]) -> bool:
+    return any(start <= index < end for start, end in ranges)
+
+
+def remove_tex_spacing_escapes(math: str) -> str:
+    return math.replace(r"\\!", "").replace(r"\!", "")
+
+
+def is_escaped(text: str, index: int) -> bool:
+    backslashes = 0
+    cursor = index - 1
+    while cursor >= 0 and text[cursor] == "\\":
+        backslashes += 1
+        cursor -= 1
+    return backslashes % 2 == 1
+
+
+def parse_args(argv: Iterable[str]) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--limit", type=int, help="Import only the newest N posts.")
+    parser.add_argument("--max-pages", type=int, default=30, help="Maximum index pages to scan.")
+    parser.add_argument("--dry-run", action="store_true", help="Fetch and convert without writing files.")
+    parser.add_argument("--pause", type=float, default=0.15, help="Delay between article imports.")
+    return parser.parse_args(list(argv))
+
+
+def main(argv: Iterable[str] = sys.argv[1:]) -> int:
+    args = parse_args(argv)
+    return import_posts(args.limit, args.max_pages, args.dry_run, args.pause)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

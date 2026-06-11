@@ -126,7 +126,7 @@ bing_site_verification: # out your bing-site-verification ID (Bing Webmaster)
 
 blog_name: Notes # blog_name will be displayed in your blog page
 blog_description: robotics, programming, and theory notes
-permalink: /blog/:year/:title/
+permalink: /blog/:year/:slug/
 lsi: false # produce an index for related posts
 
 # Pagination

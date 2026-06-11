@@ -1,0 +1,353 @@
+---
+layout: post
+title: '[확률과 통계 25] Transform of RVs (Part 3) - Multiple RVs'
+date: 2026-01-19 10:16:14 +0900
+slug: prob-25-transform-rvs-multiple-rvs
+render_with_liquid: false
+use_math: true
+categories:
+- 공부
+- 확률과 통계
+tags: []
+last_modified_at: 2026-01-19 10:16:14 +0900
+imported_images:
+- assets/img/tistory/91/image-001.png
+- assets/img/tistory/91/image-002.png
+- assets/img/tistory/91/image-003.png
+series: probability-statistics
+series_order: 25
+source:
+  provider: tistory
+  id: 91
+---
+
+# 01) **Multivariate random variable transformation: Jacobian and applications**
+
+## 00_서론
+
+단일 random variable transformation에서는 $Y=g(X)$가 만들어내는 PDF $f_Y(y)$를 CDF 기반으로 유도하고, 길이 스케일 변화율 $\lvert g'(x) \rvert$로 확률 밀도를 보정한다는 관점이 핵심이다.
+다변수 환경에서는 입력이 $\mathbf{X}=(X_1,\dots,X_n)$이고 출력이 $\mathbf{Y}=(Y_1,\dots,Y_n)$인 transformation $\mathbf{y}=\mathbf{g}(\mathbf{x})$를 다루며, 이때 길이 스케일 $\lvert g'(x) \rvert$는 부피 스케일을 나타내는 Jacobian determinant $\lvert J(\mathbf{x}) \rvert$로 일반화된다.
+
+## 01_단일 random variable transformation 복습
+
+단일 변수에서 $Y=g(X)$이고 $X$가 continuous random variable이며 PDF $f_X(x)$를 가지면, $y=g(x)$를 만족하는 모든 해를 $x_i$로 둘 때 다음이 성립한다.
+
+$$
+f_Y(y)=\sum_{x_i:,g(x_i)=y}\frac{f_X(x_i)}{|g'(x_i)|}
+$$
+
+이 식은 미소 구간 확률 보존 $f_X(x)\,dx=f_Y(y)\,dy$에서 출발하며, $dy=g'(x)\,dx$가 구간 길이의 확장과 압축을 결정하므로 확률 밀도는 $\lvert g'(x) \rvert$로 나누어 보정된다는 해석을 갖는다.
+
+## 02_**Multivariate random variable transformation**
+
+입력 random vector $\mathbf{X}=(X_1,\ldots,X_n)$로부터 출력 random vector $\mathbf{Y}=(Y_1,\ldots,Y_m)$를 정의할 때 출력 개수는 입력 개수를 초과할 수 없으므로 $m\le n$을 만족해야 하며, 이를 multivariate random variable transformation으로 다룬다.
+단일 변수에서 $\lvert g'(x) \rvert$가 미소 길이의 스케일 변화를 나타냈다면, 다변수에서는 미소 부피 요소의 스케일 변화가 핵심이 되며 이 역할이 Jacobian 관점으로 연결된다.
+
+$$
+\begin{aligned}
+T:\quad
+Y_i &= g_i(X_1, X_2, \ldots, X_n),
+\qquad i = 1,2,\ldots,m,\ (m \le n) \\[6pt]
+X_1, \ldots, X_n,\; f_{X_1 X_2 \cdots X_n}(x_1, x_2, \ldots, x_n)
+&\;\Longrightarrow\;
+Y_1, \ldots, Y_m,\;
+f_{Y_1 Y_2 \cdots Y_m}(y_1, y_2, \ldots, y_m)
+\end{aligned}
+$$
+
+이 설정에서 최종 목표는 주어진 Joint PDF $f_{X_1\cdots X_n}$로부터 $f_{Y_1\cdots Y_m}$를 구하는 것이며, $m=n$인 경우에는 부피 스케일 보정이 Jacobian determinant로 완결되고 $m<n$인 경우에는 변수 소거를 위한 추가 적분 단계가 필요해진다.
+→ 이후 전개는 $n\rightarrow n$ 변환을 먼저 다루고, 그 다음 $n\rightarrow m$ 변환으로 확장한다.
+
+## 03_n개 변수에서 n개 변수로의 transformation
+
+### 문제 설정
+
+- 입력 random vector는 $\mathbf{X}=(X_1,\dots,X_n)$이고 Joint PDF는 $f_{\mathbf{X}}(\mathbf{x})$이다.
+- 출력 random vector는 $\mathbf{Y}=(Y_1,\dots,Y_n)$이고 transformation은 $\mathbf{y}=\mathbf{g}(\mathbf{x})$로 주어진다.
+- 목표는 $f_{\mathbf{Y}}(\mathbf{y})$를 구하는 것이다.
+
+### Jacobian determinant 정의
+
+변환이 $\mathbf{y}=\mathbf{g}(\mathbf{x})$로 주어질 때 Jacobian matrix와 Jacobian determinant는 다음과 같이 정의한다.
+
+$$
+\mathbf{J}(\mathbf{x})=
+\begin{pmatrix}
+\frac{\partial y_1}{\partial x_1} & \cdots & \frac{\partial y_1}{\partial x_n} \\
+\vdots & \ddots & \vdots \\
+\frac{\partial y_n}{\partial x_1} & \cdots & \frac{\partial y_n}{\partial x_n}
+\end{pmatrix},
+\quad
+J(\mathbf{x})=\det\mathbf{J}(\mathbf{x})
+$$
+
+$\lvert J(\mathbf{x}) \rvert$는 $\mathbf{x}$ 공간의 미소 부피 요소 $d\mathbf{x}$가 $\mathbf{y}$ 공간의 미소 부피 요소 $d\mathbf{y}$로 매핑될 때의 부피 스케일 변화를 나타낸다.
+
+$$
+d\mathbf{y}=|J(\mathbf{x})|d\mathbf{x}
+$$
+
+→ 단일 변수에서 $\lvert g'(x) \rvert$가 길이 스케일이었다면, 다변수에서는 $\lvert J(\mathbf{x}) \rvert$가 부피 스케일이다.
+
+### 일반 공식
+
+변환이 locally one-to-one이며 역변환 $\mathbf{x}=\mathbf{g}^{-1}(\mathbf{y})$가 정의되는 구간에서는 다음이 성립한다.
+
+$$
+f_{\mathbf{Y}}(\mathbf{y})=f_{\mathbf{X}}(\mathbf{g}^{-1}(\mathbf{y}))\left|\det\frac{\partial \mathbf{x}}{\partial \mathbf{y}}\right|
+$$
+
+위 식을 $\mathbf{y}=\mathbf{g}(\mathbf{x})$의 Jacobian determinant로 표현하면 다음과 같이 쓸 수 있다.
+
+$$
+f_{\mathbf{Y}}(\mathbf{y})=\frac{f_{\mathbf{X}}(\mathbf{x})}{|J(\mathbf{x})|}\Bigg|_{\mathbf{x}=\mathbf{g}^{-1}(\mathbf{y})}
+$$
+
+만약 같은 $\mathbf{y}$에 대해 연립방정식 $\mathbf{y}=\mathbf{g}(\mathbf{x})$의 해가 여러 개 존재하면, 단일 변수와 동일하게 모든 해의 기여를 합산한다.
+
+$$
+f_{\mathbf{Y}}(\mathbf{y})=\sum_{\mathbf{x}_i:,\mathbf{g}(\mathbf{x}_i)=\mathbf{y}}\frac{f_{\mathbf{X}}(\mathbf{x}_i)}{|J(\mathbf{x}_i)|}
+$$
+
+→ 한 점 $\mathbf{y}$로 모이는 여러 preimage 점 $ \mathbf{x}i $에서의 확률 밀도가 부피 스케일 보정을 거친 뒤 합쳐진 값이 $f{\mathbf{Y}}(\mathbf{y})$가 된다.
+
+### 계산 절차
+
+1. 역변환 $\mathbf{x}=\mathbf{g}^{-1}(\mathbf{y})$를 구해 $f_{\mathbf{X}}$의 입력을 $\mathbf{y}$로 표현한다.
+2. $J(\mathbf{x})=\det\left(\frac{\partial \mathbf{y}}{\partial \mathbf{x}}\right)$를 계산하고 $\lvert J(\mathbf{x}) \rvert$를 구한다.
+3. $f_{\mathbf{Y}}(\mathbf{y})=\frac{f_{\mathbf{X}}(\mathbf{x})}{\lvert J(\mathbf{x}) \rvert}\big\rvert_{\mathbf{x}=\mathbf{g}^{-1}(\mathbf{y})}$를 적용하고, 필요 시 해 집합을 합산한다.
+
+## 04_예제 2차원 선형 transformation
+
+### 문제 정의
+
+$Y_1=2X_1+X_2$, $Y_2=X_1-X_2$로 정의될 때 $f_{Y_1,Y_2}(y_1,y_2)$를 구한다.
+
+### 모델링
+
+입력은 $\mathbf{X}=(X_1,X_2)$이고 Joint PDF는 $f_{X_1,X_2}(x_1,x_2)$이며, 출력은 $\mathbf{Y}=(Y_1,Y_2)$이고 transformation은 선형이므로 해는 유일하다고 가정한다.
+
+### 수식 전개
+
+연립방정식을 풀어 역변환을 구하면 다음과 같다.
+
+$$
+x_1=\frac{y_1+y_2}{3},\quad x_2=\frac{y_1-2y_2}{3}
+$$
+
+Jacobian determinant는 다음과 같다.
+
+$$
+J=\det
+\begin{pmatrix}
+\frac{\partial y_1}{\partial x_1} & \frac{\partial y_1}{\partial x_2} \\
+\frac{\partial y_2}{\partial x_1} & \frac{\partial y_2}{\partial x_2}
+\end{pmatrix}
+=
+\det
+\begin{pmatrix}
+2 & 1 \\
+1 & -1
+\end{pmatrix}
+=-3
+$$
+
+따라서 $\lvert J \rvert=3$이고, 일반 공식으로부터 다음을 얻는다.
+
+$$
+f_{Y_1,Y_2}(y_1,y_2)=\frac{1}{3},f_{X_1,X_2}\left(\frac{y_1+y_2}{3},\frac{y_1-2y_2}{3}\right)
+$$
+
+### 결과 해석
+
+이 결과는 $(x_1,x_2)$ 평면의 미소 면적 요소가 선형 transformation에 의해 평균적으로 3배 스케일되며, 확률 보존을 위해 Joint PDF 높이가 $1/3$만큼 보정된다는 의미를 갖는다.
+→ 선형 transformation에서 $\lvert J \rvert$는 면적 스케일 팩터이고, $1/\lvert J \rvert$는 밀도 스케일 보정 항이다.
+
+![](/assets/img/tistory/91/image-001.png)
+
+## 05_dimension reduction transformation
+
+dimension reduction에서는 $n$개의 입력으로부터 $m<n$개의 출력만 정의되므로 $\frac{\partial \mathbf{y}}{\partial \mathbf{x}}$가 $m\times n$이 되어 determinant가 정의되지 않고, 따라서 n개 변수에서 n개 변수로의 공식을 직접 적용할 수 없다.
+이 상황은 관심 변수가 부분집합이거나, 요약 통계량 $Y=g(X_1,\dots,X_n)$만 필요할 때 자연스럽게 등장한다.
+
+### auxiliary variable technique
+
+보조 변수 $Y_{m+1},\dots,Y_n$를 추가로 정의하여 출력 차원을 $n$으로 맞춘 뒤, n개 변수에서 n개 변수로의 변환 공식을 적용하고 마지막에 Marginalization으로 보조 변수를 소거한다.
+보조 변수는 계산을 단순화하기 위해 흔히 $Y_{m+1}=X_{m+1},\dots,Y_n=X_n$ 같은 identity transform을 사용한다.
+
+$$
+f_{Y_1,\dots,Y_m}(y_1,\dots,y_m)=\int_{\mathbb{R}^{n-m}} f_{Y_1,\dots,Y_n}(y_1,\dots,y_n)\,dy_{m+1}\cdots dy_n
+$$
+
+→ determinant가 정의되도록 문제를 확장한 뒤, 최종 목표 변수만 남기기 위해 적분으로 변수 소거를 수행하는 구조이다.
+
+### direct CDF technique
+
+관심 변수가 적을 때는 CDF 정의에서 출발해 부등식을 만족하는 영역에 대해 Joint PDF를 적분하고, 마지막에 미분으로 PDF를 얻는 방식이 직접적이다.
+$Y_1=g_1(X_1,\dots,X_n)$일 때 다음을 사용한다.
+
+$$
+F_{Y_1}(y_1)=P(Y_1\le y_1)=P(g_1(\mathbf{X})\le y_1)=\int_{{\mathbf{x}:g_1(\mathbf{x})\le y_1}} f_{\mathbf{X}}(\mathbf{x})\,d\mathbf{x}
+$$
+
+$$
+f_{Y_1}(y_1)=\frac{d}{dy_1}F_{Y_1}(y_1)
+$$
+
+→ 적분 영역 설정은 부등식이 정의하는 기하학적 영역을 의미하고, 변수 소거는 그 영역 위에서 원래 Joint PDF를 누적하는 연산으로 해석된다.
+
+### 예제 $(X_1,X_2)\rightarrow Y_1$
+
+## 06_예제 $(X_1,X_2)\rightarrow Y_1$
+
+**문제 정의**: 두 continuous random variable $X_1,X_2$가 주어질 때 $Y_1=X_1+X_2$로 정의된 random variable의 PDF $f_{Y_1}(y_1)$를 구한다.
+
+**모델링**: $(X_1,X_2)$의 Joint PDF를 $f_{X_1,X_2}(x_1,x_2)$로 두고, $Y_1$만 남기는 dimension reduction이므로 보조 변수 $Y_2$를 도입해 $2\rightarrow2$로 확장한 뒤 Marginalization으로 $Y_2$를 소거한다.
+
+**수식 전개**: 보조 변수는 계산 단순화를 위해 $Y_2=X_2$로 두고 transformation을 $y_1=x_1+x_2,\ y_2=x_2$로 정의한다.
+
+$$
+\begin{aligned}
+y_1&=x_1+x_2 \\
+y_2&=x_2
+\end{aligned}
+$$
+
+역변환은 $x_2=y_2,\ x_1=y_1-y_2$로 주어진다.
+
+$$
+\begin{aligned}
+x_1&=y_1-y_2 \\
+x_2&=y_2
+\end{aligned}
+$$
+
+Jacobian determinant는 다음과 같고 $\lvert J \rvert=1$이다.
+
+$$
+J=\det
+\begin{pmatrix}
+\frac{\partial y_1}{\partial x_1} & \frac{\partial y_1}{\partial x_2}\\
+\frac{\partial y_2}{\partial x_1} & \frac{\partial y_2}{\partial x_2}
+\end{pmatrix}
+=\det
+\begin{pmatrix}
+1 & 1\\
+0 & 1
+\end{pmatrix}
+=1
+$$
+
+따라서 $(Y_1,Y_2)$의 Joint PDF는 다음으로 변환된다.
+
+$$
+f_{Y_1,Y_2}(y_1,y_2)=f_{X_1,X_2}(y_1-y_2,\ y_2)
+$$
+
+최종 목표는 $Y_1$의 PDF이므로 $Y_2$를 적분으로 소거한다.
+
+$$
+f_{Y_1}(y_1)=\int_{-\infty}^{\infty} f_{Y_1,Y_2}(y_1,y_2)\,dy_2=\int_{-\infty}^{\infty} f_{X_1,X_2}(y_1-y_2,\ y_2)\,dy_2
+$$
+
+$X_1$과 $X_2$가 independent이면 $f_{X_1,X_2}(x_1,x_2)=f_{X_1}(x_1)f_{X_2}(x_2)$이므로 다음 형태로 정리된다.
+
+$$
+f_{Y_1}(y_1)=\int_{-\infty}^{\infty} f_{X_1}(y_1-y_2),f_{X_2}(y_2)\,dy_2
+$$
+
+적분 구간은 $f_{X_1,X_2}(y_1-y_2,y_2)$가 0이 아닌 영역으로 자동 제한되며, 이는 $(x_1,x_2)$ 평면에서 직선 $x_1+x_2=y_1$ 위의 점들을 따라 Joint PDF를 누적하는 것과 동일한 의미를 갖는다.
+
+**결과 해석**: dimension reduction에서의 변수 소거는 보조 변수 방향으로 확률을 적분해 누적하는 과정이며, $Y_1=X_1+X_2$의 경우에는 동일한 합 $y_1$을 만드는 모든 조합 $(x_1,x_2)$의 기여가 적분으로 합쳐져 $f_{Y_1}(y_1)$가 결정된다.
+
+![](/assets/img/tistory/91/image-002.png)
+
+## 06_핵심 응용 Gaussian random variable generation
+
+### Box-Muller transformation
+
+![](/assets/img/tistory/91/image-003.png)
+
+- 목표: 두개의 unifrom distribution$U_1,U_2$으로부터 두개의 Gaussian random variable $Z,W$을 생성하는 것이다.
+- 조건 : 서로 독립인 $U_1,U_2$가 Uniform distribution을 따라 $U_1,U_2\sim Uniform(0,1)$존재한다.
+
+Box-Muller transformation은 다음과 같이 정의된다.
+
+$$
+\begin{aligned}
+R&=\sqrt{-2\ln U_1},\quad \Theta=2\pi U_2,\quad \\
+Z&=R\cos\Theta \Longrightarrow Z^2 = -2 \ln(X), \cos^2(2\pi Y)\\
+\quad W&=R\sin\Theta \Longrightarrow W^2 = -2 \ln(X), \sin^2(2\pi Y)
+\end{aligned}
+$$
+
+### **Box-Muller transformation 역연산과 Joint PDF 유도**
+
+이 변환은 2차원에서 Gaussian distribution의 정규화 적분을 계산할때 사용했던 수식과 유사하다. (가우시안쪽 참고)
+
+핵심은 $(u_1,u_2)\leftrightarrow(z,w)$ 사이의 면적 요소 스케일이 Jacobian determinant로 보정된다는 점이다.
+
+역변환은 $z^2+w^2=R^2=-2\ln u_1$에서 $u_1$을 먼저 구하고, 각도는 $\theta=\tan^{-1}(w/z)$와 $\theta=2\pi u_2$ 관계로부터 $u_2$를 구하는 방식으로 정리된다.
+
+$$
+\begin{aligned}
+u_1=\exp\left(-\frac{1}{2}(z^2+w^2)\right),\
+u_2=\frac{1}{2\pi}\tan^{-1}\left(\frac{w}{z}\right)
+\end{aligned}
+$$
+
+Jacobian determinant는 $u_1,u_2$를 $z,w$에 대해 편미분하여 다음과 같이 구할 수 있다.
+
+$$ \left|\det\frac{\partial(u_1,u_2)}{\partial(z,w)}\right| = \left|\det \begin{pmatrix} \frac{\partial u_1}{\partial z} & \frac{\partial u_1}{\partial w}\\ \frac{\partial u_2}{\partial z} & \frac{\partial u_2}{\partial w} \end{pmatrix} \right| = \frac{u_1}{2\pi}\frac{1}{2\pi}\exp\left(-\frac{1}{2}(z^2+w^2)\right) $$
+
+$(U_1,U_2)$는 independent이고 $f_{U_1,U_2}(u_1,u_2)=1$이므로, multivariate transformation 공식에서 역변환 Jacobian을 사용하면 다음을 얻는다.
+
+$$
+\begin{aligned}
+f_{Z,W}(z,w)
+=f_{U_1,U_2}(u_1,u_2)\left|\det\frac{\partial(u_1,u_2)}{\partial(z,w)}\right|
+=\frac{1}{2\pi}\exp\left(-\frac{1}{2}(z^2+w^2)\right)
+\end{aligned}
+$$
+
+위 식은 곱 형태로 분해된다.
+
+$$
+\frac{1}{2\pi}\exp\left(-\frac{1}{2}(z^2+w^2)\right)
+=
+
+\left(\frac{1}{\sqrt{2\pi}}e^{-z^2/2}\right)
+\left(\frac{1}{\sqrt{2\pi}}e^{-w^2/2}\right)
+$$
+
+따라서 $Z$와 $W$는 서로 independent이고 각각 standard normal distribution을 따른다.
+→ Box-Muller transformation은 $(u_1,u_2)$의 unit square 면적 요소가 $(z,w)$ 평면에서 Gaussian 형태의 면적 요소로 매핑되도록 Jacobian determinant가 스케일을 보정하는 구조로 해석된다.
+
+### 평균과 분산을 갖는 Gaussian random variable
+
+$Z\sim \mathcal{N}(0,1)$이면 선형 transformation $Z'=\sigma Z+\mu$에 의해 $Z'\sim \mathcal{N}(\mu,\sigma^2)$가 된다.
+
+$$
+Z'=\sigma Z+\mu
+$$
+
+→ 선형 transformation은 PDF의 이동과 스케일을 유도하며, 다변수 선형 변환에서는 공분산 구조까지 함께 이동한다.
+이를 활용해서 기존 Box-Muller transformation으로부터 유도된 $Z,W$
+
+### correlation을 갖는 Joint Gaussian generation
+
+서로 independent인 $Z,W\sim \mathcal{N}(0,1)$로부터 correlation coefficient $\rho$를 갖는 $(U,V)$를 생성하는 대표적 선형 구조는 다음과 같다.
+
+$$
+U=\sigma_u Z,\quad V=\sigma_v\left(\rho Z+\sqrt{1-\rho^2},W\right)
+$$
+
+이 변환은 $U$와 $V$의 분산을 $\sigma_u^2,\sigma_v^2$로 맞추면서 $\mathrm{Corr}(U,V)=\rho$가 되도록 구성된 선형 결합이며, 평균이 필요하면 각각에 상수를 더해 location을 이동시키면 된다.
+
+## 06_결론
+
+다변수 random variable transformation에서 Joint PDF 변환의 핵심은 미소 부피 요소의 스케일 변화를 측정하는 Jacobian determinant이며, 확률 보존은 $f_{\mathbf{X}}(\mathbf{x})d\mathbf{x}=f_{\mathbf{Y}}(\mathbf{y})d\mathbf{y}$ 형태로 구현된다.
+$n\rightarrow n$ 변환에서는 역변환과 $\lvert J \rvert$를 통해 $f_{\mathbf{Y}}(\mathbf{y})=\frac{f_{\mathbf{X}}(\mathbf{x})}{\lvert J(\mathbf{x}) \rvert}\big\rvert_{\mathbf{x}=\mathbf{g}^{-1}(\mathbf{y})}$가 정리되고, 해가 여러 개이면 모든 해의 결과를 합산한다.
+dimension reduction에서는 determinant가 정의되지 않으므로 auxiliary variable technique로 차원을 맞춘 뒤 Marginalization을 수행하거나, direct CDF technique로 적분 영역을 직접 설정해 변수 소거의 의미를 적분으로 구현한다.
+
+[https://www.youtube.com/watch?v=dmGH7fOjAoo](https://www.youtube.com/watch?v=dmGH7fOjAoo)

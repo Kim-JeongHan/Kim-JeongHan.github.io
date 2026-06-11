@@ -1,0 +1,155 @@
+---
+layout: post
+title: '[MPC책 공부 - 4]LQ예제 문제 이차 함수의 합'
+date: 2025-03-13 01:42:46 +0900
+slug: mpc-book-04-lq-quadratic-sum-example
+render_with_liquid: false
+use_math: true
+categories:
+- 공부
+- mpc
+tags:
+- mpc
+- lq
+- quadratic-cost
+last_modified_at: 2025-03-18 23:00:47 +0900
+imported_images:
+- assets/img/tistory/24/image-001.png
+series: mpc-study
+series_order: 4
+source:
+  provider: tistory
+  id: 24
+---
+
+### **Sum of Quadratic Functions (이차 함수의 합)**
+
+이 예제에서는 두 개의 이차 함수 \( V_1(x) \) 및 \( V_2(x) \) 를 더한 결과가 또 다른 이차 함수가 됨을 보이고, 이를 다음 게시물에서 활용할 예정이다.
+
+### **1. 주어진 두 개의 이차 함수**
+
+주어진 두 개의 이차 함수는 다음과 같다.
+
+$$
+\begin{align} V_1(x) &= \frac{1}{2} (x - a)^T A (x - a) \\ V_2(x) &= \frac{1}{2} (x - b)^T B (x - b) \end{align}
+$$
+
+여기서:
+
+- \( A, B \)는 **양의 정부호(Positive Definite) 행렬**이다.
+- \( a, b \)는 각각의 함수가 최소가 되는 점(즉, 중심점)이다.
+
+이 함수들은 **이차 형식(quadratic form)** 이므로, 각각 타원형 등고선을 형성한다.
+
+- 데이터
+
+$$
+\begin{align} A &= \begin{bmatrix} 1.25 & 0.75 \\ 0.75 & 1.25 \end{bmatrix}, \quad a = \begin{bmatrix} 1 \\ 0 \end{bmatrix} \\ B &= \begin{bmatrix} 1.5 & 0.5 \\ 0.5 & 1.5 \end{bmatrix}, \quad b = \begin{bmatrix} 1 \\ 1 \end{bmatrix} \end{align}
+$$
+
+---
+
+### **2. 두 함수의 합이 또 다른 이차 함수가 됨을 증명**
+
+이차 함수 \( V_1(x) \) 와 \( V_2(x) \)의 합을 구한다.
+
+$$
+\begin{align} V(x) &= V_1(x) + V_2(x) \\ &= \frac{1}{2} (x - a)^T A (x - a) + \frac{1}{2} (x - b)^T B (x - b) \end{align}
+$$
+
+이를 전개하면,
+
+$$
+\begin{align} V(x) &= \frac{1}{2} x^T A x - x^T A a + \frac{1}{2} a^T A a \\ &\quad + \frac{1}{2} x^T B x - x^T B b + \frac{1}{2} b^T B b \end{align}
+$$
+
+이를 다시 정리하면,
+
+$$
+\begin{align} V(x) &= \frac{1}{2} x^T (A + B) x - x^T (A a + B b) + \frac{1}{2} (a^T A a + b^T B b) \end{align}
+$$
+
+이제, 다음과 같이 정의할 수 있다.
+
+$$
+\begin{align} H &= A + B \\ v &= H^{-1} (A a + B b) \\ d &= (A a + B b)^T H^{-1} (A a + B b) - a^T A a - b^T B b \end{align}
+$$
+
+따라서, 최종적으로 V(x)V(x) 는 다음과 같은 새로운 이차 함수 형태를 갖는다.
+
+$$
+\begin{align} V(x) = \frac{1}{2} (x - v)^T H (x - v) - d \end{align}
+$$
+
+이렇게 하면 **두 개의 이차 함수의 합도 또 다른 이차 함수가 됨**을 보일 수 있다.
+
+---
+
+### **3. 수치 계산 및 검증**
+
+주어진 A, B, a, b 값을 대입하면:
+
+$$
+\begin{align} H &= \begin{bmatrix} 1.25 & 0.75 \\ 0.75 & 1.25 \end{bmatrix} + \begin{bmatrix} 1.5 & 0.5 \\ 0.5 & 1.5 \end{bmatrix} \\ &= \begin{bmatrix} 2.75 & 0.25 \\ 0.25 & 2.75 \end{bmatrix} \end{align}
+$$
+
+$$
+\begin{align} v &= H^{-1} (A a + B b) \\ &= \begin{bmatrix} 2.75 & 0.25 \\ 0.25 & 2.75 \end{bmatrix}^{-1} \begin{bmatrix} 1.25 \cdot 1 + 0.75 \cdot 0 + 1.5 \cdot 1 + 0.5 \cdot 1 \\ 0.75 \cdot 1 + 1.25 \cdot 0 + 0.5 \cdot 1 + 1.5 \cdot 1 \end{bmatrix} \\ &= \begin{bmatrix} 0.1 \\ 0.1 \end{bmatrix} \end{align}
+$$
+
+$$
+\begin{align} d &= (A a + B b)^T H^{-1} (A a + B b) - a^T A a - b^T B b \\ &= 3.2 \end{align}
+$$
+
+즉, 최종 결과는 다음과 같다.
+
+$$
+\begin{align} H &= \begin{bmatrix} 2.75 & 0.25 \\ 0.25 & 2.75 \end{bmatrix}, \quad v = \begin{bmatrix} 0.1 \\ 0.1 \end{bmatrix}, \quad d = 3.2 \end{align}
+$$
+
+타원 등고선 그림
+
+![](/assets/img/tistory/24/image-001.png)
+
+### **4. 일반화된 형태**
+
+이차 함수의 일반적인 형태는 다음과 같이 확장할 수 있다.
+
+$$
+\begin{align} V_1(x) &= \frac{1}{2} (x - a)^T A (x - a) \\ V_2(x) &= \frac{1}{2} (C x - b)^T B (C x - b) \end{align}
+$$
+
+이를 앞서 사용한 방식과 동일하게 정리하면,
+
+$$
+\begin{align} H &= A + C^T B C \\ v &= H^{-1} (A a + C^T B b) \\ d &= (A a + C^T B b)^T H^{-1} (A a + C^T B b) - a^T A a - b^T B b \end{align}
+$$
+
+이 방식은 **상태 추정(state estimation)** 과 **최적 제어(optimal control)** 문제를 해결하는 데 매우 유용하다.
+
+---
+
+### **5. 행렬 역 Lemma를 사용한 최적화**
+
+행렬 역 공식 (Matrix Inversion Lemma)을 사용하여 \( H \)  를 새로운 형태로 변환할 수도 있다.
+
+$$
+\begin{align} H^{-1} &= A^{-1} - A^{-1} C^T (C A^{-1} C^T + B^{-1})^{-1} C A^{-1} \end{align}
+$$
+
+이를 이용하면 vv 도 새로운 형태로 표현할 수 있다.
+
+$$
+\begin{align} v &= a - A^{-1} C^T (C A^{-1} C^T + B^{-1})^{-1} (b - C a) \end{align}
+$$
+
+이러한 변환은 **상태 추정(state estimation)과 칼만 필터(Kalman Filter)** 등의 알고리즘에서 중요한 역할을 한다.
+
+---
+
+### **6. 정리**
+
+✅ **이차 함수의 합도 이차 함수이다.**
+✅ **이 원리는 상태 추정(state estimation) 및 최적 제어(Optimal Control)에서 자주 사용된다.**
+✅ **행렬 역 Lemma를 사용하면 더욱 효율적인 계산이 가능하다.**
+✅ **이 개념은 동적 계획법(DP)과 벨만 방정식(Bellman Equation)과 연결된다.**

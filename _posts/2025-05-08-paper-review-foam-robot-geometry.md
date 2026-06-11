@@ -1,0 +1,96 @@
+---
+layout: post
+title: '논문리뷰 : foam: A Tool for Spherical Approximation of Robot Geometry'
+date: 2025-05-08 21:08:15 +0900
+slug: paper-review-foam-robot-geometry
+render_with_liquid: false
+categories:
+- 공부
+- 로봇공학
+tags:
+- robotics
+- paper-review
+- robot-geometry
+last_modified_at: 2025-05-09 08:25:44 +0900
+imported_images:
+- assets/img/tistory/47/image-001.jpg
+- assets/img/tistory/47/image-002.png
+- assets/img/tistory/47/image-003.png
+- assets/img/tistory/47/image-004.png
+source:
+  provider: tistory
+  id: 47
+---
+
+회사에서 collision model을 최적화하는 작업을 진행 중에, 흥미로운 논문이 있어 공유한다. 논문은 복잡한 메시(Mesh)를 자동으로 구(Sphere) 기반의 근사 충돌 모델로 변환해주는 도구인 FOAM(Flexible Object Approximation Method) 을 소개한다.
+
+## 논문의 필요성
+
+- 로봇의 충돌 모델을 단순한 기하 도형(구, 박스 등)으로 근사하는 작업은 실제 산업 현장에서 필요하다. 실제 로봇에 적용되어있는 cpu가 그렇게 좋지 많은 않기때문;;
+- 기존 도구들은 노가다였다... 현재진행형...
+- 이 논문에서 제안하는 foam library_는_ URDF를 입력받아 자동으로 구 기반 근사 모델을 생성해주는 툴이다
+
+### FOAM의 파이프라인 구조
+
+FOAM은 메시 데이터를 입력받아 다음과 같은 전처리 과정을 수행한 뒤, 구 기반의 근사 모델을 생성한다.
+
+mesh를 다듬는 파이프라인을 구축한다.
+
+#### 1. Watertight 처리
+
+3D 메시가 완전히 밀폐된 구조인지 확인하고, 그렇지 않다면 이를 보정한다. 내부 공간과 외부 공간을 명확히 구분지어, 내부에서 구를 키워나가는 Spherization이 가능하도록 한다.
+
+#### 2. Simplification
+
+**Quadric Edge Collapse** 알고리즘을 통해 메시를 단순화한다. 이 알고리즘은 삼각형 개수를 줄이면서도 원형 형상을 최대한 보존하는 방식으로 작동한다.
+
+#### 3. Smoothing
+
+두 가지 필터가 적용된다:
+
+- **Laplacian Smoothing**: 인접한 정점 평균을 통해 표면을 부드럽게 만든다.
+
+![](/assets/img/tistory/47/image-001.jpg)
+
+- **Humphrey’s Classes Filter (HC Filter)**: Laplacian에서 발생할 수 있는 부피 축소를 보정해 원형에 가까운 표면을 회복시킨다.
+
+![](/assets/img/tistory/47/image-002.png)
+
+smoothing 처리 전후
+
+#### 4. Spherization (AMAA)
+
+핵심 단계다. **Adaptive Medial Axis Approximation (AMAA)** 알고리즘을 활용해, 객체 내부에서 가장 큰 내접 구들을 반복적으로 배치한다.
+
+- 구 하나를 생성 → 해당 영역 제거
+- 남은 공간을 분할 → 다시 최대 구를 찾는 과정을 반복
+- 파라미터: max_spheres, branch, depth, epsilon 등을 조절해 제어
+
+이 과정을 통해 메시 전체를 효율적으로 커버할 수 있는 구 기반 근사 모델을 생성한다.
+
+3d 모델을 완전히 밀폐된 상태로 안에서 밖으로 나갈수없는 구조화시킨다. watertight화시키면 내부와 외부가 엄격하게 구분된다.
+
+## 실험 결과 요약
+
+#### 실험 1. Collision/Distance Query 속도
+
+![](/assets/img/tistory/47/image-003.png)
+
+무작위 100,000개의 queries들을 생성해서 collision distance 측정을 진행했다.
+
+- **Collision 검사** (PyBullet, MuJoCo 기준): 속도 차이는 거의 없음
+  → 대부분의 물리엔진이 AABB나 BVH를 사용하므로 sphere나 mesh나 속도 유사
+- **Distance 검사** (FCL, Pinocchio 기준): sphere 모델이 **성능 우위**
+  → 선형 근사 기반의 SDF 또는 거리 계산 방식과 잘 어울림
+
+#### 실험 2. 병렬 시뮬레이터 적용 (Genesis)
+
+![](/assets/img/tistory/47/image-004.png)
+
+- 병렬 시뮬레이션에서 FPS 기준으로 약 **10% 성능 향상**
+
+---
+
+시간이되면 실제로 fcl라이브러리를 통해 성능을 검증해보겠다.
+
+물론 내가 최적화하려는 것은 collision판단하는 부분을 판단하려고하는데, 이는 AABB알고리즘으로 구현되어있기에 최적화가 얼마나 될지 모르겠다.

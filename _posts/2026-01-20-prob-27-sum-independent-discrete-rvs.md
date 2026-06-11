@@ -1,0 +1,251 @@
+---
+layout: post
+title: '[확률과 통계 27] Sum of independent discrete RVs'
+date: 2026-01-20 18:49:55 +0900
+slug: prob-27-sum-independent-discrete-rvs
+render_with_liquid: false
+use_math: true
+categories:
+- 공부
+- 확률과 통계
+tags: []
+last_modified_at: 2026-01-20 18:49:55 +0900
+imported_images:
+- assets/img/tistory/93/image-001.png
+series: probability-statistics
+series_order: 27
+source:
+  provider: tistory
+  id: 93
+---
+
+# 01) **독립 확률 변수의 합: 분포, Expectation, 그리고 Variance**
+
+## 00_서론
+
+확률론과 통계학에서는 여러 random variable의 합으로 새로운 random variable을 정의하는 상황이 반복적으로 등장하며, 대표적으로 $W=X+Y$와 같은 형태가 기본 모델로 사용된다.
+이 글의 목표는 합으로 정의된 random variable의 **분포**, **Expectation**, **Variance**를 하나의 흐름으로 정리하는 것이며, 특히 Independence 가정이 들어갈 때 Convolution이 왜 자연스럽게 등장하는지를 수식 기반으로 유도한다.
+
+## 01_확률 변수 합의 분포: 일반 원리
+
+$W=X+Y$의 분포를 구하는 과정은 두 변수 $X,Y$가 함께 어떤 값을 가질 수 있는지를 나타내는 Joint Distribution에서 시작하며, Independence 여부와 무관하게 합이 목표값이 되도록 만드는 모든 경우를 모아서 그 확률을 더하거나 적분하는 방식으로 계산된다.
+
+### Discrete random variable에서의 일반식
+
+두 discrete random variable $X,Y$의 Joint PMF를 $p_{X,Y}(x,y)$라 할 때, $W=X+Y$의 PMF는 다음으로 정의된다.
+
+$$ p_W(w)=P(W=w)=\sum_{x+y=w} p_{X,Y}(x,y) $$
+
+→ $W=w$를 만족하는 모든 $(x,y)$ 조합의 Joint Probability를 합산하는 과정이며, 합산 범위는 $p_{X,Y}(x,y)$가 0이 아닌 범위로 제한된다.
+
+### Continuous random variable에서의 일반식
+
+두 continuous random variable $X,Y$의 Joint PDF를 $f_{X,Y}(x,y)$라 할 때, $W=X+Y$의 CDF는 적분 영역으로 표현되고 이를 미분하여 PDF를 얻는다.
+
+$$ F_W(w)=P(W\le w)=P(X+Y\le w)=\int_{-\infty}^{\infty}\int_{-\infty}^{w-y} f_{X,Y}(x,y)\,dx\,dy $$
+
+위 식을 $w$에 대해 미분하면 다음이 성립한다.
+
+$$ f_W(w)=\int_{-\infty}^{\infty} f_{X,Y}(w-y,y)\,dy $$
+
+→ 내부 적분의 상한 $w-y$는 고정된 $y$에서 조건 $x\le w-y$를 만족하는 $x$ 범위를 의미하며, 미분 후에는 경계 $x=w-y$ 위에서의 Joint PDF가 바깥 적분으로 누적되는 구조가 된다.
+
+## 02_Independent한 상황에서 확률변수의 합
+
+Independence는 Joint Distribution을 Marginal Probability들의 곱으로 분해하며, 그 결과 합의 분포 계산이 Convolution 형태로 단순화된다.
+
+### Discrete Convolution
+
+$X,Y$가 independent이면 $p_{X,Y}(x,y)=p_X(x)p_Y(y)$이므로 다음이 성립한다.
+
+$$
+\begin{aligned}
+P_W(W = w)
+&= \sum_{x+y=w} P_{XY}(x, y) \\
+&= \sum_{x+y=w} P_X(x)\, P_Y(y) \\
+&= \sum_{x} P_X(x)\, P_Y(w - x)
+\end{aligned} $$
+
+→ 합이 $w$가 되려면 $Y=w-x$가 되어야 하므로 가능한 모든 $x$에 대해 $p_X(x)$와 $p_Y(w-x)$의 곱을 누적하는 구조가 된다.
+
+이는 두 probabilities의 convolution형태로 볼수 있다.
+
+$$ \begin{aligned} \sum_{x} P_X(x)\, P_Y(w - x)=P_X(w) \ast P_Y(w)\end{aligned} $$
+
+### Continuous Convolution
+
+$X,Y$가 independent이면 $f_{X,Y}(x,y)=f_X(x)f_Y(y)$이므로 CDF 기반 전개는 다음처럼 정리된다.
+
+$$ \begin{aligned}
+F_W(w)
+&= \int_{-\infty}^{\infty}\int_{-\infty}^{w-y} f_X(x)\,f_Y(y)\,dx\,dy \\
+&= \int_{-\infty}^{\infty} f_Y(y)\left(\int_{-\infty}^{w-y} f_X(x)\,dx\right)dy \\
+&= \int_{-\infty}^{\infty} F_X(w-y)\,f_Y(y)\,dy
+\end{aligned} $$
+
+이를 $w$에 대해 미분하면 다음의 PDF를 얻는다.
+
+$$
+\begin{aligned}
+f_W(w)
+&= \frac{d}{dw}\int_{-\infty}^{\infty} F_X(w-y)\,f_Y(y)\,dy \\
+&= \int_{-\infty}^{\infty} f_X(w-y)\,f_Y(y)\,dy
+\end{aligned}
+$$
+
+→ 최종 적분은 합이 $w$가 되도록 만드는 모든 분해 $w=(w-y)+y$에 대해 $X$의 density와 $Y$의 density를 곱한 뒤 누적하는 과정이며, 이는 Convolution 정의와 일치한다.
+
+$$
+f_W(w)=(f_X\ast f_Y)(w)=\int_{-\infty}^{\infty} f_X(w-\tau)\,f_Y(\tau)\,d\tau
+$$
+
+## 03_적용 예제: 독립 Poisson 분포의 합
+
+Poisson distribution은 Independence 하에서 $X\sim Poisson(\lambda_1)$, $Y\sim Poisson(\lambda_2)$이면 $W=X+Y\sim Poisson(\lambda_1+\lambda_2)$가 성립하며, 이는 $p_W(w)=\sum_x p_X(x)p_Y(w-x)$ 형태의 Discrete Convolution이 Poisson PMF의 형태를 보존한다는 의미이다.
+
+- Poisson distribution은 고정된 시간 또는 공간 구간에서 발생한 event의 횟수를 모델링하는 distribution이며, 구간 내 event 발생이 독립적이고 발생확률이 같다.
+- Bernoulli trial은 각 시행이 두 가지 결과만 갖는다. (True / False)
+
+### 문제 정의
+
+- $X\sim \mathrm{Poisson}(\lambda_1)$, $Y\sim \mathrm{Poisson}(\lambda_2)$, $X$와 $Y$는 independent이다.
+  $$
+  \begin{aligned}P(X = x)&= \frac{\lambda_1^{x} e^{-\lambda_1}}{x!}, P(Y = y)&= \frac{\lambda_2^{y} e^{-\lambda_2}}{y!}\end{aligned}
+  $$
+- $W=X+Y$의 PMF $p_W(w)$를 구한다.
+
+### 모델링
+
+Poisson 분포의 PMF는 $k\in{0,1,2,\ldots}$에 대해 다음과 같다.
+
+$$
+p(k;\lambda)=\frac{\lambda^k e^{-\lambda}}{k!}
+$$
+
+### 수식 전개
+
+Independence이므로 Discrete Convolution을 적용하고 support가 음이 아닌 정수이므로 합산 범위는 $x=0$부터 $w$까지로 제한된다.
+
+$$
+\begin{aligned}
+p_W(w)
+&=\sum_{x=0}^{w} p_X(x)\,p_Y(w-x) \\
+&=\sum_{x=0}^{w} \frac{\lambda_1^x e^{-\lambda_1}}{x!}\,\frac{\lambda_2^{w-x} e^{-\lambda_2}}{(w-x)!}
+\end{aligned}
+$$
+
+지수항을 묶고 이항정리 형태를 만들기 위해 $\frac{w!}{w!}$를 곱해 정리한다.
+
+$$
+\begin{aligned}
+p_W(w)
+&=e^{-(\lambda_1+\lambda_2)}\sum_{x=0}^{w}\frac{\lambda_1^x\lambda_2^{w-x}}{x!(w-x)!} \\
+&=\frac{e^{-(\lambda_1+\lambda_2)}}{w!}\sum_{x=0}^{w}\binom{w}{x}\lambda_1^x\lambda_2^{w-x} \\
+&=\frac{e^{-(\lambda_1+\lambda_2)}}{w!}(\lambda_1+\lambda_2)^w
+\end{aligned}
+$$
+
+### 결과 해석
+
+최종 형태는 $\mathrm{Poisson}(\lambda_1+\lambda_2)$의 PMF와 동일하므로 $W\sim \mathrm{Poisson}(\lambda_1+\lambda_2)$가 된다.
+→ Independence로 인해 Joint Distribution이 곱으로 분해되고, Convolution 합산이 이항정리 구조로 정리되면서 모수의 합($\lambda_1+\lambda_2 + \cdots$)이 자연스럽게 등장한다.
+
+## 04_확률변수의 합의 Expectation과 Variance
+
+확률변수의 합의 distribution을 직접 계산하지 않더라도, Expectation과 Variance는 비교적 단순한 규칙으로 계산할 수 있다.
+
+### Expectation의 선형성
+
+$X_1,\ldots,X_n$에 대해 Independence 여부와 무관하게 다음이 성립한다.
+
+$$
+E\left[\sum_{i=1}^{n}X_i\right]=\sum_{i=1}^{n}E[X_i]
+$$
+
+→ Expectation은 단순 합산 연산으로 계산되므로, 선형성이 보존된다.
+
+### Variance의 일반식과 독립인 경우의 단순화
+
+$$ \begin{aligned}
+Y &= X_1 + X_2 + X_3 + \cdots + X_n \\[6pt]
+\operatorname{Var}[Y]
+&= E\left[(Y - E[Y])^2\right] \\
+&= E\left[
+\left(
+\sum_{i=1}^{n} X_i - \sum_{i=1}^{n} E[X_i]
+\right)^2
+\right] \\[6pt]
+&= E\left[
+\sum_{i=1}^{n} (X_i - E[X_i])^2
++ 2 \sum_{\substack{i,j \\ i \ne j}}
+(X_i - E[X_i])(X_j - E[X_j])
+\right] \\[6pt]
+&= \sum_{i=1}^{n} \operatorname{Var}(X_i)
++ 2 \sum_{i \ne j} \operatorname{Cov}(X_i, X_j)
+\end{aligned} $$
+
+만약 $X_i$들이 서로 independent이면 모든 $i\ne j$에 대해 $\mathrm{Cov}(X_i,X_j)=0$이므로 다음으로 단순화된다.
+
+$$
+\mathrm{Var}\left(\sum_{i=1}^{n}X_i\right)=\sum_{i=1}^{n}\mathrm{Var}(X_i)
+$$
+
+→ Independence는 distribution 계산에서는 Convolution의 형태로 수식을 간단하게 만들고, Variance에서는 Covariance를 제거하여 Variance 합으로 단순화한다.
+
+## 05_Independent & Identical Distribution(IID)에서의 특성: Sample Mean
+
+확률변수 합의 Expectation과 Variance 규칙은 설문조사에서 Sample Mean의 신뢰도를 정량화할 때 직접 사용된다.
+
+### 문제 정의
+
+- $X_1,\ldots,X_n$이 i.i.d.이고 $E[X_i]=\mu, \mathrm{Var}(X_i)=\sigma^2$이다.
+- 설문조사의 각 응답을 random variable $X_i$로 두며, 예를 들어 만족도를 1부터 5까지 점수로 응답했다고 가정한다.
+- Sample Mean $\bar{X}$를 다음으로 정의한다.
+- $$
+  \bar{X}=\frac{1}{n}\sum_{i=1}^{n}X_i
+  $$
+
+### 모델링
+
+$\bar{X}$는 설문 응답 점수들의 평균이므로 모집단의 평균 만족도 $\mu$를 추정하는 estimator로 해석된다.
+
+$i.i.d.$ 가정은 각 응답이 서로 영향을 주지 않고 Independence를 가지며, 모든 응답이 동일한 분포에서 추출되어 Identical Distribution을 가진다는 의미이다.
+
+→ Independence는 응답들 사이의 공분산 항을 제거하여 계산을 단순화하고, Identical Distribution은 모든 응답이 같은 $\mu,\sigma^2$를 공유하도록 만든다.
+
+### 수식 전개
+
+Expectation은 선형성으로 정리된다.
+
+$$
+E[\bar{X}]
+=E\left[\frac{1}{n}\sum_{i=1}^{n}X_i\right]
+=\frac{1}{n}\sum_{i=1}^{n}E[X_i]
+=\frac{1}{n}\cdot n\mu
+=\mu
+$$
+
+Variance는 스케일 성질과 Independence를 이용해 정리된다.
+
+$$
+\begin{aligned}
+\mathrm{Var}(\bar{X})
+&=\mathrm{Var}\left(\frac{1}{n}\sum_{i=1}^{n}X_i\right)
+=\frac{1}{n^2}\mathrm{Var}\left(\sum_{i=1}^{n}X_i\right) \\
+&=\frac{1}{n^2}\sum_{i=1}^{n}\mathrm{Var}(X_i)
+=\frac{1}{n^2}\cdot n\sigma^2
+=\frac{\sigma^2}{n}
+\end{aligned}
+$$
+
+### 결과 해석
+
+$E[\bar{X}]=\mu$는 설문에서 평균 점수 $\bar{X}$가 반복 측정 관점에서 모집단 평균 만족도 $\mu$를 중심으로 형성된다는 의미이다.
+
+$\mathrm{Var}(\bar{X})=\sigma^2/n$은 설문 응답 수 $n$이 커질수록 평균 점수의 흔들림이 줄어들어 더 안정적인 추정이 된다는 의미이다.
+
+→ 동일한 설문을 여러 번 반복한다고 생각하면, 표본 수가 작을 때는 표본 구성에 따라 평균 점수가 크게 달라질 수 있지만, 표본 수가 커질수록 평균 점수는 $\mu$ 주변으로 더 좁게 모이게 된다.
+
+→ 이 구조가 Central Limit Theorem에서 평균의 분포가 정규 형태로 안정화된다고 말할 수 있는 핵심 배경이 된다.
+
+![](/assets/img/tistory/93/image-001.png)

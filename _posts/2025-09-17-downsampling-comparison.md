@@ -1,0 +1,56 @@
+---
+layout: post
+title: Downsampling비교
+date: 2025-09-17 21:03:08 +0900
+slug: downsampling-comparison
+render_with_liquid: false
+categories:
+- 알고리즘
+tags: []
+last_modified_at: 2025-09-19 14:26:23 +0900
+source:
+  provider: tistory
+  id: 73
+---
+
+<div class="table-responsive tistory-table">
+<table>
+<tbody>
+<tr>
+<td>방법</td>
+<td>장점 (Pros)</td>
+<td>단점 (Cons)</td>
+<td>시간 복잡도 (Time Complexity)</td>
+<td>최적 사용 사례 (Best For)</td>
+</tr>
+<tr>
+<td><b>랜덤 다운샘플링 (Random Downsampling)</b></td>
+<td>- 단순하고 빠름<br/>- 구현이 쉬움 - 추가 연산 불필요</td>
+<td>- 중요한 구조 정보를 잃을 수 있음 <br/>- 임의로 점을 제거하여 중요한 특징을 놓칠 수 있음</td>
+<td><b>O(N)</b> (랜덤 샘플 선택)</td>
+<td>포인트 클라우드 크기를 빠르게 줄일 때</td>
+</tr>
+<tr>
+<td><b>복셀 그리드 다운샘플링 (Voxel Grid Downsampling)</b></td>
+<td>- 점들을 균일하게 분포시킴 <br/>- 복셀 크기를 조절하여 밀도 제어 가능 <br/>- Open3D에서 구현이 쉬움</td>
+<td>- 세밀한 디테일이 흐려질 수 있음 <br/>- 복셀 크기가 너무 크면 날카로운 모서리를 잃을 수 있음</td>
+<td><b>O(N)</b> (각 점을 복셀 해시에 매핑)</td>
+<td>공간적 일관성을 유지하면서 일반적인 다운샘플링</td>
+</tr>
+<tr>
+<td><b>균일 그리드 서브샘플링 (Uniform Grid Subsampling, Spatial Pooling)</b></td>
+<td>- 공간적 일관성 보존 <br/>- 균등 분포된 점에서 잘 작동 <br/>- 대규모 구조에서 랜덤 다운샘플링보다 나음</td>
+<td>- 세부 영역을 과도하게 단순화할 수 있음 <br/>- 랜덤 다운샘플링보다 계산 비용이 큼</td>
+<td><b>O(N log N)</b> (정렬 기반 서브샘플링 구현 시) <b>O(N)</b> (간단한 해시 기반 구현 시)</td>
+<td>균형 잡힌 밀도가 필요한 대규모 포인트 클라우드</td>
+</tr>
+<tr>
+<td><b>곡률 보존 샘플링 (Curvature-Preserving Sampling)</b></td>
+<td>- 모서리, 코너와 같은 중요한 특징을 보존 <br/>- 기하학적 복잡성이 높은 영역에 우선순위 부여 <br/>- 세밀한 디테일이 필요한 작업에 적합</td>
+<td>- 계산 비용이 큼 <br/>- 법선과 곡률 추정 필요 <br/>- 구현이 복잡함</td>
+<td><b>O(N log N)</b> (근접 탐색 + 곡률 계산) 최악의 경우 <br/><b>O(N²)</b> (kNN 반복 시)</td>
+<td>구조적 세부 보존이 필요한 작업</td>
+</tr>
+</tbody>
+</table>
+</div>

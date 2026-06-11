@@ -1,0 +1,244 @@
+---
+layout: post
+title: '[확률과 통계 19] Continuous Multiple RVs - Conditional Distributions'
+date: 2026-01-09 16:32:42 +0900
+slug: prob-19-continuous-multiple-rvs-conditional-distributions
+render_with_liquid: false
+use_math: true
+categories:
+- 공부
+- 확률과 통계
+tags: []
+last_modified_at: 2026-01-16 08:23:27 +0900
+imported_images:
+- assets/img/tistory/83/image-001.png
+- assets/img/tistory/83/image-002.png
+- assets/img/tistory/83/image-003.png
+- assets/img/tistory/83/image-004.png
+- assets/img/tistory/83/image-005.png
+series: probability-statistics
+series_order: 19
+source:
+  provider: tistory
+  id: 83
+---
+
+# 01) **Conditional PDF for Continuous RVs**
+
+## 00_서론
+
+discrete random variable에서 Conditional Probability는 $P(A\mid B)=\frac{P(A\cap B)}{P(B)}$로 정의되며, 조건 $B$가 주어졌을 때 표본공간을 제한하고 확률을 재정규화하는 연산으로 해석된다.
+
+continuous random variable에서는 단일 값 사건 $Y=y$의 확률이 $P(Y=y)=0$이므로 같은 형태의 분수 정의를 그대로 적용할 수 없고, 대신 밀도 기반의 Conditional PDF로 조건부 분포를 정의해야 한다.
+
+Conditional PDF는 Joint PDF와 Marginal PDF를 이용해 정의되며, 적분 범위 설정과 변수 소거가 정확히 수행될 때 조건부 분포가 완전한 PDF로 동작한다.
+
+## 01_Conditional PDF의 정의
+
+### 정의
+
+두 continuous random variable $X,Y$에 대해 Joint PDF가 $f_{XY}(x,y)$, Marginal PDF가 $f_Y(y)$일 때 Conditional PDF는 다음과 같이 정의된다.
+
+$$
+f(x\mid y)=\frac{f_{XY}(x,y)}{f_Y(y)},\quad f_Y(y)>0
+$$
+
+### 확률적 해석
+
+분자 $f_{XY}(x,y)$는 점 $(x,y)$ 주변의 결합 밀도를 나타내고, 분모 $f_Y(y)$는 조건 값 $y$가 관측될 상대적 가능성의 스케일을 제공한다.
+
+따라서 $\frac{f_{XY}(x,y)}{f_Y(y)}$는 조건 $Y=y$가 주어졌을 때 $X$가 $x$ 근방에 있을 상대적 가능성을 1이 되도록 정규화한 밀도로 해석된다.
+
+![](/assets/img/tistory/83/image-001.png)
+
+### 기하학적 해석
+
+Joint PDF를 $(x,y)$ 평면 위에 놓고 생각하면, $y$를 고정했을 때 $x$ 방향으로 남는 단면의 모양이 조건에 따른 분포 변화를 나타낸다.
+
+Conditional PDF는 단면의 높이를 그대로 쓰는 것이 아니라, 그 단면이 $x$에 대해 적분했을 때 1이 되도록 **전체 스케일을 조정한 함수로 이해하는 것**이 핵심이다.
+
+![](/assets/img/tistory/83/image-002.png)
+
+### Joint Distribution의 분해
+
+Conditional PDF 정의는 곧 다음의 곱 형태로 재배열된다.
+
+$$
+f_{XY}(x,y)=f_{X\mid Y}(x\mid y)f_Y(y)
+$$
+
+이 관계는 Joint Distribution을 Conditional Probability와 Marginalization으로 분해하는 기본 연결이며, 이후 Bayes Theorem 형태의 변환으로 확장된다.
+
+## 02_Conditional PDF의 핵심 속성
+
+### Non-negativity와 Normalization
+
+Conditional PDF는 고정된 $y$에 대해 $x$의 PDF로 동작해야 한다.
+
+- Non-negativity: $f_{X\mid Y}(x\mid y)\ge 0$
+- Normalization: $x$의 유효 범위에서 적분하면 1
+- $$
+  \int_{\mathcal{S}{X\mid Y=y}} f{X\mid Y}(x\mid y),dx=1
+  $$
+
+### 적분 범위의 의미
+
+- $(-\infty,\infty)$는 형식적 표기이며 실제 계산에서는 조건 $Y=y$가 주어졌을 때 가능한 $x$의 지지집합 $\mathcal{S}_{X\mid Y=y}$만 적분 범위가 된다.
+- 지지집합은 Joint PDF의 support에 의해 결정되며, 특히 $x$와 $y$가 부등식으로 묶인 경우 $\mathcal{S}_{X\mid Y=y}$가 $y$에 따라 변한다.
+  → Conditional PDF의 정규화 검증은 적분 구간을 정확히 설정하는 능력에 직접 의존한다.
+
+## 03_Conditional PDF 공식의 유도
+
+### Contional CDF와 PDF CDF관계
+
+$$
+F_{X\mid Y}(x\mid y)=P(X\le x\mid Y=y)
+$$
+
+$$
+\begin{aligned}
+f(x \mid y)
+&= \frac{\partial}{\partial x}, F_{X\mid Y}(x \mid y), \[6pt]
+f(y \mid x)
+&= \frac{\partial}{\partial y}, F_{Y\mid X}(y \mid x)
+\end{aligned}
+$$
+
+### 단일 값 확률 0을 피하기 위한 근사
+
+$P(Y=y)=0$ 문제를 피하기 위해 $\Delta y$라는 작은 구간에 들어가는 사건으로 대체한다.
+
+$$
+\begin{aligned}
+P(X \le x \mid Y = y)
+&= \frac{P(X \le x,\; Y=y)}{P(Y=y)} \\
+&\approx \lim_{\Delta y \to 0}
+\frac{P(X \le x,\; y < Y \le y + \Delta y)}
+{P(y < Y \le y + \Delta y)}
+\\
+&= \lim_{\Delta y \to 0}
+\frac{F_{XY}(x, y + \Delta y) - F_{XY}(x, y)}
+{F_Y(y + \Delta y) - F_Y(y)}
+\\
+\\
+&=\lim_{\Delta y \to 0}
+\frac{
+\displaystyle \frac{F_{XY}(x, y + \Delta y) - F_{XY}(x, y)}{\Delta y}
+}{
+\displaystyle \frac{F_Y(y + \Delta y) - F_Y(y)}{\Delta y}
+}
+\\
+&=\frac{\dfrac{\partial}{\partial y} F_{XY}(x, y)}{f_Y(y)}
+\\
+&=
+\frac{\frac{\partial^2}{\partial x\partial y}F_{XY}(x,y)}{f_Y(y)}
+\\
+&=\frac{f_{XY}(x,y)}{f_Y(y)}
+
+\end{aligned}
+
+$$
+
+→ 조건부 확률을 작은 구간으로 근사하고 극한을 취하면 동일한 형태로 유도된다.
+
+![](/assets/img/tistory/83/image-003.png)
+
+## 04_예제: 정의역이 얽힌 Joint PDF에서 Conditional PDF 계산
+
+### 문제 정의
+
+Joint PDF가 $f_{XY}(x,y)=2e^{-x}e^{-y}$이고 정의역이 $0\le x\le y<\infty$로 주어진다.
+
+![](/assets/img/tistory/83/image-004.png)
+
+### 모델링
+
+- $X,Y$는 continuous random variable이며, $0\le x\le y$ 제약으로 인해 independent가 아니다.
+- $S={(x,y)\mid 0\le x\le y}$이므로 고정된 $y$에서 가능한 $x$는 $S_x=[0,y]$이다.
+
+### 수식 전개
+
+1. Marginal PDF $f_Y(y)$를 계산한다.
+   $$
+   f_Y(y)=\int_{0}^{y}2e^{-x}e^{-y},dx=2e^{-y}\int_{0}^{y}e^{-x},dx=2e^{-y}(1-e^{-y}),\quad y\ge0
+   $$
+2. 정의에 따라 Conditional PDF를 계산한다.
+   $$
+   f_{X\mid Y}(x\mid y)=\frac{2e^{-x}e^{-y}}{2e^{-y}(1-e^{-y})}=\frac{e^{-x}}{1-e^{-y}},\quad 0\le x\le y,\; y\ge0
+   $$
+3. 정규화 성질을 유효 범위에서 검증한다.
+   $$
+   \int_{0}^{y} f_{X\mid Y}(x\mid y)dx=\int_{0}^{y}\frac{e^{-x}}{1-e^{-y}}dx=\frac{1}{1-e^{-y}}(1-e^{-y})=1
+   $$
+
+### 결과 해석
+
+조건 $Y=y$가 주어졌을 때 $X$는 $[0,y]$ 안에서만 존재할 수 있으므로 적분 범위를 $0$부터 $y$로 잡는 것이 변수 소거의 핵심이다.
+
+계산된 $f_{X\mid Y}(x\mid y)$는 $y$가 커질수록 분모 $1-e^{-y}$가 1에 가까워져 $e^{-x}$형태에 가까워지며, 작은 $y$에서는 가능한 $x$ 범위가 좁아져 분포가 강하게 재정규화된다.
+
+## 05_Conditional Mean
+
+### 수식 또는 정의 제시
+
+Conditional Expectation은 Conditional PDF로부터 다음과 같이 정의된다.
+
+$$
+\begin{aligned}
+E[X \mid Y = y]
+&= \int_{-\infty}^{\infty} x, f(x \mid y), dx,
+\quad \text{for } x \in {x \mid Y = y}
+\end{aligned}
+$$
+
+$$
+\begin{aligned}E[Y \mid X = x]&= \int_{-\infty}^{\infty} y, f(y \mid x), dy,\quad \text{for } y \in {, y \mid X = x ,}\end{aligned}
+$$
+
+### 예제 적용
+
+앞의 예제에서 $f_{Y\mid X}(y\mid x)$를 통해 $E[Y\mid X=x]$를 계산하면 조건부 평균이 $x$의 함수로 표현됨을 직접 확인할 수 있다.
+
+$$
+f_X(x)=\int_{x}^{\infty}2e^{-x}e^{-y},dy=2e^{-2x},\quad x\ge0
+\\
+f(y\mid x)=\frac{2e^{-x}e^{-y}}{2e^{-2x}}=e^{x}e^{-y},\quad y\ge x
+\\\
+\\
+E[Y\mid X=x]
+=\int_{-\infty}^{\infty} y\, f(y \mid x)\, dy
+=\int_{x}^{\infty}y\,e^{x}e^{-y}\,dy=x+1=g(x)
+$$
+
+이 결과는 조건부 평균이 conditional variable의 값에 의해 결정되는 함수라는 성질을 명확히 보여준다.
+
+- 분모 $f_X(x)$는 정규화를 담당하며 $x$에 대한 Marginalization으로 계산된다.
+
+## 06_Conditional pdf of General Multiple RVs
+
+Multiple RVs에서 조건부는 변수 파트와 조건 파트를 분리해 정의한다.
+
+$$
+f(x_1,\ldots,x_k\mid x_{k+1},\ldots,x_n)=\frac{f(x_1,\ldots,x_n)}{f(x_{k+1},\ldots,x_n)}
+$$
+
+이 일반식에서도 핵심은 조건 파트의 Marginalization으로 분모를 계산하고, 정의역에 맞는 적분 범위를 설정해 변수 소거를 올바르게 수행하는 것이다.
+
+![](/assets/img/tistory/83/image-005.png)
+
+## 07_추가자료 : Bayes Theorem과 다변수 Conditional PDF
+
+### 수식 또는 정의 제시
+
+Conditional PDF와 Marginalization을 결합하면 continuous random variable에 대한 Bayes Theorem 형태를 얻는다.
+
+$$
+f_{Y\mid X}(y\mid x)=\frac{f_{X\mid Y}(x\mid y),f_Y(y)}{f_X(x)}
+$$
+
+### 확률적 해석
+
+- $f_{X\mid Y}(x\mid y)$는 관측 $x$가 조건 $y$에서 얼마나 그럴듯한지 나타내는 likelihood로 해석될 수 있다.
+- $f_Y(y)$는 관측 이전의 정보인 prior 역할을 하며, $f_{Y\mid X}(y\mid x)$는 관측 이후의 posterior로 해석될 수 있다.
+
+[https://www.youtube.com/watch?v=wPzRu5TtQJs&t=783s](https://www.youtube.com/watch?v=wPzRu5TtQJs&t=783s)
