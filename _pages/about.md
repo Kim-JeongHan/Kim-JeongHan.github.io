@@ -37,6 +37,8 @@ I am interested in real-time robot path and motion planning for high-dimensional
   <a class="btn btn-sm btn-outline-primary mb-2" href="https://www.linkedin.com/in/jeonghan-kim-bb1013274" target="_blank" rel="noopener noreferrer">LinkedIn</a>
 </div>
 
+<div class="clearfix"></div>
+
 ## [News]({{ '/news/' | relative_url }})
 
 {% include news.liquid limit=true %}
