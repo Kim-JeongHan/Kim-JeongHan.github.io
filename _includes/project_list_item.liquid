@@ -1,0 +1,46 @@
+{% assign project = include.project %}
+{% assign badge_color = include.badge_color %}
+{% assign project_summary = project.summary %}
+{% unless project_summary %}
+  {% assign project_summary = project.content | markdownify | split: "</p>" | first | strip_html | strip %}
+{% endunless %}
+{% assign project_link = '' %}
+{% assign project_link_external = false %}
+{% unless project.code_only %}
+  {% assign project_link = project.url | relative_url %}
+  {% if project.website %}
+    {% assign project_link = project.website %}
+    {% if project.website contains '://' %}
+      {% assign project_link_external = true %}
+    {% endif %}
+  {% endif %}
+{% endunless %}
+
+<li>
+  <div class="row">
+    <div class="col col-sm-2 abbr">
+      {% include project_preview.liquid project=project badge_color=badge_color %}
+    </div>
+    <div id="{{ project.title | slugify }}" class="col-sm-8">
+      <div class="title">
+        {% if project_link != '' %}
+          <a href="{{ project_link }}" {% if project_link_external %}target="_blank" rel="external nofollow noopener"{% endif %}>{{ project.title }}</a>
+        {% else %}
+          {{ project.title }}
+        {% endif %}
+      </div>
+      <div class="author">{{ project.description }}</div>
+      <div class="periodical">
+        <em>{{ project_summary }}</em>
+      </div>
+      <div class="links">
+        {% if project_link != '' %}
+          <a href="{{ project_link }}" class="btn btn-sm z-depth-0" role="button" {% if project_link_external %}target="_blank" rel="external nofollow noopener"{% endif %}>Website</a>
+        {% endif %}
+        {% if project.github %}
+          <a href="{{ project.github }}" class="btn btn-sm z-depth-0" role="button" rel="external nofollow noopener" target="_blank">Code</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</li>

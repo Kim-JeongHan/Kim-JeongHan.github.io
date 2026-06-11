@@ -1,13 +1,16 @@
 {% assign project = include.project %}
 {% assign badge_color = include.badge_color %}
-{% assign project_link = project.url | relative_url %}
+{% assign project_link = '' %}
 {% assign project_link_external = false %}
-{% if project.website %}
-  {% assign project_link = project.website %}
-  {% if project.website contains '://' %}
-    {% assign project_link_external = true %}
+{% unless project.code_only %}
+  {% assign project_link = project.url | relative_url %}
+  {% if project.website %}
+    {% assign project_link = project.website %}
+    {% if project.website contains '://' %}
+      {% assign project_link_external = true %}
+    {% endif %}
   {% endif %}
-{% endif %}
+{% endunless %}
 
 {% if project.preview %}
   {% assign preview_lower = project.preview | downcase %}
@@ -72,7 +75,7 @@
         <img class="preview publication-preview-image z-depth-1 rounded" src="{{ preview_path }}" alt="{{ project.title | escape }}">
       {% endif %}
     </button>
-  {% else %}
+  {% elsif project_link != '' %}
     <a
       class="publication-preview-link project-preview"
       href="{{ project_link }}"
@@ -81,6 +84,8 @@
     >
       <img class="preview publication-preview-image z-depth-1 rounded" src="{{ preview_path }}" alt="{{ project.title | escape }}">
     </a>
+  {% else %}
+    <img class="preview publication-preview-image z-depth-1 rounded" src="{{ preview_path }}" alt="{{ project.title | escape }}">
   {% endif %}
 
   {% if project.video or preview_is_video %}
