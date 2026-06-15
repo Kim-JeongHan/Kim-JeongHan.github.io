@@ -187,6 +187,7 @@ collections:
     output: true
   teachings:
     output: true
+    permalink: /teaching/:path/
 
 # -----------------------------------------------------------------------------
 # Jekyll settings
@@ -284,6 +285,11 @@ defaults:
       path: "assets"
     values:
       sitemap: false
+  - scope:
+      path: ""
+      type: teachings
+    values:
+      layout: page
 
 sass:
   style: compressed
