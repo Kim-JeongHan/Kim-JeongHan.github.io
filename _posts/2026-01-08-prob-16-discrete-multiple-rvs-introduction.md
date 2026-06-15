@@ -1,7 +1,7 @@
 ---
 layout: post
 title: '[확률과 통계 16] Discrete Multiple RVs - Introduction'
-date: 2026-01-07 21:00:52 +0900
+date: 2026-01-08 21:00:52 +0900
 slug: prob-16-discrete-multiple-rvs-introduction
 render_with_liquid: false
 use_math: true
