@@ -284,6 +284,13 @@ defaults:
       path: "assets"
     values:
       sitemap: false
+  - scope:
+      path: ""
+      type: posts
+    values:
+      toc:
+        sidebar: right
+        collapse: auto
 
 sass:
   style: compressed
