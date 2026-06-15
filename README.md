@@ -21,20 +21,18 @@ Blog navigation is generated from post categories and rendered by `_includes/blo
 - `secondary_order` controls subcategory order within each top-level category.
 - Categories not listed in the data file still appear after the preferred order.
 
-## Teaching entries
-
-The `/teaching/` page is backed by the `_teachings/` collection. Add one Markdown file per course or seminar, for example `_teachings/robotics-seminar.md`:
+Course notes for classes you took should stay in `_posts/` and use blog categories. Use `공부` as the primary category and `수업` as the secondary category:
 
 ```yaml
 ---
-title: Robotics Seminar
-description: Weekly notes and materials for robotics software topics.
-term: 2026 Spring
-role: Instructor
-venue: Hanyang University ERICA
-importance: 1
-slides: /assets/pdf/robotics-seminar.pdf
-repository: https://github.com/example/robotics-seminar
+layout: post
+title: 확률과 통계 1주차
+categories:
+  - 공부
+  - 수업
+tags:
+  - 확률과 통계
+  - lecture-note
 ---
 ```
 

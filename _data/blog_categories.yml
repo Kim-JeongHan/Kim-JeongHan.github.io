@@ -10,6 +10,7 @@ primary_order:
   - 카테고리 없음
 
 secondary_order:
+  - 수업
   - 확률과 통계
   - mpc
   - 로봇공학
