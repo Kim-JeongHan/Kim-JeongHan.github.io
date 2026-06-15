@@ -1,0 +1,41 @@
+{% assign previous_post = page.previous %}
+{% assign next_post = page.next %}
+
+{% if previous_post or next_post %}
+  {% if page.layout == 'post' %}
+    <br>
+    <hr>
+    <br>
+  {% endif %}
+
+  <nav class="post-neighbor-nav" aria-label="Post navigation">
+    <div class="post-neighbor-grid">
+      {% if previous_post %}
+        <a class="post-neighbor-link post-neighbor-link-previous" href="{{ previous_post.url | relative_url }}">
+          <span class="post-neighbor-label">이전 글</span>
+          <span class="post-neighbor-title">{{ previous_post.title }}</span>
+        </a>
+      {% else %}
+        <span class="post-neighbor-link post-neighbor-link-empty" aria-hidden="true"></span>
+      {% endif %}
+
+      {% if next_post %}
+        <a class="post-neighbor-link post-neighbor-link-next" href="{{ next_post.url | relative_url }}">
+          <span class="post-neighbor-label">다음 글</span>
+          <span class="post-neighbor-title">{{ next_post.title }}</span>
+        </a>
+      {% else %}
+        <span class="post-neighbor-link post-neighbor-link-empty" aria-hidden="true"></span>
+      {% endif %}
+    </div>
+  </nav>
+{% endif %}
+
+{% if site.newsletter.enabled and site.footer_fixed %}
+  <p class="mb-2" style="margin-top: 1.5rem !important">Subscribe to be notified of future articles:</p>
+  {% if site.plugins contains 'al_newsletter' %}
+    {% include plugins/al_newsletter_form_left.liquid %}
+  {% else %}
+    {% include newsletter.liquid left=true %}
+  {% endif %}
+{% endif %}

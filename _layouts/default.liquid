@@ -66,5 +66,8 @@
 
     <!-- JavaScripts -->
     {% include scripts.liquid %}
+    {% if page.toc and page.toc.sidebar %}
+      <script defer src="{{ '/assets/js/toc-math.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
+    {% endif %}
   </body>
 </html>
