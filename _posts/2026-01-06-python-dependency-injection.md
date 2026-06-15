@@ -4,6 +4,7 @@ title: 의존성 주입(Dependency Injection) 기법을 활용한 파이썬 코�
 date: 2026-01-06 12:25:39 +0900
 slug: python-dependency-injection
 render_with_liquid: false
+published: false
 categories:
 - 프로그래밍
 tags:
