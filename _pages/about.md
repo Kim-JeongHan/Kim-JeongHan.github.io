@@ -27,7 +27,7 @@ display_categories: [research, robotics, open-source]
 
 I am a robotics software engineer on the Motion Algorithm Team at Roboe Technologies, where I work on motion planning and control.
 
-Before joining Roboe, I worked on autonomous mobile robot software at Gole Robotics. I received my B.S. degree from Hanyang University.
+Before joining Roboe, I worked on autonomous mobile robot software at Gole Robotics. I received my B.S. degree from Hanyang University ERICA.
 
 I am interested in real-time robot path and motion planning for high-dimensional, constraint-rich environments.
 
