@@ -9,9 +9,6 @@ categories:
 tags:
 - algorithm
 last_modified_at: 2025-09-19 14:26:23 +0900
-source:
-  provider: tistory
-  id: 73
 ---
 
 <div class="table-responsive tistory-table">

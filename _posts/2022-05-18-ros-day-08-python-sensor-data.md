@@ -13,9 +13,6 @@ tags:
 last_modified_at: 2022-05-20 15:05:35 +0900
 series: ros-basics
 series_order: 10
-source:
-  provider: tistory
-  id: 12
 ---
 
 roboticsbackend 홈페이지에서 ROS tutorial 내용을 바탕으로 정리한 내용이다.

@@ -11,15 +11,8 @@ categories:
 tags:
 - 수업
 last_modified_at: 2026-01-19 10:16:14 +0900
-imported_images:
-- assets/img/blog/prob-25-transform-rvs-multiple-rvs/image-001.png
-- assets/img/blog/prob-25-transform-rvs-multiple-rvs/image-002.png
-- assets/img/blog/prob-25-transform-rvs-multiple-rvs/image-003.png
 series: probability-statistics
 series_order: 25
-source:
-  provider: tistory
-  id: 91
 ---
 
 # 01) **Multivariate random variable transformation: Jacobian and applications**

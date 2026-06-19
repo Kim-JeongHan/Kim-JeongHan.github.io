@@ -11,13 +11,6 @@ categories:
 tags:
 - convex
 last_modified_at: 2025-03-03 03:37:55 +0900
-imported_images:
-- assets/img/blog/gradient-matrix-derivatives/image-001.png
-- assets/img/blog/gradient-matrix-derivatives/image-002.png
-- assets/img/blog/gradient-matrix-derivatives/image-003.png
-source:
-  provider: tistory
-  id: 19
 ---
 
 최적화에서 **기울기(Gradient)** 는 중요한 역할을 하며, 특히 경사하강법(Gradient Descent)과 같은 최적화 알고리즘에서 필수적으로 사용된다. 기울기는 다변수 함수에서 특정 지점에서의 변화를 나타내며, 함수의 극값(최대 또는 최소)을 찾는 데 활용된다.

@@ -11,13 +11,8 @@ categories:
 tags:
 - MPC
 last_modified_at: 2025-03-23 22:46:54 +0900
-imported_images:
-- assets/img/blog/mpc-book-09-moving-horizon-estimation/image-001.png
 series: mpc-study
 series_order: 9
-source:
-  provider: tistory
-  id: 31
 ---
 
 회사에서 최적제어에 대한 필요성이 점점 생기고 있어, 좀더 빠른속도로 공부해야겠다...

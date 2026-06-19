@@ -15,9 +15,6 @@ tags:
 last_modified_at: 2025-04-02 00:44:00 +0900
 series: mpc-study
 series_order: 12
-source:
-  provider: tistory
-  id: 35
 ---
 
 책에서는 이 장 전체에서 다음과 같은 가정을 한다.

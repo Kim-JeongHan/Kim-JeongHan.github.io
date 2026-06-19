@@ -15,9 +15,6 @@ tags:
 last_modified_at: 2025-03-17 10:03:14 +0900
 series: mpc-study
 series_order: 3
-source:
-  provider: tistory
-  id: 23
 ---
 
 ### **Cost Function \( V(x(0), u) \)의 유도 과정**

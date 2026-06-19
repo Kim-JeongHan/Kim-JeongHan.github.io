@@ -9,12 +9,6 @@ categories:
 tags:
 - robotics
 last_modified_at: 2025-08-20 22:09:30 +0900
-imported_images:
-- assets/img/blog/plotjuggler-data-analysis/image-001.png
-- assets/img/blog/plotjuggler-data-analysis/image-002.png
-source:
-  provider: tistory
-  id: 54
 ---
 
 ## PlotJuggler

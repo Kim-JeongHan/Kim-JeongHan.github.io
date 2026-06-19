@@ -11,13 +11,8 @@ tags:
 - ROS
 - Topic
 last_modified_at: 2022-02-27 04:22:28 +0900
-imported_images:
-- assets/img/blog/ros-day-02-topic-basics/image-001.png
 series: ros-basics
 series_order: 4
-source:
-  provider: tistory
-  id: 5
 ---
 
 ## Topic의 발행

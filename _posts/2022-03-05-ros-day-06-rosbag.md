@@ -12,9 +12,6 @@ tags:
 last_modified_at: 2022-03-05 21:24:16 +0900
 series: ros-basics
 series_order: 8
-source:
-  provider: tistory
-  id: 9
 ---
 
 ## rosbag record를 이용한 데이터 기록

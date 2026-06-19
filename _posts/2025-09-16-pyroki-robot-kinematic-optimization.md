@@ -11,11 +11,6 @@ tags:
 - kinematics
 - optimization
 last_modified_at: 2025-09-16 00:49:33 +0900
-imported_images:
-- assets/img/blog/pyroki-robot-kinematic-optimization/image-001.png
-source:
-  provider: tistory
-  id: 72
 ---
 
 # 도입

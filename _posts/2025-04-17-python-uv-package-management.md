@@ -12,9 +12,6 @@ tags:
 last_modified_at: 2025-04-17 01:50:46 +0900
 series: python-uv
 series_order: 1
-source:
-  provider: tistory
-  id: 44
 ---
 
 Python 생태계는 오랫동안 다양한 패키지 관리 도구들을 사용해왔다. 대표적인 것이 바로 pip인데, 요즘 Rust로 구현된 **uv**라는 새로운 도구가 빠르게 유행이라고 해서 게시글을 작성하게 되었다.

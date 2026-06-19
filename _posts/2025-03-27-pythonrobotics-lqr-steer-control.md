@@ -14,13 +14,8 @@ tags:
 - control
 - LQR
 last_modified_at: 2025-04-02 00:44:47 +0900
-imported_images:
-- assets/img/blog/pythonrobotics-lqr-steer-control/image-001.png
 series: pythonrobotics-analysis
 series_order: 2
-source:
-  provider: tistory
-  id: 37
 ---
 
 ## main 코드

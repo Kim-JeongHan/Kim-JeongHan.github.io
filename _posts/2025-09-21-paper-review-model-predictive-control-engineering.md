@@ -13,11 +13,6 @@ tags:
 - paper-review
 - control
 last_modified_at: 2025-09-23 22:47:11 +0900
-imported_images:
-- assets/img/blog/paper-review-model-predictive-control-engineering/image-001.png
-source:
-  provider: tistory
-  id: 76
 ---
 
 # mpc 발전의 역사

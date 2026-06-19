@@ -12,13 +12,8 @@ tags:
 - MPC
 - lq
 last_modified_at: 2025-03-18 23:00:47 +0900
-imported_images:
-- assets/img/blog/mpc-book-04-lq-quadratic-sum-example/image-001.png
 series: mpc-study
 series_order: 4
-source:
-  provider: tistory
-  id: 24
 ---
 
 ### **Sum of Quadratic Functions (이차 함수의 합)**

@@ -13,9 +13,6 @@ tags:
 last_modified_at: 2025-03-25 08:28:50 +0900
 series: mpc-study
 series_order: 8
-source:
-  provider: tistory
-  id: 34
 ---
 
 #### 시스템 모델: 비선형 이산시간 시스템

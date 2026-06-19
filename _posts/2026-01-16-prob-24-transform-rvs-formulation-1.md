@@ -11,16 +11,8 @@ categories:
 tags:
 - 수업
 last_modified_at: 2026-01-16 12:59:38 +0900
-imported_images:
-- assets/img/blog/prob-24-transform-rvs-formulation-1/image-001.png
-- assets/img/blog/prob-24-transform-rvs-formulation-1/image-002.png
-- assets/img/blog/prob-24-transform-rvs-formulation-1/image-003.png
-- assets/img/blog/prob-24-transform-rvs-formulation-1/image-004.png
 series: probability-statistics
 series_order: 24
-source:
-  provider: tistory
-  id: 90
 ---
 
 # 01) **random variable transformation: 단일 변수 PDF 유도**

@@ -12,11 +12,6 @@ tags:
 - cbindgen
 - Rust
 last_modified_at: 2025-09-01 23:28:32 +0900
-imported_images:
-- assets/img/blog/cbindgen-rust-cpp-header-generator/image-001.png
-source:
-  provider: tistory
-  id: 67
 ---
 
 Rust는 안전성과 성능을 동시에 추구하는 언어이지만, 현실적인 소프트웨어 개발에서는 여전히 C/C++과의 상호운용이 필수적이다. 특히 기존 C++ 기반 시스템에 Rust 라이브러리를 통합하거나, Rust로 작성한 핵심 모듈을 C API 형태로 외부에 제공해야 하는 경우가 많다. 이때 수작업으로 헤더 파일을 작성하는 것은 단순하면서도 오류 가능성이 큰 작업이다. 여기서 등장하는 도구가 바로 **cbindgen**이다.

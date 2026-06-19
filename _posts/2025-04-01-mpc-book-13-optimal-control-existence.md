@@ -14,9 +14,6 @@ tags:
 last_modified_at: 2025-04-02 01:21:12 +0900
 series: mpc-study
 series_order: 13
-source:
-  provider: tistory
-  id: 41
 ---
 
 본 게시글은 최적제어의 해가 존재하는 조건은 무엇인지, 그렇다면, 해가 집합일 경우 어떻게 처리되는지에 대한 내용을 다루고 있다. 해당 최적제어는 연속이라는 가정에서 출발한다.

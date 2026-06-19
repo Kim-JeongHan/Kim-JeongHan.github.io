@@ -11,18 +11,6 @@ tags:
 - Cargo
 - Rust
 last_modified_at: 2025-09-03 00:48:26 +0900
-imported_images:
-- assets/img/blog/rust-install-cargo-vscode/image-001.png
-- assets/img/blog/rust-install-cargo-vscode/image-002.png
-- assets/img/blog/rust-install-cargo-vscode/image-003.png
-- assets/img/blog/rust-install-cargo-vscode/image-004.png
-- assets/img/blog/rust-install-cargo-vscode/image-005.png
-- assets/img/blog/rust-install-cargo-vscode/image-006.png
-- assets/img/blog/rust-install-cargo-vscode/image-007.png
-- assets/img/blog/rust-install-cargo-vscode/image-008.png
-source:
-  provider: tistory
-  id: 69
 ---
 
 ## rust 설치하기

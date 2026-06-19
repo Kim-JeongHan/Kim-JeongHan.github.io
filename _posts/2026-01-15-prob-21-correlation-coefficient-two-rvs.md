@@ -11,15 +11,8 @@ categories:
 tags:
 - 수업
 last_modified_at: 2026-01-16 08:23:51 +0900
-imported_images:
-- assets/img/blog/prob-21-correlation-coefficient-two-rvs/image-001.png
-- assets/img/blog/prob-21-correlation-coefficient-two-rvs/image-002.png
-- assets/img/blog/prob-21-correlation-coefficient-two-rvs/image-003.png
 series: probability-statistics
 series_order: 21
-source:
-  provider: tistory
-  id: 86
 ---
 
 # 01) **Correlation Coefficient**

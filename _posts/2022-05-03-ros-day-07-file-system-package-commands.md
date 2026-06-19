@@ -10,13 +10,8 @@ categories:
 tags:
 - ROS
 last_modified_at: 2022-05-03 18:36:28 +0900
-imported_images:
-- assets/img/blog/ros-day-07-file-system-package-commands/image-001.png
 series: ros-basics
 series_order: 9
-source:
-  provider: tistory
-  id: 10
 ---
 
 ## **ROS 파일 시스템 레벨 이해**

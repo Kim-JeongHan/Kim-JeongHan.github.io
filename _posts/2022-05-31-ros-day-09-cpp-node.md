@@ -11,13 +11,8 @@ tags:
 - C++
 - ROS
 last_modified_at: 2022-06-07 17:57:47 +0900
-imported_images:
-- assets/img/blog/ros-day-09-cpp-node/image-001.png
 series: ros-basics
 series_order: 12
-source:
-  provider: tistory
-  id: 14
 ---
 
 위 코드는 ROS로 효과적인 로봇 프로그래밍하기 3판에 있는 코드와 설명을 사용하겠다.

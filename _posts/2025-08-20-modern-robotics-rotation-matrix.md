@@ -11,15 +11,8 @@ tags:
 - modern-robotics
 - rotation-matrix
 last_modified_at: 2025-08-20 23:58:23 +0900
-imported_images:
-- assets/img/blog/modern-robotics-rotation-matrix/image-001.png
-- assets/img/blog/modern-robotics-rotation-matrix/image-002.png
-- assets/img/blog/modern-robotics-rotation-matrix/image-003.png
 series: modern-robotics
 series_order: 2
-source:
-  provider: tistory
-  id: 58
 ---
 
 ## **Rigid body의 표현 - 회전 행렬**

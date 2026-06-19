@@ -10,9 +10,6 @@ categories:
 tags:
 - Python
 last_modified_at: 2026-06-15 00:00:00 +0900
-source:
-  provider: tistory
-  id: 80
 ---
 
 원본 영상: [https://www.youtube.com/watch?v=Xhzn1eAxoXk](https://www.youtube.com/watch?v=Xhzn1eAxoXk)

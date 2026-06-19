@@ -12,13 +12,8 @@ tags:
 - modern-robotics
 - rotation-matrix
 last_modified_at: 2025-08-24 23:10:10 +0900
-imported_images:
-- assets/img/blog/modern-robotics-rotation-matrix-angular-velocity/image-001.png
 series: modern-robotics
 series_order: 3
-source:
-  provider: tistory
-  id: 59
 ---
 
 ### Rotation Matrix와 Angular Velocity의 관계

@@ -15,9 +15,6 @@ tags:
 last_modified_at: 2025-03-16 18:17:52 +0900
 series: mpc-study
 series_order: 2
-source:
-  provider: tistory
-  id: 22
 ---
 
 ### **1.3.1 Linear Quadratic Problem (LQ 문제)**

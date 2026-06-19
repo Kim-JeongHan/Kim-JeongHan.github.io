@@ -12,13 +12,6 @@ tags:
 - robotics
 - kinematics
 last_modified_at: 2025-05-13 15:32:28 +0900
-imported_images:
-- assets/img/blog/robotics-dh-parameter/image-001.png
-- assets/img/blog/robotics-dh-parameter/image-002.png
-- assets/img/blog/robotics-dh-parameter/image-003.png
-source:
-  provider: tistory
-  id: 43
 ---
 
 가끔 수식이 기억이 안날때가 있어, 찾아보고 싶어 정리한다.

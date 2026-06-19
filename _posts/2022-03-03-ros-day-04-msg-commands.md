@@ -12,9 +12,6 @@ tags:
 last_modified_at: 2022-03-03 03:53:02 +0900
 series: ros-basics
 series_order: 6
-source:
-  provider: tistory
-  id: 7
 ---
 
 ```shell

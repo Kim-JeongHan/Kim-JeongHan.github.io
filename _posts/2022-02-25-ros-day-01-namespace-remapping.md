@@ -11,20 +11,8 @@ tags:
 - remapping
 - ROS
 last_modified_at: 2022-02-25 03:45:42 +0900
-imported_images:
-- assets/img/blog/ros-day-01-namespace-remapping/image-001.png
-- assets/img/blog/ros-day-01-namespace-remapping/image-002.png
-- assets/img/blog/ros-day-01-namespace-remapping/image-003.png
-- assets/img/blog/ros-day-01-namespace-remapping/image-004.png
-- assets/img/blog/ros-day-01-namespace-remapping/image-005.png
-- assets/img/blog/ros-day-01-namespace-remapping/image-006.png
-- assets/img/blog/ros-day-01-namespace-remapping/image-007.png
-- assets/img/blog/ros-day-01-namespace-remapping/image-008.png
 series: ros-basics
 series_order: 2
-source:
-  provider: tistory
-  id: 3
 ---
 
 ## namspace

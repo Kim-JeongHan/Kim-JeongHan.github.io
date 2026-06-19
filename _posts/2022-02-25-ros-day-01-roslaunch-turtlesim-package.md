@@ -11,13 +11,8 @@ tags:
 - remapping
 - ROS
 last_modified_at: 2022-02-25 03:46:50 +0900
-imported_images:
-- assets/img/blog/ros-day-01-roslaunch-turtlesim-package/image-001.png
 series: ros-basics
 series_order: 3
-source:
-  provider: tistory
-  id: 4
 ---
 
 ## ROS package

@@ -11,14 +11,8 @@ categories:
 tags:
 - 수업
 last_modified_at: 2026-01-20 17:32:53 +0900
-imported_images:
-- assets/img/blog/prob-26-sum-independent-continuous-rvs/image-001.png
-- assets/img/blog/prob-26-sum-independent-continuous-rvs/image-002.png
 series: probability-statistics
 series_order: 26
-source:
-  provider: tistory
-  id: 92
 ---
 
 # 01) **독립 연속 확률 변수 합의 PDF와 Convolution**

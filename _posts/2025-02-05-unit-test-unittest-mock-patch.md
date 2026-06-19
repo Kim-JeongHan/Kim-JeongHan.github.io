@@ -10,11 +10,6 @@ categories:
 tags:
 - Python
 last_modified_at: 2025-07-17 14:42:30 +0900
-imported_images:
-- assets/img/blog/unit-test-unittest-mock-patch/image-001.png
-source:
-  provider: tistory
-  id: 16
 ---
 
 Unit Test를 진행하다 보면, 데이터베이스 또는 외부 API에 의존하는 코드를 테스트해야 할 일이 필연적으로 생긴다.

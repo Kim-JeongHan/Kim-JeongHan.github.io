@@ -10,9 +10,6 @@ categories:
 tags:
 - AI
 last_modified_at: 2026-02-12 17:32:51 +0900
-source:
-  provider: tistory
-  id: 95
 ---
 
 ### 1. 왜 사용하는가? (핵심: VRAM 절약)

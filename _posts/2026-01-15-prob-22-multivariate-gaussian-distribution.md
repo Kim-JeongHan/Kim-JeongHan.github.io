@@ -11,18 +11,8 @@ categories:
 tags:
 - 수업
 last_modified_at: 2026-01-16 08:24:14 +0900
-imported_images:
-- assets/img/blog/prob-22-multivariate-gaussian-distribution/image-001.png
-- assets/img/blog/prob-22-multivariate-gaussian-distribution/image-002.png
-- assets/img/blog/prob-22-multivariate-gaussian-distribution/image-003.png
-- assets/img/blog/prob-22-multivariate-gaussian-distribution/image-004.png
-- assets/img/blog/prob-22-multivariate-gaussian-distribution/image-005.png
-- assets/img/blog/prob-22-multivariate-gaussian-distribution/image-006.png
 series: probability-statistics
 series_order: 22
-source:
-  provider: tistory
-  id: 88
 ---
 
 # 01) **Multivariate Gaussian Distribution: Joint, Marginal, Conditional**

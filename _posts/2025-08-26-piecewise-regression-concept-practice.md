@@ -10,12 +10,6 @@ categories:
 tags:
 - algorithm
 last_modified_at: 2025-08-27 00:34:57 +0900
-imported_images:
-- assets/img/blog/piecewise-regression-concept-practice/image-001.png
-- assets/img/blog/piecewise-regression-concept-practice/image-002.png
-source:
-  provider: tistory
-  id: 62
 ---
 
 # 개요

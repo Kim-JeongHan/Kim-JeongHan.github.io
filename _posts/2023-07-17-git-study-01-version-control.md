@@ -15,10 +15,6 @@ tags:
   - git-study
 series: git-study
 series_order: 1
-source:
-  provider: notion
-  page_id: 6c0a47aa-a99f-474a-a657-38b33773f769
-  project_id: 2fa9e30d-1d04-489c-a612-db1add10d0c0
 render_with_liquid: false
 ---
 

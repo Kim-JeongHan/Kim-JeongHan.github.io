@@ -10,11 +10,6 @@ categories:
 tags:
 - Python
 last_modified_at: 2025-09-23 16:30:27 +0900
-imported_images:
-- assets/img/blog/python-memory-leak-memray/image-001.png
-source:
-  provider: tistory
-  id: 77
 ---
 
 최근 사내 모든 시스템을 최적화 TFT를 진행하는 과정에서 ROS 기반 Python 노드를 실행하면서 메모리가 비정상적으로 증가하는 현상을 발견했다. 프로그램을 오랫동안 실행할수록 RSS 값이 계속 늘어나 결국 시스템이 느려지는 문제가 발생했다. 이번 글에서는 문제를 추적하고 해결한 과정을 기록한다.

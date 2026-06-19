@@ -11,13 +11,8 @@ categories:
 tags:
 - MPC
 last_modified_at: 2025-03-24 23:32:10 +0900
-imported_images:
-- assets/img/blog/mpc-book-11-disturbances-zero-offset/image-001.png
 series: mpc-study
 series_order: 11
-source:
-  provider: tistory
-  id: 33
 ---
 
 측정되지 않는 disturbance는 시스템 제어 변수에 영향을 미칠 수 있다. 이러한 문제는  disturbance rejection로 잘알려져 있다.. 이러한 측정되지않은 disturbance가 들어오더라도 시스템 제어 변수에 바로 영향을 미치는 것이 아닌, 점진적으로 영향을 미치도록 nonzero disturbance를 보상하는 시스템을 설계하려고 한다. 이때, 우리는 선택된 제어 변수에 offset을 설정하여 튜닝하는 것이 아닌, zero offset으로 구성하려고자 한다.

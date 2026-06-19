@@ -10,31 +10,6 @@ categories:
 tags:
 - algorithm
 last_modified_at: 2026-06-15 17:00:00 +0900
-imported_images:
-- assets/img/blog/collision-detection-narrow-broad-phase/image-001.png
-- assets/img/blog/collision-detection-narrow-broad-phase/image-002.png
-- assets/img/blog/collision-detection-narrow-broad-phase/image-003.png
-- assets/img/blog/collision-detection-narrow-broad-phase/image-004.png
-- assets/img/blog/collision-detection-narrow-broad-phase/image-005.png
-- assets/img/blog/collision-detection-narrow-broad-phase/image-006.png
-- assets/img/blog/collision-detection-narrow-broad-phase/image-007.png
-- assets/img/blog/collision-detection-narrow-broad-phase/image-008.png
-- assets/img/blog/collision-detection-narrow-broad-phase/image-009.png
-- assets/img/blog/collision-detection-narrow-broad-phase/image-010.png
-- assets/img/blog/collision-detection-narrow-broad-phase/image-011.png
-- assets/img/blog/collision-detection-narrow-broad-phase/image-012.png
-- assets/img/blog/collision-detection-narrow-broad-phase/image-013.png
-- assets/img/blog/collision-detection-narrow-broad-phase/image-014.png
-- assets/img/blog/collision-detection-narrow-broad-phase/image-015.png
-- assets/img/blog/collision-detection-narrow-broad-phase/image-016.png
-- assets/img/blog/collision-detection-narrow-broad-phase/image-017.png
-- assets/img/blog/collision-detection-narrow-broad-phase/image-018.png
-- assets/img/blog/collision-detection-narrow-broad-phase/image-019.png
-- assets/img/blog/collision-detection-narrow-broad-phase/image-020.png
-source:
-  provider: confluence
-  id: '961118352'
-  url: https://roboe.atlassian.net/wiki/spaces/ROBOENET/pages/961118352/Collision+Detection
 ---
 
 Collision detection은 일반적으로 broad phase와 narrow phase 두 단계로 나누어 수행한다.

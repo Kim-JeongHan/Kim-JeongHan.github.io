@@ -12,9 +12,6 @@ tags:
 last_modified_at: 2022-05-20 16:13:50 +0900
 series: ros-basics
 series_order: 11
-source:
-  provider: tistory
-  id: 13
 ---
 
 오늘은 rosnode, rostopic, rosmsg, rosparam가 지원하는 명령들을 알아보려고 한다.

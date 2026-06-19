@@ -14,9 +14,6 @@ tags:
 last_modified_at: 2025-03-16 18:16:41 +0900
 series: mpc-study
 series_order: 1
-source:
-  provider: tistory
-  id: 21
 ---
 
 해당 내용은

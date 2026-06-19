@@ -15,9 +15,6 @@ tags:
 last_modified_at: 2025-03-18 23:52:20 +0900
 series: mpc-study
 series_order: 7
-source:
-  provider: tistory
-  id: 29
 ---
 
 오늘은 매일 게시글 올리기로 한 친구가 당일약속 당일취소를 한 기념으로 게시글을 올리려고 한다.ㅋㅋ

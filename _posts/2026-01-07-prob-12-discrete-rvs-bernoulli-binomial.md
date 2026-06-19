@@ -11,14 +11,8 @@ categories:
 tags:
 - 수업
 last_modified_at: 2026-01-08 16:55:00 +0900
-imported_images:
-- assets/img/blog/prob-12-discrete-rvs-bernoulli-binomial/image-001.png
-- assets/img/blog/prob-12-discrete-rvs-bernoulli-binomial/image-002.png
 series: probability-statistics
 series_order: 12
-source:
-  provider: notion
-  id: 2e17c5f7-12ee-806c-8cdc-f140460d06bb
 ---
 
 Bernoulli Distribution :

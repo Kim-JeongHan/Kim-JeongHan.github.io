@@ -11,17 +11,8 @@ categories:
 tags:
 - 수업
 last_modified_at: 2026-01-08 16:57:00 +0900
-imported_images:
-- assets/img/blog/prob-14-gaussian-distribution/image-001.png
-- assets/img/blog/prob-14-gaussian-distribution/image-002.png
-- assets/img/blog/prob-14-gaussian-distribution/image-003.png
-- assets/img/blog/prob-14-gaussian-distribution/image-004.png
-- assets/img/blog/prob-14-gaussian-distribution/image-005.png
 series: probability-statistics
 series_order: 14
-source:
-  provider: notion
-  id: 2e17c5f7-12ee-805a-8cee-c586a2fe92f6
 ---
 
 ---

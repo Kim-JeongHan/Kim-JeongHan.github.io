@@ -11,13 +11,8 @@ categories:
 tags:
 - 수업
 last_modified_at: 2026-01-14 16:09:00 +0900
-imported_images:
-- assets/img/blog/prob-15-solving-problems/image-001.png
 series: probability-statistics
 series_order: 15
-source:
-  provider: notion
-  id: 2e27c5f7-12ee-80f7-a40b-fd064a83ff69
 ---
 
 ---

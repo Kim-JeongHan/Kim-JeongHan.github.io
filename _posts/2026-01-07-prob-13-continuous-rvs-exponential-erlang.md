@@ -11,17 +11,8 @@ categories:
 tags:
 - 수업
 last_modified_at: 2026-01-08 16:55:00 +0900
-imported_images:
-- assets/img/blog/prob-13-continuous-rvs-exponential-erlang/image-001.png
-- assets/img/blog/prob-13-continuous-rvs-exponential-erlang/image-002.png
-- assets/img/blog/prob-13-continuous-rvs-exponential-erlang/image-003.png
-- assets/img/blog/prob-13-continuous-rvs-exponential-erlang/image-004.png
-- assets/img/blog/prob-13-continuous-rvs-exponential-erlang/image-005.png
 series: probability-statistics
 series_order: 13
-source:
-  provider: notion
-  id: 2e17c5f7-12ee-8077-8b5a-d85af0b12b66
 ---
 
 ---

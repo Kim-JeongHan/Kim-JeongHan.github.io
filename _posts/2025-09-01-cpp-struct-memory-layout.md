@@ -10,9 +10,6 @@ categories:
 tags:
 - C++
 last_modified_at: 2025-09-01 22:34:25 +0900
-source:
-  provider: tistory
-  id: 66
 ---
 
 ## 일반적인 구조체

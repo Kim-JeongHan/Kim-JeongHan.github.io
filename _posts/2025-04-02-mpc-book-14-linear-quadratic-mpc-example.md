@@ -11,14 +11,8 @@ categories:
 tags:
 - MPC
 last_modified_at: 2025-04-17 22:03:20 +0900
-imported_images:
-- assets/img/blog/mpc-book-14-linear-quadratic-mpc-example/image-001.png
-- assets/img/blog/mpc-book-14-linear-quadratic-mpc-example/image-002.png
 series: mpc-study
 series_order: 14
-source:
-  provider: tistory
-  id: 42
 ---
 
 ### 시스템 정의

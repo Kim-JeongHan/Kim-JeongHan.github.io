@@ -11,17 +11,8 @@ categories:
 tags:
 - 수업
 last_modified_at: 2026-01-16 08:23:27 +0900
-imported_images:
-- assets/img/blog/prob-19-continuous-multiple-rvs-conditional-distributions/image-001.png
-- assets/img/blog/prob-19-continuous-multiple-rvs-conditional-distributions/image-002.png
-- assets/img/blog/prob-19-continuous-multiple-rvs-conditional-distributions/image-003.png
-- assets/img/blog/prob-19-continuous-multiple-rvs-conditional-distributions/image-004.png
-- assets/img/blog/prob-19-continuous-multiple-rvs-conditional-distributions/image-005.png
 series: probability-statistics
 series_order: 19
-source:
-  provider: tistory
-  id: 83
 ---
 
 # 01) **Conditional PDF for Continuous RVs**

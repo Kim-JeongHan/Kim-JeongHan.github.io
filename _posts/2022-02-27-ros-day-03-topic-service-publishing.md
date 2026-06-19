@@ -11,16 +11,8 @@ tags:
 - ROS
 - Topic
 last_modified_at: 2022-02-27 18:49:38 +0900
-imported_images:
-- assets/img/blog/ros-day-03-topic-service-publishing/image-001.png
-- assets/img/blog/ros-day-03-topic-service-publishing/image-002.png
-- assets/img/blog/ros-day-03-topic-service-publishing/image-003.png
-- assets/img/blog/ros-day-03-topic-service-publishing/image-004.png
 series: ros-basics
 series_order: 5
-source:
-  provider: tistory
-  id: 6
 ---
 
 ## 1. 터틀심 노드 생성

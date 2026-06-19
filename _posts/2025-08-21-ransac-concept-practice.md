@@ -10,11 +10,6 @@ categories:
 tags:
 - algorithm
 last_modified_at: 2025-08-24 23:38:39 +0900
-imported_images:
-- assets/img/blog/ransac-concept-practice/image-001.png
-source:
-  provider: tistory
-  id: 60
 ---
 
 # RANSAC 이란

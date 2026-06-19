@@ -13,9 +13,6 @@ tags:
 last_modified_at: 2025-03-27 21:19:38 +0900
 series: mpc-study
 series_order: 5
-source:
-  provider: tistory
-  id: 25
 ---
 
 ### **1. DP를 이용한 최적 제어 문제 설정**

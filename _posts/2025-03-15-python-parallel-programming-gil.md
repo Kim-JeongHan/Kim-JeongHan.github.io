@@ -10,14 +10,6 @@ categories:
 tags:
 - Python
 last_modified_at: 2025-03-16 00:06:28 +0900
-imported_images:
-- assets/img/blog/python-parallel-programming-gil/image-001.png
-- assets/img/blog/python-parallel-programming-gil/image-002.png
-- assets/img/blog/python-parallel-programming-gil/image-003.png
-- assets/img/blog/python-parallel-programming-gil/image-004.png
-source:
-  provider: tistory
-  id: 26
 ---
 
 ## 개요

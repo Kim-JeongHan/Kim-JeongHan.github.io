@@ -12,9 +12,6 @@ tags:
 last_modified_at: 2025-04-17 01:50:18 +0900
 series: python-uv
 series_order: 2
-source:
-  provider: tistory
-  id: 45
 ---
 
 ## Python uv 설치

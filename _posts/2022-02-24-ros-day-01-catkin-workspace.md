@@ -12,9 +12,6 @@ tags:
 last_modified_at: 2022-02-25 02:23:47 +0900
 series: ros-basics
 series_order: 1
-source:
-  provider: tistory
-  id: 2
 ---
 
 ## 1. Catkin

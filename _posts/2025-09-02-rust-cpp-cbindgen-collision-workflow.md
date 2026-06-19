@@ -14,11 +14,6 @@ tags:
 - corrosion
 - Rust
 last_modified_at: 2025-09-02 22:59:21 +0900
-imported_images:
-- assets/img/blog/rust-cpp-cbindgen-collision-workflow/image-001.png
-source:
-  provider: tistory
-  id: 68
 ---
 
 이 글에서는 **cbindgen**과 **Corrosion**을 활용해 Rust와 C++를 매끄럽게 통합하는 워크플로우를 소개한다.

@@ -12,13 +12,6 @@ tags:
 - robotics
 - kinematics
 last_modified_at: 2026-06-15 16:46:02 +0900
-imported_images:
-- assets/img/blog/peter-corke-robotics-kinematic-singularities/image-001.png
-- assets/img/blog/peter-corke-robotics-kinematic-singularities/image-002.png
-- assets/img/blog/peter-corke-robotics-kinematic-singularities/image-003.png
-- assets/img/blog/peter-corke-robotics-kinematic-singularities/image-004.png
-- assets/img/blog/peter-corke-robotics-kinematic-singularities/image-005.png
-- assets/img/blog/peter-corke-robotics-kinematic-singularities/image-006.png
 series: peter-corke-robotics
 series_order: 1
 ---

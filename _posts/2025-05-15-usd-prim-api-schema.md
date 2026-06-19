@@ -12,9 +12,6 @@ tags:
 last_modified_at: 2025-05-15 16:32:39 +0900
 series: usd-notes
 series_order: 2
-source:
-  provider: tistory
-  id: 49
 ---
 
 Pixar에서 개발한 USD(Universal Scene Description)의 prim 구조와 활성화 상태 관리 방법을 정리했다.

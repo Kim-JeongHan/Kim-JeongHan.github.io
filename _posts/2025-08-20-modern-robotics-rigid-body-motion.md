@@ -13,9 +13,6 @@ tags:
 last_modified_at: 2025-08-24 23:11:24 +0900
 series: modern-robotics
 series_order: 1
-source:
-  provider: tistory
-  id: 55
 ---
 
 ## **배경**

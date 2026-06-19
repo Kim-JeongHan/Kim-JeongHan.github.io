@@ -11,16 +11,8 @@ categories:
 tags:
 - 수업
 last_modified_at: 2026-01-20 20:46:57 +0900
-imported_images:
-- assets/img/blog/prob-28-central-limit-theorem-noise-sampling/image-001.png
-- assets/img/blog/prob-28-central-limit-theorem-noise-sampling/image-002.png
-- assets/img/blog/prob-28-central-limit-theorem-noise-sampling/image-003.png
-- assets/img/blog/prob-28-central-limit-theorem-noise-sampling/image-004.png
 series: probability-statistics
 series_order: 28
-source:
-  provider: tistory
-  id: 94
 ---
 
 # 01) **Central Limit Theorem: 표본합이 정규 분포로 수렴하는 이유와 응용**

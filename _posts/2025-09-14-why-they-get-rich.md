@@ -9,11 +9,6 @@ categories:
 tags:
 - book-review
 last_modified_at: 2025-09-14 19:10:49 +0900
-imported_images:
-- assets/img/blog/why-they-get-rich/image-001.jpg
-source:
-  provider: tistory
-  id: 71
 ---
 
 ![](/assets/img/blog/why-they-get-rich/image-001.jpg)

@@ -11,13 +11,8 @@ categories:
 tags:
 - 수업
 last_modified_at: 2026-01-20 18:49:55 +0900
-imported_images:
-- assets/img/blog/prob-27-sum-independent-discrete-rvs/image-001.png
 series: probability-statistics
 series_order: 27
-source:
-  provider: tistory
-  id: 93
 ---
 
 # 01) **독립 확률 변수의 합: 분포, Expectation, 그리고 Variance**

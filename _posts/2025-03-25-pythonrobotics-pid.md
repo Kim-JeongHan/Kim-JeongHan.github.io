@@ -13,14 +13,8 @@ tags:
 - robotics
 - control
 last_modified_at: 2025-03-26 08:57:34 +0900
-imported_images:
-- assets/img/blog/pythonrobotics-pid/image-001.png
-- assets/img/blog/pythonrobotics-pid/image-002.png
 series: pythonrobotics-analysis
 series_order: 1
-source:
-  provider: tistory
-  id: 36
 ---
 
 오늘은 PID, LQR, MPC에 대한 구현을 해놓은 pythonRobotics를 비교해보면서 이론이 실제로 어떻게 적용됬는지 알아보려고 한다.

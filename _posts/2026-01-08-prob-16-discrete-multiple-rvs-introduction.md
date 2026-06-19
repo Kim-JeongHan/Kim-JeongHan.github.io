@@ -11,13 +11,8 @@ categories:
 tags:
 - 수업
 last_modified_at: 2026-01-16 08:23:40 +0900
-imported_images:
-- assets/img/blog/prob-16-discrete-multiple-rvs-introduction/image-001.png
 series: probability-statistics
 series_order: 16
-source:
-  provider: tistory
-  id: 85
 ---
 
 # 01) Multiple Random Variables

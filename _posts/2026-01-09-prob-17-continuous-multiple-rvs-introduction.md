@@ -11,15 +11,8 @@ categories:
 tags:
 - 수업
 last_modified_at: 2026-01-16 08:23:15 +0900
-imported_images:
-- assets/img/blog/prob-17-continuous-multiple-rvs-introduction/image-001.png
-- assets/img/blog/prob-17-continuous-multiple-rvs-introduction/image-002.png
-- assets/img/blog/prob-17-continuous-multiple-rvs-introduction/image-003.png
 series: probability-statistics
 series_order: 17
-source:
-  provider: tistory
-  id: 82
 ---
 
 ## 00_서론

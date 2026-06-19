@@ -11,14 +11,8 @@ categories:
 tags:
 - 수업
 last_modified_at: 2026-01-16 08:24:25 +0900
-imported_images:
-- assets/img/blog/prob-23-transform-rvs-introduction/image-001.png
-- assets/img/blog/prob-23-transform-rvs-introduction/image-002.png
 series: probability-statistics
 series_order: 23
-source:
-  provider: tistory
-  id: 89
 ---
 
 # 01) **확률 변수의 Transformation**

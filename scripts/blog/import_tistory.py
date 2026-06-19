@@ -352,8 +352,8 @@ def localize_images(
     post_slug: str,
     source_url: str,
     dry_run: bool,
-) -> list[dict]:
-    image_records: list[dict] = []
+) -> int:
+    image_count = 0
     image_dir = IMAGES_DIR / post_slug
     if not dry_run:
         image_dir.mkdir(parents=True, exist_ok=True)
@@ -362,16 +362,14 @@ def localize_images(
         source = best_image_url(image)
         if not source:
             continue
-        local_rel, status = download_image(session, source, image_dir, index, source_url, dry_run)
+        image_count += 1
+        local_rel = download_image(session, source, image_dir, index, source_url, dry_run)
         if local_rel:
             image["src"] = "/" + local_rel.as_posix()
             for attr in list(image.attrs):
                 if attr not in {"src", "alt", "title", "width", "height"}:
                     del image.attrs[attr]
-            image_records.append({"source": source, "local": local_rel.as_posix(), "status": status})
-        else:
-            image_records.append({"source": source, "local": "", "status": status})
-    return image_records
+    return image_count
 
 
 def best_image_url(image: Tag) -> str:
@@ -401,16 +399,16 @@ def download_image(
     index: int,
     referer: str,
     dry_run: bool,
-) -> tuple[Path | None, str]:
+) -> Path | None:
     if dry_run:
         parsed = urlparse(source)
         suffix = suffix_from_path(parsed.path) or ".img"
-        return image_dir / f"image-{index:03d}{suffix}", "dry-run"
+        return image_dir / f"image-{index:03d}{suffix}"
     try:
         response = session.get(source, timeout=30, headers={"Referer": referer})
         response.raise_for_status()
-    except requests.RequestException as exc:
-        return None, f"failed: {exc}"
+    except requests.RequestException:
+        return None
 
     content_type = response.headers.get("content-type", "").split(";", 1)[0].strip()
     suffix = mimetypes.guess_extension(content_type) or suffix_from_path(urlparse(source).path) or ".img"
@@ -418,7 +416,7 @@ def download_image(
         suffix = ".jpg"
     target = image_dir / f"image-{index:03d}{suffix}"
     target.write_bytes(response.content)
-    return target, "downloaded"
+    return target
 
 
 def suffix_from_path(path: str) -> str:
@@ -427,10 +425,8 @@ def suffix_from_path(path: str) -> str:
 
 
 def write_post(
-    summary: PostSummary,
     metadata: dict,
     markdown: str,
-    image_records: list[dict],
     slug: str,
     dry_run: bool,
 ) -> Path:
@@ -445,10 +441,6 @@ def write_post(
         "render_with_liquid": False,
         "categories": categories or ["tistory"],
         "tags": metadata["tags"],
-        "source": {
-            "provider": "tistory",
-            "id": int(summary.post_id),
-        },
     }
     if metadata.get("modified"):
         front_matter["last_modified_at"] = parse_iso_datetime(metadata["modified"]).strftime(
@@ -456,8 +448,6 @@ def write_post(
         )
     if has_math(markdown):
         front_matter["use_math"] = True
-    if image_records:
-        front_matter["imported_images"] = [record["local"] for record in image_records if record["local"]]
 
     rendered = "---\n"
     rendered += yaml.safe_dump(front_matter, allow_unicode=True, sort_keys=False, width=1000)
@@ -524,13 +514,13 @@ def import_posts(limit: int | None, max_pages: int, dry_run: bool, pause: float)
         try:
             metadata, content = parse_post(session, summary)
             slug = slugify_title(metadata["title"], fallback=f"tistory-{summary.post_id}")
-            image_records = localize_images(session, content, slug, summary.url, dry_run)
+            image_count = localize_images(session, content, slug, summary.url, dry_run)
             markdown = converter.convert(content)
             markdown = normalize_inline_math(markdown)
-            path = write_post(summary, metadata, markdown, image_records, slug, dry_run)
+            path = write_post(metadata, markdown, slug, dry_run)
             print(
                 f"[{index}/{len(summaries)}] {summary.post_id}: {path} "
-                f"({len(image_records)} images)",
+                f"({image_count} images)",
                 file=sys.stderr,
             )
             written += 1

@@ -11,16 +11,8 @@ categories:
 tags:
 - 수업
 last_modified_at: 2026-01-08 16:55:00 +0900
-imported_images:
-- assets/img/blog/prob-11-conditional-mean-variance/image-001.png
-- assets/img/blog/prob-11-conditional-mean-variance/image-002.png
-- assets/img/blog/prob-11-conditional-mean-variance/image-003.png
-- assets/img/blog/prob-11-conditional-mean-variance/image-004.png
 series: probability-statistics
 series_order: 11
-source:
-  provider: notion
-  id: 2e17c5f7-12ee-80f5-b477-fbb21473b71f
 ---
 
 Conditional Mean and Variance를 구하는 방식은 discrete와 coutinous에 따라 방식이 나누어진다.<br>discrete한 경우에 Conditional Mean and variance를 구하는 것은 쉽게 나타난다.<br>countinous한 경우에는 $f(x|A)$를 구하는 것의 어려움이 존재한다.<br>이때, CDF와 PDF를 사용해 $f(x|A)$를 표현할수 있다.

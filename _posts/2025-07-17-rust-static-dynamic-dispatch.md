@@ -10,9 +10,6 @@ categories:
 tags:
 - Rust
 last_modified_at: 2025-07-22 13:10:17 +0900
-source:
-  provider: tistory
-  id: 52
 ---
 
 그전글 **[Rust에서의 Zero-cost Abstraction](/blog/2025/rust-zero-cost-abstraction/)** ㅇ에서 다루었던 Zero-cost Abstraction에서 dynamic dispatch와 static dispatch의 개념이 등장하여, 추가 작성한다.

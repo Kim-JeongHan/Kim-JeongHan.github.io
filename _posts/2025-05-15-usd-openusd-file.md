@@ -10,13 +10,8 @@ tags:
 - USD
 - OpenUSD
 last_modified_at: 2025-05-15 12:41:05 +0900
-imported_images:
-- assets/img/blog/usd-openusd-file/image-001.jpg
 series: usd-notes
 series_order: 1
-source:
-  provider: tistory
-  id: 48
 ---
 
 # USD란 무엇인가?

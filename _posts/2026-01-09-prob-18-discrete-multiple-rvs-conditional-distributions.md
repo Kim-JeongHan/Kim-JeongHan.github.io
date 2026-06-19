@@ -13,9 +13,6 @@ tags:
 last_modified_at: 2026-01-16 08:22:51 +0900
 series: probability-statistics
 series_order: 18
-source:
-  provider: tistory
-  id: 81
 ---
 
 # 01) **Conditional Distributions**

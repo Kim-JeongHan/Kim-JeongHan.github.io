@@ -12,13 +12,6 @@ tags:
 - convex
 - optimization
 last_modified_at: 2025-03-03 03:10:26 +0900
-imported_images:
-- assets/img/blog/optimization-convex-optimization/image-001.png
-- assets/img/blog/optimization-convex-optimization/image-002.png
-- assets/img/blog/optimization-convex-optimization/image-003.png
-source:
-  provider: tistory
-  id: 18
 ---
 
 # 최적화의 기본요소
