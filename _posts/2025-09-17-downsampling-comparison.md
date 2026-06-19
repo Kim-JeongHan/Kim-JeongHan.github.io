@@ -6,7 +6,8 @@ slug: downsampling-comparison
 render_with_liquid: false
 categories:
 - 알고리즘
-tags: []
+tags:
+- algorithm
 last_modified_at: 2025-09-19 14:26:23 +0900
 source:
   provider: tistory

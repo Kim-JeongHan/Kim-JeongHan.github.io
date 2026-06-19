@@ -9,7 +9,7 @@ categories:
 - 공부
 - mpc
 tags:
-- mpc
+- MPC
 - constraints
 - cost-function
 last_modified_at: 2025-04-02 00:44:00 +0900

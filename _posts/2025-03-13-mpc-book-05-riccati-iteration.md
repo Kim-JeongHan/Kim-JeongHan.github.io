@@ -9,9 +9,7 @@ categories:
 - 공부
 - mpc
 tags:
-- mpc
-- dynamic-programming
-- riccati-iteration
+- MPC
 last_modified_at: 2025-03-27 21:19:38 +0900
 series: mpc-study
 series_order: 5

@@ -10,7 +10,6 @@ categories:
 - 로봇공학
 tags:
 - modern-robotics
-- rigid-body-motion
 last_modified_at: 2025-08-24 23:11:24 +0900
 series: modern-robotics
 series_order: 1

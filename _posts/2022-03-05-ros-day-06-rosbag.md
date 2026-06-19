@@ -9,7 +9,6 @@ categories:
 - ROS
 tags:
 - ROS
-- rosbag
 last_modified_at: 2022-03-05 21:24:16 +0900
 series: ros-basics
 series_order: 8

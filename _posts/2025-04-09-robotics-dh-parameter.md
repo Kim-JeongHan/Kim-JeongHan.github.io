@@ -11,7 +11,6 @@ categories:
 tags:
 - robotics
 - kinematics
-- dh-parameters
 last_modified_at: 2025-05-13 15:32:28 +0900
 imported_images:
 - assets/img/blog/robotics-dh-parameter/image-001.png

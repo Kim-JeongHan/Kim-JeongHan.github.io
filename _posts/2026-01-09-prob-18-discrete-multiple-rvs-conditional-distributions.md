@@ -8,7 +8,8 @@ use_math: true
 categories:
 - 공부
 - 확률과 통계
-tags: []
+tags:
+- 수업
 last_modified_at: 2026-01-16 08:22:51 +0900
 series: probability-statistics
 series_order: 18

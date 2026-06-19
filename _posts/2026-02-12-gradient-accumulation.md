@@ -8,8 +8,7 @@ categories:
 - 공부
 - 인공지능
 tags:
-- Ai
-- gradient accumulation
+- AI
 last_modified_at: 2026-02-12 17:32:51 +0900
 source:
   provider: tistory

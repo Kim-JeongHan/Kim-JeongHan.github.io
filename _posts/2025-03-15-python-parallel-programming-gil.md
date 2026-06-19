@@ -8,9 +8,7 @@ categories:
 - 프로그래밍
 - python
 tags:
-- python
-- parallel-programming
-- gil
+- Python
 last_modified_at: 2025-03-16 00:06:28 +0900
 imported_images:
 - assets/img/blog/python-parallel-programming-gil/image-001.png

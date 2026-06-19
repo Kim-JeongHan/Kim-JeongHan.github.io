@@ -8,9 +8,7 @@ categories:
 - 프로그래밍
 - Rust
 tags:
-- rust
-- scope
-- shadowing
+- Rust
 last_modified_at: 2025-09-03 01:22:54 +0900
 imported_images:
 - assets/img/blog/rust-scope-shadowing/image-001.png

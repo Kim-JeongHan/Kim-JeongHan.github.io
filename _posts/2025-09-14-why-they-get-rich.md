@@ -6,7 +6,8 @@ slug: why-they-get-rich
 render_with_liquid: false
 categories:
 - 책
-tags: []
+tags:
+- book-review
 last_modified_at: 2025-09-14 19:10:49 +0900
 imported_images:
 - assets/img/blog/why-they-get-rich/image-001.jpg

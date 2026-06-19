@@ -9,8 +9,8 @@ categories:
 - 공부
 - mpc
 tags:
-- mpc
-- lqr
+- MPC
+- LQR
 - stability
 last_modified_at: 2025-03-18 23:52:20 +0900
 series: mpc-study

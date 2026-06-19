@@ -8,8 +8,7 @@ categories:
 - 프로그래밍
 - Rust
 tags:
-- rust
-- dispatch
+- Rust
 last_modified_at: 2025-07-22 13:10:17 +0900
 source:
   provider: tistory

@@ -8,7 +8,8 @@ use_math: true
 categories:
 - 공부
 - 확률과 통계
-tags: []
+tags:
+- 수업
 last_modified_at: 2026-01-20 17:32:53 +0900
 imported_images:
 - assets/img/blog/prob-26-sum-independent-continuous-rvs/image-001.png

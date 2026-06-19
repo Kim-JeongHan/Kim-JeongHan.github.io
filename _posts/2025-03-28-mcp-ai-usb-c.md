@@ -7,7 +7,8 @@ render_with_liquid: false
 categories:
 - 프로그래밍
 - 이모저모
-tags: []
+tags:
+- AI
 last_modified_at: 2025-03-28 15:32:10 +0900
 imported_images:
 - assets/img/blog/mcp-ai-usb-c/image-001.jpg

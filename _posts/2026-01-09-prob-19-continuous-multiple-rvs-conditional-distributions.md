@@ -8,7 +8,8 @@ use_math: true
 categories:
 - 공부
 - 확률과 통계
-tags: []
+tags:
+- 수업
 last_modified_at: 2026-01-16 08:23:27 +0900
 imported_images:
 - assets/img/blog/prob-19-continuous-multiple-rvs-conditional-distributions/image-001.png

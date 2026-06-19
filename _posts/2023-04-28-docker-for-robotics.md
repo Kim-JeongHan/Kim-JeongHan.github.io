@@ -8,8 +8,6 @@ categories:
 - 이모저모
 tags:
 - robotics
-- development
-- docker
 disqus_comments: true
 ---
 [](https://github.com/remotty/documents.docker.co.kr)[https://github.com/remotty/documents.docker.co.kr](https://github.com/remotty/documents.docker.co.kr)

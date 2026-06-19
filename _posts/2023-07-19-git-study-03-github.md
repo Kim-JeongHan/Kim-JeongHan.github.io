@@ -9,10 +9,8 @@ categories:
   - 프로그래밍
   - Git
 tags:
-  - git
-  - github
-  - token
-  - remote
+  - Git
+  - GitHub
   - git-study
 series: git-study
 series_order: 6

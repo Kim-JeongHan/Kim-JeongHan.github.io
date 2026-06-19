@@ -9,8 +9,7 @@ categories:
 - 공부
 - mpc
 tags:
-- mpc
-- tracking
+- MPC
 last_modified_at: 2025-03-24 23:32:30 +0900
 series: mpc-study
 series_order: 10

@@ -10,7 +10,6 @@ categories:
 - 최적화
 tags:
 - convex
-- Gradient
 last_modified_at: 2025-03-03 03:37:55 +0900
 imported_images:
 - assets/img/blog/gradient-matrix-derivatives/image-001.png

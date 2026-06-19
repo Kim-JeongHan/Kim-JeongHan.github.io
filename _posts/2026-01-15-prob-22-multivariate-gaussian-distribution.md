@@ -8,7 +8,8 @@ use_math: true
 categories:
 - 공부
 - 확률과 통계
-tags: []
+tags:
+- 수업
 last_modified_at: 2026-01-16 08:24:14 +0900
 imported_images:
 - assets/img/blog/prob-22-multivariate-gaussian-distribution/image-001.png

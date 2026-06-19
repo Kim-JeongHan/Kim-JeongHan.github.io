@@ -8,8 +8,7 @@ categories:
 - 공부
 - mpc
 tags:
-- mpc
-- lyapunov
+- MPC
 - stability
 last_modified_at: 2025-09-23 20:24:53 +0900
 imported_images:

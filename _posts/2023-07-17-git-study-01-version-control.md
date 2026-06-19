@@ -9,8 +9,8 @@ categories:
   - 프로그래밍
   - Git
 tags:
-  - git
-  - github
+  - Git
+  - GitHub
   - version-control
   - git-study
 series: git-study

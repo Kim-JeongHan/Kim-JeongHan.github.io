@@ -9,9 +9,7 @@ categories:
 - 공부
 - mpc
 tags:
-- mpc
-- linear-quadratic
-- example
+- MPC
 last_modified_at: 2025-04-17 22:03:20 +0900
 imported_images:
 - assets/img/blog/mpc-book-14-linear-quadratic-mpc-example/image-001.png

@@ -7,8 +7,7 @@ render_with_liquid: false
 categories:
 - 프로그래밍
 tags:
-- plotjuggler
-- 데이터분석
+- robotics
 last_modified_at: 2025-08-20 22:09:30 +0900
 imported_images:
 - assets/img/blog/plotjuggler-data-analysis/image-001.png

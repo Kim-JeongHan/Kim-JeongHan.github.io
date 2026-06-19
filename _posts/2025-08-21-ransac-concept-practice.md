@@ -7,7 +7,8 @@ render_with_liquid: false
 use_math: true
 categories:
 - 알고리즘
-tags: []
+tags:
+- algorithm
 last_modified_at: 2025-08-24 23:38:39 +0900
 imported_images:
 - assets/img/blog/ransac-concept-practice/image-001.png

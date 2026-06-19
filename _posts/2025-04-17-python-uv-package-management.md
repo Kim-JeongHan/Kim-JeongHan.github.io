@@ -8,7 +8,7 @@ categories:
 - 프로그래밍
 - python
 tags:
-- UV
+- uv
 last_modified_at: 2025-04-17 01:50:46 +0900
 series: python-uv
 series_order: 1

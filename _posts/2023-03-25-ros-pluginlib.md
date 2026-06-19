@@ -7,7 +7,6 @@ categories:
 - ROS
 tags:
 - ROS
-- pluginlib
 disqus_comments: true
 ---
 

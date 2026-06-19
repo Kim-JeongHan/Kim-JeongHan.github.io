@@ -6,7 +6,9 @@ slug: usd-prim-api-schema
 render_with_liquid: false
 categories:
 - 카테고리 없음
-tags: []
+tags:
+- USD
+- OpenUSD
 last_modified_at: 2025-05-15 16:32:39 +0900
 series: usd-notes
 series_order: 2

@@ -9,7 +9,7 @@ categories:
 - 공부
 - mpc
 tags:
-- mpc
+- MPC
 - lq
 - optimal-control
 last_modified_at: 2025-03-16 18:17:52 +0900

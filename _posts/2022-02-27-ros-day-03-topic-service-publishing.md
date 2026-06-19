@@ -9,7 +9,6 @@ categories:
 - ROS
 tags:
 - ROS
-- Service
 - Topic
 last_modified_at: 2022-02-27 18:49:38 +0900
 imported_images:

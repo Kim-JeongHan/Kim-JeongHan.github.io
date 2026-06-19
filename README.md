@@ -21,6 +21,12 @@ Blog navigation is generated from post categories and rendered by `_includes/blo
 - `secondary_order` controls subcategory order within each top-level category.
 - Categories not listed in the data file still appear after the preferred order.
 
+Use categories for the post hierarchy and tags for reusable search terms. Keep
+technology and product names in their official form (`Python`, `C++`, `CMake`),
+use lowercase kebab-case for general concepts (`memory-management`), and avoid
+creating multiple tags that differ only by capitalization. Prefer tags that
+group multiple posts; one-off details remain discoverable through site search.
+
 Course notes for classes you took should stay in `_posts/` and use blog categories. Use `공부` as the primary category and `수업` as the secondary category:
 
 ```yaml

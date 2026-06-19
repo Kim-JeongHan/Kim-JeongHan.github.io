@@ -9,7 +9,6 @@ categories:
 - ROS
 tags:
 - ROS
-- 워크스페이스
 last_modified_at: 2022-02-25 02:23:47 +0900
 series: ros-basics
 series_order: 1

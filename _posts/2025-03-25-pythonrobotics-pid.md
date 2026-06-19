@@ -8,7 +8,10 @@ use_math: true
 categories:
 - 공부
 - 오픈소스 분석
-tags: []
+tags:
+- Python
+- robotics
+- control
 last_modified_at: 2025-03-26 08:57:34 +0900
 imported_images:
 - assets/img/blog/pythonrobotics-pid/image-001.png

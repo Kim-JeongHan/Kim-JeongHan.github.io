@@ -10,7 +10,7 @@ categories:
 tags:
 - C++
 - cbindgen
-- rust
+- Rust
 last_modified_at: 2025-09-01 23:28:32 +0900
 imported_images:
 - assets/img/blog/cbindgen-rust-cpp-header-generator/image-001.png

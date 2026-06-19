@@ -9,9 +9,8 @@ categories:
 - 공부
 - mpc
 tags:
-- mpc
+- MPC
 - lq
-- quadratic-cost
 last_modified_at: 2025-03-18 23:00:47 +0900
 imported_images:
 - assets/img/blog/mpc-book-04-lq-quadratic-sum-example/image-001.png

@@ -8,7 +8,11 @@ use_math: true
 categories:
 - 공부
 - 오픈소스 분석
-tags: []
+tags:
+- Python
+- robotics
+- control
+- LQR
 last_modified_at: 2025-04-02 00:44:47 +0900
 imported_images:
 - assets/img/blog/pythonrobotics-lqr-steer-control/image-001.png

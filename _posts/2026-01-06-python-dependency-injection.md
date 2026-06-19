@@ -8,9 +8,7 @@ published: false
 categories:
 - 프로그래밍
 tags:
-- python
-- dependency-injection
-- design-pattern
+- Python
 last_modified_at: 2026-06-15 00:00:00 +0900
 source:
   provider: tistory

@@ -9,9 +9,7 @@ categories:
 - 공부
 - mpc
 tags:
-- mpc
-- moving-horizon-estimation
-- state-estimation
+- MPC
 last_modified_at: 2025-03-23 22:46:54 +0900
 imported_images:
 - assets/img/blog/mpc-book-09-moving-horizon-estimation/image-001.png

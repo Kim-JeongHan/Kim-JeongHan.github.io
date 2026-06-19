@@ -8,10 +8,8 @@ categories:
 - Tool
 - ROS
 tags:
-- namespace
 - remapping
 - ROS
-- Turtlesim
 last_modified_at: 2022-02-25 03:45:42 +0900
 imported_images:
 - assets/img/blog/ros-day-01-namespace-remapping/image-001.png

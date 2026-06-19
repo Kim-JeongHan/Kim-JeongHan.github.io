@@ -8,12 +8,7 @@ use_math: true
 categories:
 - 알고리즘
 tags:
-- collision-detection
-- broad-phase
-- narrow-phase
-- separating-axis-theorem
-- gjk
-- gjk-epa
+- algorithm
 last_modified_at: 2026-06-15 17:00:00 +0900
 imported_images:
 - assets/img/blog/collision-detection-narrow-broad-phase/image-001.png

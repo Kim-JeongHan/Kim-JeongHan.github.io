@@ -8,7 +8,7 @@ categories:
 - Tool
 - qt
 tags:
-- QT
+- Qt
 last_modified_at: 2025-02-04 21:45:11 +0900
 imported_images:
 - assets/img/blog/qt-qsizepolicy/image-001.png

@@ -8,11 +8,8 @@ categories:
 - Tool
 - ROS
 tags:
-- Package
 - remapping
 - ROS
-- roslaunch
-- Turtle
 last_modified_at: 2022-02-25 03:46:50 +0900
 imported_images:
 - assets/img/blog/ros-day-01-roslaunch-turtlesim-package/image-001.png

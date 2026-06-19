@@ -9,7 +9,6 @@ categories:
 - c++
 tags:
 - C++
-- generic pointer
 last_modified_at: 2025-09-01 22:27:03 +0900
 source:
   provider: tistory

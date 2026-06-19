@@ -6,7 +6,10 @@ slug: pyroki-robot-kinematic-optimization
 render_with_liquid: false
 categories:
 - Tool
-tags: []
+tags:
+- robotics
+- kinematics
+- optimization
 last_modified_at: 2025-09-16 00:49:33 +0900
 imported_images:
 - assets/img/blog/pyroki-robot-kinematic-optimization/image-001.png

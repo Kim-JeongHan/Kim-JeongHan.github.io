@@ -8,9 +8,7 @@ categories:
 - 프로그래밍
 - 이모저모
 tags:
-- mock
-- patch
-- unittest
+- Python
 last_modified_at: 2025-07-17 14:42:30 +0900
 imported_images:
 - assets/img/blog/unit-test-unittest-mock-patch/image-001.png

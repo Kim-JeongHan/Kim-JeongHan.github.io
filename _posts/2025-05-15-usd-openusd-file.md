@@ -6,7 +6,9 @@ slug: usd-openusd-file
 render_with_liquid: false
 categories:
 - 카테고리 없음
-tags: []
+tags:
+- USD
+- OpenUSD
 last_modified_at: 2025-05-15 12:41:05 +0900
 imported_images:
 - assets/img/blog/usd-openusd-file/image-001.jpg

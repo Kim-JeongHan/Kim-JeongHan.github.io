@@ -8,8 +8,7 @@ categories:
 - 프로그래밍
 - Rust
 tags:
-- rust
-- zero-cost-abstraction
+- Rust
 last_modified_at: 2025-07-17 11:08:24 +0900
 source:
   provider: tistory

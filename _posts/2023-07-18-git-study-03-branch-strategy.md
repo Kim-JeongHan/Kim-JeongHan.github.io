@@ -9,9 +9,8 @@ categories:
   - 프로그래밍
   - Git
 tags:
-  - git
+  - Git
   - branch
-  - workflow
   - robotics
   - git-study
 series: git-study

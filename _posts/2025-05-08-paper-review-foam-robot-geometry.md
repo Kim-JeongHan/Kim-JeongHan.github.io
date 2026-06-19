@@ -10,7 +10,6 @@ categories:
 tags:
 - robotics
 - paper-review
-- robot-geometry
 last_modified_at: 2025-05-09 08:25:44 +0900
 imported_images:
 - assets/img/blog/paper-review-foam-robot-geometry/image-001.jpg

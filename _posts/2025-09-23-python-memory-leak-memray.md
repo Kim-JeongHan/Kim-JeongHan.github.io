@@ -8,9 +8,7 @@ categories:
 - 프로그래밍
 - python
 tags:
-- python
-- memray
-- memory-leak
+- Python
 last_modified_at: 2025-09-23 16:30:27 +0900
 imported_images:
 - assets/img/blog/python-memory-leak-memray/image-001.png

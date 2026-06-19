@@ -9,7 +9,6 @@ categories:
 - ROS
 tags:
 - ROS
-- rospy.spin
 last_modified_at: 2022-03-03 04:18:22 +0900
 imported_images:
 - assets/img/blog/ros-day-04-rospy-spin/image-001.png

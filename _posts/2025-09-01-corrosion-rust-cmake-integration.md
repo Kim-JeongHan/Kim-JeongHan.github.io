@@ -9,9 +9,9 @@ categories:
 - Rust
 tags:
 - Cargo
-- CMAKE
+- CMake
 - corrosion
-- rust
+- Rust
 last_modified_at: 2025-09-01 20:54:06 +0900
 source:
   provider: tistory

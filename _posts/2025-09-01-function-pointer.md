@@ -9,7 +9,6 @@ categories:
 - c++
 tags:
 - C++
-- 함수포인터
 last_modified_at: 2025-09-01 22:31:11 +0900
 source:
   provider: tistory

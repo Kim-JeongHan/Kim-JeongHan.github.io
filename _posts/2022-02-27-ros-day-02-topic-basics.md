@@ -8,9 +8,7 @@ categories:
 - Tool
 - ROS
 tags:
-- Publish
 - ROS
-- subsribe
 - Topic
 last_modified_at: 2022-02-27 04:22:28 +0900
 imported_images:

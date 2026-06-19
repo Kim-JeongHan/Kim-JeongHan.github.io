@@ -9,8 +9,7 @@ categories:
 - Rust
 tags:
 - Cargo
-- rust
-- vscode
+- Rust
 last_modified_at: 2025-09-03 00:48:26 +0900
 imported_images:
 - assets/img/blog/rust-install-cargo-vscode/image-001.png

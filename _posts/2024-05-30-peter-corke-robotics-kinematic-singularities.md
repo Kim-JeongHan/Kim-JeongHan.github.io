@@ -9,10 +9,8 @@ categories:
 - 공부
 - 로봇공학
 tags:
-- peter-corke
 - robotics
 - kinematics
-- singularity
 last_modified_at: 2026-06-15 16:46:02 +0900
 imported_images:
 - assets/img/blog/peter-corke-robotics-kinematic-singularities/image-001.png

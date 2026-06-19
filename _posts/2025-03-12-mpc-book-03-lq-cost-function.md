@@ -9,7 +9,7 @@ categories:
 - 공부
 - mpc
 tags:
-- mpc
+- MPC
 - lq
 - cost-function
 last_modified_at: 2025-03-17 10:03:14 +0900

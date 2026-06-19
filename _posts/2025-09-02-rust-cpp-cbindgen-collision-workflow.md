@@ -10,9 +10,9 @@ categories:
 tags:
 - C++
 - cbindgen
-- CMAKE
+- CMake
 - corrosion
-- rust
+- Rust
 last_modified_at: 2025-09-02 22:59:21 +0900
 imported_images:
 - assets/img/blog/rust-cpp-cbindgen-collision-workflow/image-001.png

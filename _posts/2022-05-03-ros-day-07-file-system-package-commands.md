@@ -9,8 +9,6 @@ categories:
 - ROS
 tags:
 - ROS
-- 명령어
-- 패키지
 last_modified_at: 2022-05-03 18:36:28 +0900
 imported_images:
 - assets/img/blog/ros-day-07-file-system-package-commands/image-001.png
