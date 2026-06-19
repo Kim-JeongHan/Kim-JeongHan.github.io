@@ -11,6 +11,12 @@ categories:
 tags:
 - 수업
 last_modified_at: 2026-01-08 16:57:00 +0900
+imported_images:
+- assets/img/blog/prob-14-gaussian-distribution/image-001.png
+- assets/img/blog/prob-14-gaussian-distribution/image-002.png
+- assets/img/blog/prob-14-gaussian-distribution/image-003.png
+- assets/img/blog/prob-14-gaussian-distribution/image-004.png
+- assets/img/blog/prob-14-gaussian-distribution/image-005.png
 series: probability-statistics
 series_order: 14
 source:
@@ -18,139 +24,102 @@ source:
   id: 2e17c5f7-12ee-805a-8cee-c586a2fe92f6
 ---
 
-Gaussian distribution, 즉 정규분포는 연속 확률분포 중 가장 많이 쓰이는 분포다. 측정 오차, 잡음, 많은 독립 확률변수의 합이나 평균을 다룰 때 자연스럽게 등장한다.
-
-## Gaussian Distribution
-
-확률변수 $X$가 평균 $\mu$, 분산 $\sigma^2$인 Gaussian 분포를 따르면 다음처럼 쓴다.
-
-$$
-X \sim \mathcal{N}(\mu,\sigma^2)
-$$
-
-PDF는
-
-$$
-f_X(x)
-= \frac{1}{\sqrt{2\pi}\sigma}
+---
+# 01) Gaussian (Normal) Distribution
+## 01_Gaussian** distribution의 확률적 특징**
+---
+Gaussian distribution은 **노이즈가 많거나, 많은 시행의 결과를 근사 **할 때 가장 자주 등장하는 연속 확률분포이다. 특히 여러 독립적인 요인의 합으로 생성된 확률변수는 정규분포로 잘 근사된다.
+### 기본 정의
+- $\begin{aligned}X = \{\, x \mid -\infty < x < \infty \,\}\end{aligned}$
+- $\mu$ : mean, $\sigma$ : standard deviation
+- Notation :  $X \sim \mathcal{N}(\mu, \sigma^2)$
+- PDF : $\begin{aligned}
+f(x)
+&= \frac{1}{\sqrt{2\pi}\,\sigma}
 \exp\left(
 -\frac{(x-\mu)^2}{2\sigma^2}
-\right),
-\qquad -\infty < x < \infty
-$$
-
-이다.
-
-여기서 $\mu$는 분포의 중심, $\sigma$는 퍼짐 정도를 나타낸다. 분산은 $\sigma^2$다.
-
-## Main Properties
-
-Gaussian 분포는 평균 $\mu$를 기준으로 대칭이다.
-
-$$
-f_X(\mu-a)=f_X(\mu+a)
-$$
-
-또한 많은 독립 확률변수의 합이나 평균은 조건이 적절하면 Gaussian 분포에 가까워진다. 이것이 중심극한정리의 핵심 직관이다.
-
-측정값은 실제 값에 여러 작은 오차가 더해진 결과로 볼 수 있다. 그래서 센서 노이즈나 측정 오차를 Gaussian 분포로 모델링하는 경우가 많다.
-
-## CDF
-
-Gaussian 분포의 CDF는 PDF를 적분해서 얻는다.
-
-$$
-F_X(x)
-= P(X \le x)
-= \int_{-\infty}^{x}
-\frac{1}{\sqrt{2\pi}\sigma}
-\exp\left(
--\frac{(t-\mu)^2}{2\sigma^2}
-\right)\,dt
-$$
-
-이 적분은 일반적인 초등함수로 닫힌 형태를 만들 수 없기 때문에 표준정규분포표나 계산 함수를 이용한다.
-
-## Standard Normal Distribution
-
-평균이 $0$, 분산이 $1$인 Gaussian 분포를 표준정규분포라고 한다.
-
-$$
-Z \sim \mathcal{N}(0,1)
-$$
-
-PDF는
-
-$$
-\phi(z)
-= \frac{1}{\sqrt{2\pi}}e^{-z^2/2}
-$$
-
-이고 CDF는
-
-$$
-\Phi(x)
-= P(Z \le x)
-= \int_{-\infty}^{x}
-\frac{1}{\sqrt{2\pi}}e^{-z^2/2}\,dz
-$$
-
-이다.
-
-표준정규분포는 $0$을 기준으로 대칭이므로
-
-$$
-\Phi(-x)=1-\Phi(x)
-$$
-
-가 성립한다.
-
-일반 Gaussian 확률변수 $X \sim \mathcal{N}(\mu,\sigma^2)$는 표준화해서 표준정규분포로 바꿀 수 있다.
-
-$$
-Z=\frac{X-\mu}{\sigma}
-$$
-
-그러면
-
-$$
-P(a \le X \le b)
-= P\left(
-\frac{a-\mu}{\sigma}
-\le Z \le
-\frac{b-\mu}{\sigma}
 \right)
+\end{aligned}$
+![](/assets/img/blog/prob-14-gaussian-distribution/image-001.png)
+
+**Gaussian Distribution의 주요 특징 (3가지)**
+1. PDF는 항상 평균 $\mu$를 기준으로 좌우 대칭이다.
+2. Large sample의 Approximate distribution
+- Binomial distribution
+- 동전 던지기에서 $n \to \infty$
+- Erlang–K distribution
+- $k \to \infty$
+
+**Central Limit Theorem (CLT)**
+서로 독립이고 동일한 분포(iid)를 따르는 확률변수 $n$개의 합은 $n$이 커질수록 정규분포에 수렴한다.
+
+1.  Additive noise의 분포
+- 여러 독립적인 잡음 성분이 더해진 신호의 noise는 Gaussian distribution으로 모델링하는 것이 합리적이다.
+![](/assets/img/blog/prob-14-gaussian-distribution/image-002.png)
+### Estimation 관점에서의 Gaussian Distribution
+Gaussian distribution은 **추정(estimation)과 예측(prediction)** 관점에서 매우 이상적인 분포이다.
+- unimodal(단봉) 분포
+- mode = mean = median
+- 발생 가능성이 가장 높은 값이 평균과 일치
+- 최적 추정 성질
+- **MMSE (Minimum Mean Square Error)**<br>→ 최적 추정값은 **mean**
+- **Maximum Likelihood (ML) estimation**<br>→ 최적 추정값은 **mode (= mean)**
+즉, 신호 처리에서 수행하는 **노이즈 제거, 필터링, 평균화** 과정은 본질적으로 Gaussian 확률 모델에 기반한 확률적 추정 문제이다.
+
+### CDF of Gaussian distribution
+Gaussian distribution의 누적 분포 함수는 다음과 같다.
 $$
-
-처럼 표준정규분포의 CDF로 확률을 계산할 수 있다.
-
-## Error Function
-
-Gaussian CDF는 error function과도 연결된다.
-
+\begin{aligned}P(X \le x)&= \int_{-\infty}^{x}\frac{1}{\sqrt{2\pi},\sigma}\exp\left(-\frac{(X-\mu)^2}{2\sigma^2}\right)dX\end{aligned}
 $$
-\operatorname{erf}(z)
-= \frac{2}{\sqrt{\pi}}
-\int_0^z e^{-x^2}\,dx
+변수 치환을 적용하면
 $$
-
-상보 오차 함수는
-
+\begin{aligned}z &= \frac{X-\mu}{\sigma}, \qquad dz = \frac{1}{\sigma}dX\end{aligned}
 $$
-\operatorname{erfc}(x)
-= 1-\operatorname{erf}(x)
 $$
-
-이다.
-
-표준정규분포 CDF는 error function을 이용해 다음처럼 쓸 수 있다.
-
+\begin{aligned}P(X \le x)&= \int_{-\infty}^{\frac{x-\mu}{\sigma}}\frac{1}{\sqrt{2\pi}}\exp\left(-\frac{1}{2}z^2\right) dz\end{aligned}
 $$
-\Phi(x)
-= \frac{1}{2}
-\left[
-1+\operatorname{erf}\left(\frac{x}{\sqrt{2}}\right)
-\right]
+여기서
+- $Z = \dfrac{X-\mu}{\sigma}$
+- $Z \sim \mathcal{N}(0,1)$ : **Standard Normal Distribution**
+즉,
 $$
-
-Gaussian 분포는 직접 적분하기 어려운 형태지만, 표준화와 표준정규분포 CDF를 이용하면 실제 확률 계산을 체계적으로 처리할 수 있다.
+\begin{aligned}P(X \le x)&= \int_{-\infty}^{x}\frac{1}{\sqrt{2\pi},\sigma}\exp\left(-\frac{(X-\mu)^2}{2\sigma^2}\right) dX\end{aligned}
+$$
+### Standard Normal Distribution
+표준 정규분포의 CDF는 다음과 같이 정의된다.
+$$
+\begin{aligned}\Phi(x)&= P(Z \le x) \\&= \int_{-\infty}^{x}\frac{1}{\sqrt{2\pi}}\exp\left(-\frac{1}{2}z^2\right)dz\end{aligned}
+$$
+$$
+\Phi(-x) = 1 - \Phi(x)
+$$
+![](/assets/img/blog/prob-14-gaussian-distribution/image-003.png)
+이를 이용해 **신뢰구간(confidence interval)** 을 다음과 같이 해석할 수 있다.<br>
+![](/assets/img/blog/prob-14-gaussian-distribution/image-004.png)
+## Error Function : erf(x)
+Gaussian CDF를 계산하기 위해 정의된 **또 다른 형태의 함수**이다.
+<table header-row="true">
+<tr>
+<td>Item</td>
+<td>Standard Normal Distribution</td>
+<td>Error Function</td>
+</tr>
+<tr>
+<td>Transform (substitution)</td>
+<td>$Z = \dfrac{X - \mu}{\sigma}$</td>
+<td>$Y = \dfrac{X - \mu}{\sqrt{2}\sigma}$</td>
+</tr>
+<tr>
+<td>CDF</td>
+<td>$\Phi(x) = \displaystyle \int_{-\infty}^{x} \dfrac{1}{\sqrt{2\pi}} e^{-\frac{1}{2}z^2}dz$</td>
+<td>$\operatorname{erf}(x) = \displaystyle \frac{2}{\sqrt{\pi}} \int_{0}^{x} e^{-y^2}dy$</td>
+</tr>
+</table>
+$$
+\begin{aligned}\operatorname{erf}(z)&= \frac{2}{\sqrt{\pi}}\int_{0}^{z}e^{-x^2}\, dx\end{aligned}
+$$
+적분 구간이 $(-\infty, x)$가 아니라 $(0,x)$이어 확률계산에 용이하다.
+$$
+\begin{aligned}\operatorname{erfc}(x)&= 1 - \operatorname{erf}(x)\end{aligned}
+$$
+![](/assets/img/blog/prob-14-gaussian-distribution/image-005.png)
