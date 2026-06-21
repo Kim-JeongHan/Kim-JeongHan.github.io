@@ -29,3 +29,36 @@
 @use "teachings";
 @use "typograms";
 @use "tistory";
+
+// Keep the portrait compact and avoid the theme shadow reading as a bottom border.
+.profile {
+  width: min(72%, 240px);
+
+  img {
+    display: block;
+    box-shadow: none;
+  }
+}
+
+.profile.float-left,
+.profile.float-right {
+  float: none;
+  margin: 0 auto 1.5rem;
+}
+
+@media (min-width: 576px) {
+  .profile {
+    width: 26%;
+    max-width: 240px;
+  }
+
+  .profile.float-left {
+    float: left;
+    margin: 0 1.25rem 1rem 0;
+  }
+
+  .profile.float-right {
+    float: right;
+    margin: 0 0 1rem 1.25rem;
+  }
+}
