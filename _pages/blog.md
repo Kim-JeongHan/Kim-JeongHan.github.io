@@ -20,81 +20,56 @@ pagination:
 
 {% assign blog_name_size = site.blog_name | size %}
 {% assign blog_description_size = site.blog_description | size %}
+{% assign latest_post = site.posts | first %}
 
 {% if blog_name_size > 0 or blog_description_size > 0 %}
 
   <div class="header-bar">
-    <h1>{{ site.blog_name }}</h1>
-    <h2>{{ site.blog_description }}</h2>
+    {% if blog_name_size > 0 %}
+      <h1>{{ site.blog_name }}</h1>
+    {% endif %}
+    {% if blog_description_size > 0 %}
+      <h2>{{ site.blog_description }}</h2>
+    {% endif %}
+    <div class="blog-index-stats" aria-label="Blog summary">
+      <span><strong>{{ site.posts.size }}</strong> 글</span>
+      <span><strong>{{ site.categories.size }}</strong> 카테고리</span>
+      {% if latest_post %}
+        <span>최근 <strong>{{ latest_post.date | date: '%Y.%m.%d' }}</strong></span>
+      {% endif %}
+    </div>
   </div>
   {% endif %}
 
 <div class="blog-index-mobile-nav">
   <details class="blog-category-details">
     <summary class="blog-category-summary">
-      <span>Browse categories</span>
+      <span>카테고리</span>
       <i class="fa-solid fa-chevron-down fa-sm"></i>
     </summary>
-    {% include blog_category_browser.liquid %}
+    {% include blog_category_browser.liquid active_all=true %}
   </details>
 </div>
 
 <div class="blog-index-layout">
-  <aside class="blog-index-sidebar">
-    {% include blog_category_browser.liquid %}
-  </aside>
-
   <div class="blog-index-feed">
 
 {% assign featured_posts = site.posts | where: "featured", "true" %}
 {% if featured_posts.size > 0 %}
-<br>
-
-<div class="container featured-posts">
-{% assign is_even = featured_posts.size | modulo: 2 %}
-<div class="row row-cols-{% if featured_posts.size <= 2 or is_even == 0 %}2{% else %}3{% endif %}">
-{% for post in featured_posts %}
-{% assign post_summary = post.description | default: post.excerpt | strip_html | strip_newlines | strip | truncate: 180 %}
-<div class="col mb-4">
-<a href="{{ post.url | relative_url }}">
-<div class="card hoverable">
-<div class="row g-0">
-<div class="col-md-12">
-<div class="card-body">
-<div class="float-right">
-<i class="fa-solid fa-thumbtack fa-xs"></i>
-</div>
-<h3 class="card-title text-lowercase">{{ post.title }}</h3>
-{% if post_summary != "" %}
-<p class="card-text">{{ post_summary }}</p>
-{% endif %}
-
-                    {% if post.external_source == blank %}
-                      {% assign read_time = post.content | number_of_words | divided_by: 180 | plus: 1 %}
-                    {% else %}
-                      {% assign read_time = post.feed_content | strip_html | number_of_words | divided_by: 180 | plus: 1 %}
-                    {% endif %}
-                    {% assign year = post.date | date: "%Y" %}
-
-                    <p class="post-meta">
-                      {{ read_time }} min read &nbsp; &middot; &nbsp;
-                      <a href="{{ year | prepend: '/blog/' | relative_url }}">
-                        <i class="fa-solid fa-calendar fa-sm"></i> {{ year }} </a>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-      {% endfor %}
-      </div>
-    </div>
-    <hr>
+<section class="blog-index-section" aria-labelledby="featured-notes-heading">
+  <h2 id="featured-notes-heading" class="blog-section-title">추천 글</h2>
+  <div class="blog-featured-grid">
+    {% for post in featured_posts %}
+      {% include blog_post_card.liquid post=post featured=true %}
+    {% endfor %}
+  </div>
+</section>
 
 {% endif %}
 
-  <ul class="post-list">
+  <section class="blog-index-section" aria-labelledby="latest-notes-heading">
+    <h2 id="latest-notes-heading" class="blog-section-title">최신 글</h2>
+    <div class="blog-post-list">
 
     {% if page.pagination.enabled %}
       {% assign postlist = paginator.posts %}
@@ -103,93 +78,22 @@ pagination:
     {% endif %}
 
     {% for post in postlist %}
-
-    {% if post.external_source == blank %}
-      {% assign read_time = post.content | number_of_words | divided_by: 180 | plus: 1 %}
-    {% else %}
-      {% assign read_time = post.feed_content | strip_html | number_of_words | divided_by: 180 | plus: 1 %}
-    {% endif %}
-    {% assign year = post.date | date: "%Y" %}
-    {% assign tags = post.tags | join: "" %}
-    {% assign categories = post.categories | join: "" %}
-    {% assign post_summary = post.description | default: post.excerpt | strip_html | strip_newlines | strip | truncate: 180 %}
-
-    <li>
-
-{% if post.thumbnail %}
-
-<div class="row">
-          <div class="col-sm-9">
-{% endif %}
-        <h3>
-        {% if post.redirect == blank %}
-          <a class="post-title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
-        {% elsif post.redirect contains '://' %}
-          <a class="post-title" href="{{ post.redirect }}" target="_blank">{{ post.title }}</a>
-          <svg width="2rem" height="2rem" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17 13.5v6H5v-12h6m3-3h6v6m0-6-9 9" class="icon_svg-stroke" stroke="#999" stroke-width="1.5" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-        {% else %}
-          <a class="post-title" href="{{ post.redirect | relative_url }}">{{ post.title }}</a>
-        {% endif %}
-      </h3>
-      {% if post_summary != "" %}
-      <p>{{ post_summary }}</p>
-      {% endif %}
-      <p class="post-meta">
-        {{ read_time }} min read &nbsp; &middot; &nbsp;
-        {{ post.date | date: '%B %d, %Y' }}
-        {% if post.external_source %}
-        &nbsp; &middot; &nbsp; {{ post.external_source }}
-        {% endif %}
-      </p>
-      <p class="post-tags">
-        <a href="{{ year | prepend: '/blog/' | relative_url }}">
-          <i class="fa-solid fa-calendar fa-sm"></i> {{ year }} </a>
-
-          {% if tags != "" %}
-          &nbsp; &middot; &nbsp;
-            {% for tag in post.tags %}
-            <a href="{{ tag | slugify | prepend: '/blog/tag/' | relative_url }}">
-              <i class="fa-solid fa-hashtag fa-sm"></i> {{ tag }}</a>
-              {% unless forloop.last %}
-                &nbsp;
-              {% endunless %}
-              {% endfor %}
-          {% endif %}
-
-          {% if categories != "" %}
-          &nbsp; &middot; &nbsp;
-            {% for category in post.categories %}
-            <a href="{{ category | slugify | prepend: '/blog/category/' | relative_url }}">
-              <i class="fa-solid fa-tag fa-sm"></i> {{ category }}</a>
-              {% unless forloop.last %}
-                &nbsp;
-              {% endunless %}
-              {% endfor %}
-          {% endif %}
-    </p>
-
-{% if post.thumbnail %}
-
-</div>
-
-  <div class="col-sm-3">
-    <img class="card-img" src="{{ post.thumbnail | relative_url }}" style="object-fit: cover; height: 90%" alt="image">
-  </div>
-</div>
-{% endif %}
-    </li>
+      {% include blog_post_card.liquid post=post %}
 
     {% endfor %}
 
-  </ul>
+    </div>
+  </section>
 
 {% if page.pagination.enabled %}
 {% include pagination.liquid %}
 {% endif %}
 
   </div>
+
+  <aside class="blog-index-sidebar">
+    {% include blog_category_browser.liquid active_all=true %}
+  </aside>
 </div>
 
 </div>

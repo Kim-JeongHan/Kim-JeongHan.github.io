@@ -2,55 +2,47 @@
 layout: default
 ---
 <div class="post">
+  {% assign archive_active_category = "" %}
+  {% if page.type == 'categories' %}
+    {% assign archive_active_category = page.title %}
+  {% endif %}
+
   <div class="blog-index-mobile-nav">
     <details class="blog-category-details">
       <summary class="blog-category-summary">
-        <span>Browse categories</span>
+        <span>카테고리</span>
         <i class="fa-solid fa-chevron-down fa-sm"></i>
       </summary>
-      {% include blog_category_browser.liquid active_category=page.title %}
+      {% include blog_category_browser.liquid active_category=archive_active_category %}
     </details>
   </div>
 
   <div class="blog-index-layout">
-    <aside class="blog-index-sidebar">
-      {% include blog_category_browser.liquid active_category=page.title %}
-    </aside>
-
     <div class="blog-index-feed">
       <header class="post-header">
         {% if page.type == 'categories' %}
           <h1 class="post-title"><i class="fa-solid fa-tag fa-sm"></i> {{ page.title }}</h1>
-          <p class="post-description">an archive of {{ page.collection_name }} in this category</p>
+          <p class="post-description">{{ page.title }} 카테고리의 글</p>
         {% elsif page.type == 'year' %}
           <h1 class="post-title"><i class="fa-solid fa-calendar fa-sm"></i> {{ page.date | date: '%Y' }}</h1>
-          <p class="post-description">an archive of {{ page.collection_name }} from this year</p>
+          <p class="post-description">{{ page.date | date: '%Y' }}년에 작성한 글</p>
         {% elsif page.type == 'tags' %}
           <h1 class="post-title"><i class="fa-solid fa-hashtag fa-sm"></i> {{ page.title }}</h1>
-          <p class="post-description">an archive of {{ page.collection_name }} with this tag</p>
+          <p class="post-description">{{ page.title }} 태그가 달린 글</p>
         {% endif %}
       </header>
 
-      <article class="archive">
-        <div class="table-responsive">
-          <table class="table table-sm table-borderless">
-            {% for document in page.documents %}
-              <tr>
-                <th scope="row">{{ document.date | date: '%b %d, %Y' }}</th>
-                <td>
-                  {% if document.redirect == blank %}
-                    <a class="post-link" href="{{ document.url | relative_url }}">{{ document.title }}</a>
-                  {% elsif document.redirect contains '://' %}
-                    <a class="post-link" href="{{ document.redirect }}" target="_blank">{{ document.title }}</a>
-                  {% else %}
-                    <a class="post-link" href="{{ document.redirect | relative_url }}">{{ document.title }}</a>
-                  {% endif %}
-                </td>
-              </tr>
-            {% endfor %}
-          </table>
+      <article class="archive blog-index-section">
+        <div class="blog-post-list">
+          {% for document in page.documents %}
+            {% include blog_post_card.liquid post=document compact=true %}
+          {% endfor %}
         </div>
       </article>
     </div>
+
+    <aside class="blog-index-sidebar">
+      {% include blog_category_browser.liquid active_category=archive_active_category %}
+    </aside>
   </div>
 </div>

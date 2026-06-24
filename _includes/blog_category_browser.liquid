@@ -24,11 +24,16 @@
 {% assign primary_categories = ordered_primary_category_names | split: "||" %}
 {% assign preferred_secondary_categories = site.data.blog_categories.secondary_order %}
 {% assign active_category = include.active_category | default: "" %}
+{% assign active_all = include.active_all | default: false %}
 
 <nav class="blog-category-browser" aria-label="Blog categories">
-  <p class="blog-category-heading">Browse notes</p>
-  <a class="blog-category-all" href="{{ '/blog/' | relative_url }}">
-    <span>All notes</span>
+  <p class="blog-category-heading">글 분류</p>
+  <a
+    class="blog-category-all{% if active_all %} active{% endif %}"
+    href="{{ '/blog/' | relative_url }}"
+    {% if active_all %}aria-current="page"{% endif %}
+  >
+    <span>전체 글</span>
     <span>{{ site.posts.size }}</span>
   </a>
 
