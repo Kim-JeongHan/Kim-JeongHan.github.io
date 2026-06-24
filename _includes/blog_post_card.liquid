@@ -28,7 +28,11 @@
 {% endcapture %}
 {% assign post_url = post_url | strip %}
 
-<article class="blog-post-card{% if include.featured %} blog-post-card-featured{% endif %}{% if include.compact %} blog-post-card-compact{% endif %}">
+<article
+  class="blog-post-card{% if include.featured %} blog-post-card-featured{% endif %}{% if include.compact %} blog-post-card-compact{% endif %}{% if include.extra_class %} {{ include.extra_class }}{% endif %}"
+  {% if include.archive_item %}data-archive-item{% endif %}
+  {% if include.archive_hidden %}hidden{% endif %}
+>
   <div class="blog-post-card-main">
     <div class="blog-post-card-header">
       {% if include.featured %}

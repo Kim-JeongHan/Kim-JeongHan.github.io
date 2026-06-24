@@ -6,6 +6,7 @@ layout: default
   {% if page.type == 'categories' %}
     {% assign archive_active_category = page.title %}
   {% endif %}
+  {% assign archive_page_size = 10 %}
 
   <div class="blog-index-mobile-nav">
     <details class="blog-category-details">
@@ -33,11 +34,23 @@ layout: default
       </header>
 
       <article class="archive blog-index-section">
-        <div class="blog-post-list">
+        <div class="blog-post-list archive-post-list" data-archive-list data-archive-page-size="{{ archive_page_size }}">
           {% for document in page.documents %}
-            {% include blog_post_card.liquid post=document compact=true %}
+            {% assign archive_hidden = false %}
+            {% if forloop.index > archive_page_size %}
+              {% assign archive_hidden = true %}
+            {% endif %}
+            {% include blog_post_card.liquid post=document compact=true archive_item=true archive_hidden=archive_hidden %}
           {% endfor %}
         </div>
+
+        {% if page.documents.size > archive_page_size %}
+          <nav class="archive-pagination af-pagination" aria-label="Archive page navigation" data-archive-pagination>
+            <button class="af-page-link archive-page-button" type="button" data-archive-prev aria-label="Previous archive page">&lt;</button>
+            <span class="archive-page-list" data-archive-pages></span>
+            <button class="af-page-link archive-page-button" type="button" data-archive-next aria-label="Next archive page">&gt;</button>
+          </nav>
+        {% endif %}
       </article>
     </div>
 
@@ -46,3 +59,5 @@ layout: default
     </aside>
   </div>
 </div>
+
+<script defer src="{{ '/assets/js/archive-pagination.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
