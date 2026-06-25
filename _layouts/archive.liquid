@@ -23,13 +23,10 @@ layout: default
       <header class="post-header">
         {% if page.type == 'categories' %}
           <h1 class="post-title"><i class="fa-solid fa-tag fa-sm"></i> {{ page.title }}</h1>
-          <p class="post-description">{{ page.title }} 카테고리의 글</p>
         {% elsif page.type == 'year' %}
           <h1 class="post-title"><i class="fa-solid fa-calendar fa-sm"></i> {{ page.date | date: '%Y' }}</h1>
-          <p class="post-description">{{ page.date | date: '%Y' }}년에 작성한 글</p>
         {% elsif page.type == 'tags' %}
           <h1 class="post-title"><i class="fa-solid fa-hashtag fa-sm"></i> {{ page.title }}</h1>
-          <p class="post-description">{{ page.title }} 태그가 달린 글</p>
         {% endif %}
       </header>
 
