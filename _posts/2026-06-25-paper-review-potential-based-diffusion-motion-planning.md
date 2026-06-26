@@ -240,7 +240,7 @@ q_e,
 \right)
 $$
 
-여기서 $\mathcal{C}_i^{s}$는 $i$번째 static obstacle condition이고, $\mathcal{C}_{j,1:T}^{d}$는 시간에 따라 변하는 $j$번째 dynamic obstacle condition이다.
+여기서 <span>\(\mathcal{C}_i^{s}\)</span>는 $i$번째 static obstacle condition이고, <span>\(\mathcal{C}_{j,1:T}^{d}\)</span>는 시간에 따라 변하는 $j$번째 dynamic obstacle condition이다.
 
 이렇게 합쳐진 potential function은 두 constraint를 모두 만족하는 trajectory에 낮은 energy를 부여한다.
 
@@ -311,7 +311,7 @@ Algorithm 2는 이러한 refinement pipeline을 정리한 것이다.
 
 #### Probabilistic Completeness
 
-Probabilistic completeness를 다루기 위해, diffusion potential model의 output distribution을 $\mathcal{D}_0$라고 두고, 이에 대한 probability density function을 $f_{\theta}(q_{1:T})$로 정의한다.
+Probabilistic completeness를 다루기 위해, diffusion potential model의 output distribution을 <span>\(\mathcal{D}_0\)</span>라고 두고, 이에 대한 probability density function을 <span>\(f_{\theta}(q_{1:T})\)</span>로 정의한다.
 
 제약 $\mathcal{C}$를 만족하는 feasible trajectory를 $q_{1:T}^{\mathcal{C}}$라고 하자. 또한 이 trajectory 주변의 $\tau$-neighborhood를 $B_{\tau}(q_{1:T}^{\mathcal{C}})$라고 두면,
 
@@ -377,7 +377,7 @@ $$
 
 | 구분 | 비교 방법 | 비교 의도 |
 | --- | --- | --- |
-| Classical planning baselines | RRT*, P-RRT*, BIT*, SIPP | sampling/search 기반 planner와 성공률, planning time, collision check 수를 비교 |
+| Classical planning baselines | RRT\*, P-RRT\*, BIT\*, SIPP | sampling/search 기반 planner와 성공률, planning time, collision check 수를 비교 |
 | Classical potential-based baseline | RMP | 전통적인 potential-based method와 비교 |
 | Learning-based baselines | MPNet, M$\pi$Net, AMP-LS | 기존 학습 기반 motion planner와 generalization 및 planning 효율성 비교 |
 
