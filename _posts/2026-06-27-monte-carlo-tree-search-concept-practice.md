@@ -42,21 +42,6 @@ $$
 - $P_a(s, s')$는 state $s$에서 action $a$를 수행했을 때 다음 state $s'$로 transition될 확률을 나타낸다.
 - $R_a(s)$는 action $a$에 의해 state $s$에 도달했을 때 받는 reward를 나타낸다.
 
-## 기본 용어
-
-MCTS를 설명하기 전에 몇 가지 용어를 먼저 정리한다.
-
-| 용어 | 의미 |
-| --- | --- |
-| state | 현재 문제의 상태 |
-| action | 현재 state에서 선택할 수 있는 행동 |
-| reward | rollout이 끝난 뒤 현재 선택이 얼마나 좋았는지 나타내는 결과값 |
-| policy | state가 주어졌을 때 action을 선택하는 규칙 |
-| value | 어떤 state 또는 action이 얼마나 좋은지 나타내는 값 |
-| node | search tree에서 하나의 state를 나타내는 단위 |
-| visit count | 특정 node 또는 action을 방문한 횟수 |
-| rollout | 현재 state에서 시작해 임의의 방식으로 끝까지 진행해보는 simulation |
-
 ## 주요 특징
 
 1. $Q(s, a)$는 state $s$에서 action $a$를 선택했을 때의 가치를 의미한다. MCTS에서는 이 값을 모든 미래를 정확히 계산해서 구하지 않고, 여러 번의 random simulation을 통해 근사한다.
@@ -109,7 +94,23 @@ $$
 
 ![Selection](/assets/img/blog/monte-carlo-tree-search-concept-practice/selection.png)
 
-Selection은 root node에서 시작한다. 현재 node에서 이미 확장된 child node가 있다면, selection policy에 따라 다음 child node를 선택하면서 tree 아래로 내려간다.
+{% capture mcts_select_algorithm %}
+$$
+\begin{array}{l}
+\textbf{Input : } \text{state } s \in \mathcal{S} \\
+\textbf{Output : } \text{unexpanded state } s \\[1mm]
+\textbf{while } s\ \text{is fully expanded and non-terminal}\ \textbf{do} \\
+\quad\quad \text{Select action } a\ \text{using a multi-armed bandit algorithm} \\
+\quad\quad \text{Choose one outcome } s'\ \text{according to } P_a(s' \mid s) \\
+\quad\quad s \leftarrow s' \\[1mm]
+\textbf{return } s
+\end{array}
+$$
+{% endcapture %}
+
+{% include algorithm.html title="Function -- Select(s)" label="algorithm:mcts:select" math=mcts_select_algorithm %}
+
+Selection은 root node에서 시작한다. 현재 node에서 이미 확장된 child node가 있다면, selection policy에 따라 다음 child node를 선택하면서 tree 아래로 내려간다. 이때 다음 node를 선택한다는 말은 실제로는 그 방향으로 이어지는 action 또는 branch를 선택한다는 의미에 가깝다. 선택한 action을 적용한 뒤 도달하는 다음 state $s'$는 transition probability $P_a(s' \mid s)$에 의해 결정된다.
 이 과정은 terminal state에 도달하거나, 아직 확장하지 않은 action이 남아 있는 node에 도착했을 때 종료된다. 즉 Selection은 이미 만들어진 tree 안에서 어디까지 내려갈지를 결정하는 단계이다.
 
 {% capture multi_armed_bandit_callout %}
@@ -127,27 +128,11 @@ MCTS에서는 보통 Upper Confidence bounds applied to Trees, 즉 UCT를 사용
 
 {% include callout.html type="note" title="Multi-Armed Bandit이란" content=multi_armed_bandit_callout %}
 
-{% capture mcts_select_algorithm %}
-$$
-\begin{array}{l}
-\textbf{Input : } \text{state } s \in \mathcal{S} \\
-\textbf{Output : } \text{unexpanded state } s \\[1mm]
-\textbf{while } s\ \text{is fully expanded and non-terminal}\ \textbf{do} \\
-\quad\quad \text{Select action } a\ \text{using a multi-armed bandit algorithm} \\
-\quad\quad \text{Choose one outcome } s'\ \text{according to } P_a(s' \mid s) \\
-\quad\quad s \leftarrow s' \\[1mm]
-\textbf{return } s
-\end{array}
-$$
-{% endcapture %}
-
-{% include algorithm.html title="Function -- Select(s)" label="algorithm:mcts:select" math=mcts_select_algorithm %}
-
 ### Expansion
 
 ![Expansion](/assets/img/blog/monte-carlo-tree-search-concept-practice/expansion.png)
 
-Expansion은 Selection이 멈춘 node에서 새로운 child node를 추가하는 단계이다. 현재 node가 terminal state가 아니라면, 아직 시도하지 않은 action 중 하나를 선택하고, 그 action을 적용해 도달하는 next state를 tree memory 안에 child node로 추가한다.
+Expansion은 Selection에서 branch를 선택한 뒤, 해당 action을 적용해 새로운 state $s'$를 확장하는 단계이다. 이때 다음 state $s'$는 transition probability $P_a(s' \mid s)$에 따라 결정된다. 이렇게 도달한 next state는 tree memory 안에 child node로 추가된다.
 새로 추가된 node가 terminal state라면 별도의 simulation 없이 바로 Backpropagation으로 넘어갈 수 있다. 그렇지 않다면 이 node에서 Simulation / Rollout을 시작한다.
 
 {% capture mcts_expand_algorithm %}
@@ -170,15 +155,51 @@ $$
 
 ![Simulation](/assets/img/blog/monte-carlo-tree-search-concept-practice/simulation.png)
 
-Simulation은 확장된 node에서 시작해 terminal state에 도달할 때까지 진행한다. 기본적인 MCTS에서는 이 과정을 random policy로 수행한다.
-그림의 $T$는 rollout이 도달한 terminal state를 의미한다. Simulation이 끝나면 terminal state $T$에서 최종 reward 또는 return $G$를 계산한다. 이 값은 현재 선택이 얼마나 좋았는지를 추정하기 위한 sample로 사용된다.
+Simulation은 Expansion으로 새로 추가된 node의 state $s'$에서 시작해 terminal state $T$에 도달할 때까지 진행된다. 이 단계에서는 현재 state $s_t$에서 action $a_t$를 선택하고, 해당 action에 대한 transition probability
+
+$$
+P_{a_t}(s_{t+1} \mid s_t)
+$$
+
+에 따라 다음 state $s_{t+1}$를 샘플링하는 과정을 반복한다.
+
+$$
+s'
+\xrightarrow{a_0}
+s_1
+\xrightarrow{a_1}
+s_2
+\rightarrow \cdots \rightarrow T
+$$
+
+기본적인 MCTS에서는 rollout 중 action을 무작위로 선택하는 random policy를 사용한다. 따라서 rollout은 새로 확장된 선택이 이후에 어떤 결과로 이어질지를 하나의 sample path로 만들어 보는 과정이다.
+
+다만 simulation은 반드시 완전히 무작위로 수행될 필요는 없다. 예를 들어 목표에 가까워지는 action, 충돌 가능성이 낮은 action, 비용이 낮을 것으로 예상되는 action을 더 자주 선택하도록 heuristic policy를 사용할 수 있다. 이 경우에도 simulation의 본질은 동일하다. 즉, 아직 탐색 tree에 명시적으로 저장되지 않은 미래를 하나 샘플링하여 현재 선택의 결과를 추정하는 단계이다.
+
+그림의 $T$는 rollout이 도달한 terminal state를 의미한다. Simulation이 끝나면 시작 state $s'$부터 terminal state $T$까지 얻은 누적 결과를 return $G$로 계산한다. rollout 길이를 $K$라고 하면 다음과 같이 쓸 수 있다.
+
+$$
+G = \sum_{t=0}^{K-1} r_t
+$$
+
+할인율 $\gamma^t$ 을 사용하는 경우에는 다음과 같이 계산할 수 있다.
+
+$$
+G
+=
+\sum_{t=0}^{K-1}
+\gamma^t r_t
+$$
+
+이 값은 현재 선택이 얼마나 좋은지를 추정하기 위한 하나의 sample로 사용된다.
+
+또한 simulation 과정에서 생성되는 임시 state들은 기본적인 MCTS에서는 tree memory에 저장하지 않는다. Simulation이 끝나면 rollout 결과인 $G$만 새로 확장된 node $s'$와 그 조상 node들에 전달되어 Backpropagation에 사용된다.
 
 ### Backpropagation
 
 ![Backpropagation](/assets/img/blog/monte-carlo-tree-search-concept-practice/backpropagation.png)
 
-Backpropagation은 Simulation에서 얻은 return $G$를 path상의 node들에 반영하는 단계이다. 확장된 node에서 root node 방향으로 거슬러 올라가며 각 node의 visit count와 value estimate를 업데이트한다.
-예를 들어 node $v$에 대해 다음과 같이 업데이트할 수 있다.
+
 
 {% capture mcts_backpropagation_algorithm %}
 $$
@@ -198,19 +219,11 @@ $$
 
 {% include algorithm.html title="Function -- Backpropagation(s, a, Q, G)" label="algorithm:mcts:backpropagation" math=mcts_backpropagation_algorithm %}
 
-$$
-N(v) \leftarrow N(v) + 1
-$$
+Backpropagation은 Simulation에서 얻은 return $G$를 현재 node에서 root node 방향으로 거슬러 올라가며 반복적으로 반영하는 단계이다. 이때 discount factor $\gamma$를 함께 고려해야 한다. terminal state에서 얻은 결과를 그대로 올리는 것이 아니라, 한 단계 위로 올라갈 때마다 현재 step의 reward와 discounted future return을 합쳐서 전달한다.
 
-$$
-W(v) \leftarrow W(v) + G
-$$
+각 state $s$와 action $a$는 Selection 단계에서 선택된 state-action pair이다. Backpropagation에서는 이 pair의 visit count $N(s,a)$를 증가시키고, 해당 선택에서 관측된 누적 return을 이용해 $Q(s,a)$를 업데이트한다. 같은 state-action pair가 여러 번 방문되면 $Q(s,a)$는 여러 rollout에서 얻은 return의 평균값에 가까워진다.
 
-$$
-Q(v) \leftarrow \frac{W(v)}{N(v)}
-$$
-
-여기서 $N(v)$는 visit count, $W(v)$는 누적 return, $Q(v)$는 평균 value estimate이다.
+action의 결과는 transition probability $P_a(s' \mid s)$에 따라 샘플링된다. 따라서 rollout을 충분히 반복하면 $Q(s,a)$는 해당 action을 선택했을 때 얻을 수 있는 return의 기댓값, 즉 expected return을 추정하게 된다. 이 관점에서 MCTS가 점진적으로 만드는 tree를 ExpectiMax tree의 sampling-based approximation으로 볼 수 있다. 최종적으로는 각 state에서 expected return이 큰 action을 선택하는 방향으로 탐색이 진행된다.
 
 ## UCT
 
