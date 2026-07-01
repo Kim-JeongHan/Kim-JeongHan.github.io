@@ -9,7 +9,6 @@ categories:
 - Rust
 tags:
 - Rust
-last_modified_at: 2025-07-17 11:08:24 +0900
 ---
 
 ## 개요

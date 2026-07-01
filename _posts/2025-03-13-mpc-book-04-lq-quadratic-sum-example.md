@@ -11,7 +11,6 @@ categories:
 tags:
 - MPC
 - lq
-last_modified_at: 2025-03-18 23:00:47 +0900
 series: mpc-study
 series_order: 4
 ---

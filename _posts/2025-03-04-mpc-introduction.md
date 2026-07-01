@@ -11,7 +11,6 @@ categories:
 tags:
 - MPC
 - optimal-control
-last_modified_at: 2025-03-12 23:27:10 +0900
 series: mpc-study
 series_order: 0
 ---

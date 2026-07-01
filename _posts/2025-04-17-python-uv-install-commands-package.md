@@ -9,7 +9,6 @@ categories:
 - python
 tags:
 - uv
-last_modified_at: 2025-04-17 01:50:18 +0900
 series: python-uv
 series_order: 2
 ---

@@ -11,7 +11,6 @@ categories:
 tags:
 - robotics
 - kinematics
-last_modified_at: 2026-06-15 16:46:02 +0900
 series: peter-corke-robotics
 series_order: 1
 ---

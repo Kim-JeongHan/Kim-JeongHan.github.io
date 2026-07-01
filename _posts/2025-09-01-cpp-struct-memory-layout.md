@@ -9,7 +9,6 @@ categories:
 - c++
 tags:
 - C++
-last_modified_at: 2025-09-01 22:34:25 +0900
 ---
 
 ## 일반적인 구조체

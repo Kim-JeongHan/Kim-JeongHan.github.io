@@ -10,7 +10,6 @@ categories:
 - 확률과 통계
 tags:
 - 수업
-last_modified_at: 2026-01-08 16:57:00 +0900
 series: probability-statistics
 series_order: 14
 ---

@@ -11,7 +11,6 @@ categories:
 tags:
 - MPC
 - stability
-last_modified_at: 2025-03-18 23:01:57 +0900
 series: mpc-study
 series_order: 6
 ---

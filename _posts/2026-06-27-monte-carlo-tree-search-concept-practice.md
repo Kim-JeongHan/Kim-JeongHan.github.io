@@ -225,9 +225,34 @@ Backpropagation은 Simulation에서 얻은 return $G$를 현재 node에서 root 
 
 action의 결과는 transition probability $P_a(s' \mid s)$에 따라 샘플링된다. 따라서 rollout을 충분히 반복하면 $Q(s,a)$는 해당 action을 선택했을 때 얻을 수 있는 return의 기댓값, 즉 expected return을 추정하게 된다. 이 관점에서 MCTS가 점진적으로 만드는 tree를 ExpectiMax tree의 sampling-based approximation으로 볼 수 있다. 최종적으로는 각 state에서 expected return이 큰 action을 선택하는 방향으로 탐색이 진행된다.
 
-## UCT
+## Upper Confidence bounds applied to Trees (UCT)
 
--
+앞서 Selection 단계에서 multi-armed bandit algorithm을 사용한다고 말했다. 실제 MCTS에서는 UCB1을 tree search에 맞게 약간 변형한 방식이 성능이 좋아서 많이 사용된다. 이 방법을 UCT라고 부른다. 즉, UCT는 MCTS의 Selection 단계에서 어떤 action 또는 branch를 선택할지를 결정하기 위해 UCB 계열의 기준을 사용하는 방법이다.
+
+UCT에서는 현재 state $s$에서 다음 action을 다음과 같이 선택한다.
+
+$$
+a^*
+=
+\arg\max_{a \in A(s)}
+\left[
+Q(s,a)
++
+2 C_p
+\sqrt{
+\frac{2 \ln N(s)}
+{N(s,a)}
+}
+\right]
+$$
+
+여기서 첫 번째 항 $Q(s,a)$는 지금까지의 rollout을 통해 추정한 expected return이다. 이미 좋은 결과를 보인 action을 더 선택하려는 exploitation 항으로 볼 수 있다. 두 번째 항은 아직 충분히 선택되지 않은 action에 더 큰 값을 주는 exploration 항이다.
+
+- $N(s)$는 state node $s$가 방문된 횟수이다.
+- $N(s,a)$는 state $s$에서 action $a$가 선택된 횟수이다.
+- $C_p > 0$는 exploration을 얼마나 강하게 할지를 결정하는 상수이다.
+
+$C_p$가 크면 아직 덜 탐색한 action을 더 자주 선택하고, $C_p$가 작으면 현재까지 $Q(s,a)$가 크게 추정된 action을 더 자주 선택한다. 따라서 UCT는 exploitation과 exploration 사이의 균형을 조절하는 Selection policy로 볼 수 있다.
 
 ## 간단한 예제
 

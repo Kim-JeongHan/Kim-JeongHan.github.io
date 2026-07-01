@@ -9,7 +9,6 @@ categories:
 - 알고리즘
 tags:
 - algorithm
-last_modified_at: 2025-08-27 00:34:57 +0900
 ---
 
 # 개요

@@ -4,7 +4,6 @@ title: "[Git 스터디 3-1] 브랜치 전략"
 slug: git-study-03-branch-strategy
 subtitle: "Long-running branch, topic branch, ROS 프로젝트 브랜치 운영"
 date: 2023-07-18 22:00:00 +0900
-last_modified_at: 2023-07-16 15:16:00 +0900
 categories:
   - 프로그래밍
   - Git

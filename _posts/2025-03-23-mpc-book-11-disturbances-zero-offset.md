@@ -10,7 +10,6 @@ categories:
 - mpc
 tags:
 - MPC
-last_modified_at: 2025-03-24 23:32:10 +0900
 series: mpc-study
 series_order: 11
 ---

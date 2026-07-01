@@ -86,7 +86,10 @@ module GitLastModifiedAt
   end
 
   def self.relative_path(site_source, absolute_path)
-    Pathname.new(absolute_path).relative_path_from(Pathname.new(site_source)).to_s
+    path = Pathname.new(absolute_path)
+    return path.to_s unless path.absolute?
+
+    path.relative_path_from(Pathname.new(site_source)).to_s
   end
 
   Jekyll::Hooks.register :site, :post_read do |site|

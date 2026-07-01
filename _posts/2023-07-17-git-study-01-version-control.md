@@ -4,7 +4,6 @@ title: "[Git 스터디 1-1] 버전관리와 Git 기본 설정"
 slug: git-study-01-version-control
 subtitle: "분산 버전관리, Git의 세 가지 상태, 설치와 사용자 설정"
 date: 2023-07-17 20:00:00 +0900
-last_modified_at: 2023-07-16 15:16:00 +0900
 categories:
   - 프로그래밍
   - Git

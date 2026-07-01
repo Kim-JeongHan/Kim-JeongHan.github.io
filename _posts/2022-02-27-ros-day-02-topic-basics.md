@@ -10,7 +10,6 @@ categories:
 tags:
 - ROS
 - Topic
-last_modified_at: 2022-02-27 04:22:28 +0900
 series: ros-basics
 series_order: 4
 ---

@@ -10,7 +10,6 @@ categories:
 tags:
 - Cargo
 - Rust
-last_modified_at: 2025-09-03 00:48:26 +0900
 ---
 
 ## rust 설치하기

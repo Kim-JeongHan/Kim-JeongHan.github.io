@@ -12,7 +12,6 @@ tags:
 - MPC
 - paper-review
 - control
-last_modified_at: 2025-09-23 22:47:11 +0900
 ---
 
 # mpc 발전의 역사

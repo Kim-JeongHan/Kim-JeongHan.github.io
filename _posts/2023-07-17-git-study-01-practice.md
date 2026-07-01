@@ -4,7 +4,6 @@ title: "[Git 스터디 1-2] 저장소 만들기와 기본 실습"
 slug: git-study-01-practice
 subtitle: "git init, clone, add, commit, rm, mv 실습"
 date: 2023-07-17 21:00:00 +0900
-last_modified_at: 2023-07-16 15:16:00 +0900
 categories:
   - 프로그래밍
   - Git

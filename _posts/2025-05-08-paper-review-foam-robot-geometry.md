@@ -10,7 +10,6 @@ categories:
 tags:
 - robotics
 - paper-review
-last_modified_at: 2025-05-09 08:25:44 +0900
 ---
 
 회사에서 collision model을 최적화하는 작업을 진행 중에, 흥미로운 논문이 있어 공유한다. 논문은 복잡한 메시(Mesh)를 자동으로 구(Sphere) 기반의 근사 충돌 모델로 변환해주는 도구인 FOAM(Flexible Object Approximation Method) 을 소개한다.

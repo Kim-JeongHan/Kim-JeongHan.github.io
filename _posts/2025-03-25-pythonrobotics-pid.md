@@ -12,7 +12,6 @@ tags:
 - Python
 - robotics
 - control
-last_modified_at: 2025-03-26 08:57:34 +0900
 series: pythonrobotics-analysis
 series_order: 1
 ---

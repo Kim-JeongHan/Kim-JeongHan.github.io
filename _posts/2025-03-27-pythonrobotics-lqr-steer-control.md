@@ -13,7 +13,6 @@ tags:
 - robotics
 - control
 - LQR
-last_modified_at: 2025-04-02 00:44:47 +0900
 series: pythonrobotics-analysis
 series_order: 2
 ---

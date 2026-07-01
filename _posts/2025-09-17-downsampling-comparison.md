@@ -8,7 +8,6 @@ categories:
 - 알고리즘
 tags:
 - algorithm
-last_modified_at: 2025-09-19 14:26:23 +0900
 ---
 
 <div class="table-responsive tistory-table">

@@ -4,7 +4,6 @@ title: "[Git 스터디 3-2] GitHub 사용"
 slug: git-study-03-github
 subtitle: "Personal access token, repository 생성, remote push"
 date: 2023-07-19 20:00:00 +0900
-last_modified_at: 2023-07-16 15:16:00 +0900
 categories:
   - 프로그래밍
   - Git

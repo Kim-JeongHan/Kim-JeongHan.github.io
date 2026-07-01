@@ -11,7 +11,6 @@ categories:
 tags:
 - robotics
 - kinematics
-last_modified_at: 2025-05-13 15:32:28 +0900
 ---
 
 가끔 수식이 기억이 안날때가 있어, 찾아보고 싶어 정리한다.

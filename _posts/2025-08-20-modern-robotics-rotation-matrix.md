@@ -10,7 +10,6 @@ categories:
 tags:
 - modern-robotics
 - rotation-matrix
-last_modified_at: 2025-08-20 23:58:23 +0900
 series: modern-robotics
 series_order: 2
 ---

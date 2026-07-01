@@ -9,7 +9,6 @@ categories:
 - 이모저모
 tags:
 - AI
-last_modified_at: 2025-03-28 15:32:10 +0900
 ---
 
 최근 AI 업계에서는 **MCP(Model Context Protocol)**이 화두로 떠오르고 있다. 많은 이들이 MCP를 “AI의 USB-C”에 비유하는 데에는 그만한 이유가 있다. 지금까지는 AI 모델과 외부 도구 또는 데이터 소스를 연결하려면, 모델마다 다른 통합 방식과 API 호출 방식을 따로 구현해야 했기 때문이다.

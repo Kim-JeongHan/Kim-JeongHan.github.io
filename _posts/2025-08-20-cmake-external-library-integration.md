@@ -8,7 +8,6 @@ categories:
 - 프로그래밍
 tags:
 - CMake
-last_modified_at: 2025-08-20 22:01:26 +0900
 ---
 
 ### **개요**

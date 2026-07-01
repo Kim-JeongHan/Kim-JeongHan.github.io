@@ -9,7 +9,6 @@ categories:
 - 알고리즘
 tags:
 - algorithm
-last_modified_at: 2025-08-24 23:38:39 +0900
 ---
 
 # RANSAC 이란

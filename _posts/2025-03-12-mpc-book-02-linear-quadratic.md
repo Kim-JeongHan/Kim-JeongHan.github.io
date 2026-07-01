@@ -12,7 +12,6 @@ tags:
 - MPC
 - lq
 - optimal-control
-last_modified_at: 2025-03-16 18:17:52 +0900
 series: mpc-study
 series_order: 2
 ---

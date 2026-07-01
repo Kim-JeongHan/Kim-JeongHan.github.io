@@ -4,7 +4,6 @@ title: "[Git 스터디 2-2] 브랜치 활용과 병합"
 slug: git-study-02-branch-workflow
 subtitle: "작업 브랜치, hotfix, fast-forward merge, conflict 처리"
 date: 2023-07-18 21:00:00 +0900
-last_modified_at: 2023-07-16 15:16:00 +0900
 categories:
   - 프로그래밍
   - Git

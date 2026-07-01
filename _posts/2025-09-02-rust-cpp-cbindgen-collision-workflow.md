@@ -13,7 +13,6 @@ tags:
 - CMake
 - corrosion
 - Rust
-last_modified_at: 2025-09-02 22:59:21 +0900
 ---
 
 이 글에서는 **cbindgen**과 **Corrosion**을 활용해 Rust와 C++를 매끄럽게 통합하는 워크플로우를 소개한다.

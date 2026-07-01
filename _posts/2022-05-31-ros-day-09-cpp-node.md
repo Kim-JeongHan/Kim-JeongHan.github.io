@@ -10,7 +10,6 @@ categories:
 tags:
 - C++
 - ROS
-last_modified_at: 2022-06-07 17:57:47 +0900
 series: ros-basics
 series_order: 12
 ---

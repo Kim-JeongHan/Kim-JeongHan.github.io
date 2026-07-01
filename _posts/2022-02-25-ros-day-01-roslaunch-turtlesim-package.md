@@ -10,7 +10,6 @@ categories:
 tags:
 - remapping
 - ROS
-last_modified_at: 2022-02-25 03:46:50 +0900
 series: ros-basics
 series_order: 3
 ---

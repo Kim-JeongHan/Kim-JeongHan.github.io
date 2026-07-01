@@ -11,7 +11,6 @@ categories:
 tags:
 - convex
 - optimization
-last_modified_at: 2025-03-03 03:10:26 +0900
 ---
 
 # 최적화의 기본요소

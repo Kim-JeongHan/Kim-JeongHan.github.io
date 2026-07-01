@@ -9,7 +9,6 @@ categories:
 - ROS
 tags:
 - ROS
-last_modified_at: 2022-03-03 04:18:22 +0900
 series: ros-basics
 series_order: 7
 ---

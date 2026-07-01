@@ -4,7 +4,6 @@ title: "[Git 스터디 2-1] 브랜치의 원리"
 slug: git-study-02-branch
 subtitle: "Git의 스냅샷 저장 방식과 브랜치 포인터 이해"
 date: 2023-07-18 20:00:00 +0900
-last_modified_at: 2023-07-16 15:16:00 +0900
 categories:
   - 프로그래밍
   - Git

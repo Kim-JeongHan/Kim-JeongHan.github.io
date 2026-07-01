@@ -9,7 +9,6 @@ categories:
 - Rust
 tags:
 - Rust
-last_modified_at: 2025-09-03 01:22:54 +0900
 ---
 
 Rust의 변수는 scope를 가지며, 해당 공간안에서만 살아있다. scope는 {}으로 설명된다.

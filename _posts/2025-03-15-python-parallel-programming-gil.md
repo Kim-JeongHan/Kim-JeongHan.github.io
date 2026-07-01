@@ -9,7 +9,6 @@ categories:
 - python
 tags:
 - Python
-last_modified_at: 2025-03-16 00:06:28 +0900
 ---
 
 ## 개요

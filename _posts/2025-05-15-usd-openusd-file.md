@@ -9,7 +9,6 @@ categories:
 tags:
 - USD
 - OpenUSD
-last_modified_at: 2025-05-15 12:41:05 +0900
 series: usd-notes
 series_order: 1
 ---

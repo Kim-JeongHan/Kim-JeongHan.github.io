@@ -9,7 +9,6 @@ categories:
 - 알고리즘
 tags:
 - algorithm
-last_modified_at: 2026-06-15 17:00:00 +0900
 ---
 
 Collision detection은 일반적으로 broad phase와 narrow phase 두 단계로 나누어 수행한다.

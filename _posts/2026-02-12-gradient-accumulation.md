@@ -9,7 +9,6 @@ categories:
 - 인공지능
 tags:
 - AI
-last_modified_at: 2026-02-12 17:32:51 +0900
 ---
 
 ### 1. 왜 사용하는가? (핵심: VRAM 절약)
