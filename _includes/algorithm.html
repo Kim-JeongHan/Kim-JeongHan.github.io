@@ -1,0 +1,18 @@
+{% assign algorithm_id = include.label | default: include.title | slugify %}
+{% assign algorithm_title = include.title | default: 'Algorithm' %}
+{% assign algorithm_code = include.code | strip %}
+{% assign algorithm_math = include.math | strip %}
+
+<figure class="algorithm-block" id="{{ algorithm_id }}">
+  <figcaption class="algorithm-block__caption">
+    <span class="algorithm-block__title">{{ algorithm_title }}</span>
+    {% if include.label %}
+      <span class="algorithm-block__label">{{ include.label }}</span>
+    {% endif %}
+  </figcaption>
+  {% if include.math %}
+    <div class="algorithm-block__math">{{ algorithm_math }}</div>
+  {% else %}
+    <pre class="algorithm-block__body"><code>{{ algorithm_code | escape }}</code></pre>
+  {% endif %}
+</figure>

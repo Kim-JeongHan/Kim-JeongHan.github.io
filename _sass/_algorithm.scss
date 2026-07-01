@@ -1,0 +1,56 @@
+.algorithm-block {
+  margin: 1.5rem 0;
+  border: 1px solid var(--global-divider-color);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--global-bg-color);
+}
+
+.algorithm-block__caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.55rem 0.8rem;
+  border-bottom: 1px solid var(--global-divider-color);
+  background: var(--global-code-bg-color);
+  color: var(--global-text-color);
+  font-size: 0.9rem;
+}
+
+.algorithm-block__title {
+  font-weight: 600;
+}
+
+.algorithm-block__label {
+  color: var(--global-text-color-light);
+  font-family: var(--global-mono-font);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.algorithm-block__body {
+  margin: 0;
+  padding: 0.9rem 1rem;
+  overflow-x: auto;
+  background: transparent;
+  color: var(--global-text-color);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.algorithm-block__body code {
+  padding: 0;
+  background: transparent;
+  color: inherit;
+}
+
+.algorithm-block__math {
+  padding: 0.9rem 1rem;
+  overflow-x: auto;
+}
+
+.algorithm-block__math mjx-container[jax="CHTML"][display="true"] {
+  margin: 0;
+  overflow: visible;
+}

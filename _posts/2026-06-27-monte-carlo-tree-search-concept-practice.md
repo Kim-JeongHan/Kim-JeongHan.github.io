@@ -1,0 +1,220 @@
+---
+layout: post
+title: 'Monte-Carlo Tree Search (MCTS) 개념 및 실습'
+date: 2026-06-27 00:34:30 +0900
+slug: monte-carlo-tree-search-concept-practice
+render_with_liquid: true
+use_math: true
+categories:
+- 공부
+- 알고리즘
+tags:
+- algorithm
+- planning
+- monte-carlo-tree-search
+- mcts
+last_modified_at: 2026-06-27 00:34:30 +0900
+---
+
+## 개요
+
+Monte-Carlo Tree Search, 줄여서 MCTS는 AlphaGo 논문에서 AlphaGo를 학습시킨 방법으로 유명해졌다. 물론 내가 그때 처음 들어봤을 수도 있다. 
+
+강화학습에서 주로 쓰이는 알고리즘이고 빈번하게 등장하니까 이번 기회에 한번 다루어보고자 한다.
+
+## MCTS가 필요한 이유
+
+MCTS를 사용하는 이유는 AlphaGo 논문을 생각하면 이해하기 쉽다. 바둑처럼 가능한 경우의 수가 매우 많은 문제에서는 탐색 깊이가 증가할수록 가능한 상태와 action의 조합이 지수적으로 폭발한다. 그래서 모든 경우를 완전 탐색하는 것은 거의 불가능하다.
+
+MCTS는 모든 경우의 수를 전부 탐색하는 대신, 현재 상태에서 가능한 미래를 여러 번 샘플링하고 rollout한 뒤, 그 결과로 얻은 보상을 평균내어 각 선택의 가치를 추정한다. 즉, 모든 미래를 정확히 계산하는 것이 아니라 일부 미래를 무작위로 경험해보고, 어느 선택이 더 좋은지를 통계적으로 판단하는 방식이다.
+
+## MCTS의 문제 설정
+
+MCTS를 적용하려면 먼저 문제를 state, action, transition, reward 관점에서 바라볼 수 있어야 한다. 이때 자주 사용하는 표현 방식이 Markov Decision Process(MDP)이다. MDP는 다음 상태가 과거 전체 history가 아니라 현재 state와 현재 action에만 의존한다고 가정한다.
+
+MDP는 보통 다음 네 가지 요소로 모델링된다.
+
+$$
+(\mathcal{S}, \mathcal{A}_s, P_a, R_a)
+$$
+
+- $\mathcal{S}$는 환경에서 가능한 state의 집합이다. 초기 state는 $s_0 \in \mathcal{S}$로 표현한다.
+- $\mathcal{A}_s$는 특정 state $s$에서 사용할 수 있는 action의 집합이다.
+- $P_a(s, s')$는 state $s$에서 action $a$를 수행했을 때 다음 state $s'$로 transition될 확률을 나타낸다.
+- $R_a(s)$는 action $a$에 의해 state $s$에 도달했을 때 받는 reward를 나타낸다.
+
+## 기본 용어
+
+MCTS를 설명하기 전에 몇 가지 용어를 먼저 정리한다.
+
+| 용어 | 의미 |
+| --- | --- |
+| state | 현재 문제의 상태 |
+| action | 현재 state에서 선택할 수 있는 행동 |
+| reward | rollout이 끝난 뒤 현재 선택이 얼마나 좋았는지 나타내는 결과값 |
+| policy | state가 주어졌을 때 action을 선택하는 규칙 |
+| value | 어떤 state 또는 action이 얼마나 좋은지 나타내는 값 |
+| node | search tree에서 하나의 state를 나타내는 단위 |
+| visit count | 특정 node 또는 action을 방문한 횟수 |
+| rollout | 현재 state에서 시작해 임의의 방식으로 끝까지 진행해보는 simulation |
+
+## 주요 특징
+
+1. $Q(s, a)$는 state $s$에서 action $a$를 선택했을 때의 가치를 의미한다. MCTS에서는 이 값을 모든 미래를 정확히 계산해서 구하지 않고, 여러 번의 random simulation을 통해 근사한다.
+2. Single-agent problem에서는 ExpectiMax search tree를 점진적으로 구성한다. 여기서 ExpectiMax tree란, 현재 선택 이후 가능한 미래 state들을 tree로 펼치고, simulation 결과의 평균을 통해 각 action의 기대값을 추정하는 구조를 의미한다.
+3. Search는 미리 정의한 연산 시간이나 최대 확장 node 수에 도달하면 종료된다. 탐색을 끝까지 완료하지 못하더라도, 지금까지의 simulation 결과로 근사한 $Q(s, a)$를 기준으로 현재까지 가장 좋은 action $a^{*} = \arg\max_{a \in \mathcal{A}(s)} Q(s, a)$를 얻을 수 있다.
+4. 탐색이 끝나면 가장 성능이 좋은 action $a^{*}$를 return한다.
+
+## 알고리즘 흐름
+
+기본적인 MCTS 알고리즘은 다음 단계를 반복적으로 수행한다.
+
+- Selection: 자식 node가 하나 이상 있는 상황에서, 자식 node 중 하나를 선택한다.
+- Expansion: 선택된 node에서 가능한 action을 사용해 새로운 child node로 확장한다.
+- Simulation / Rollout: 확장된 node에서 terminal state에 도달할 때까지 simulation한다.
+- Backpropagation: simulation 결과로 얻은 value를 root node 방향으로 전달한다.
+
+![MCTS phases](/assets/img/blog/monte-carlo-tree-search-concept-practice/mcts-phases.png)
+
+기본적으로 MCTS tree 안의 각 node는 다음 정보를 저장한다.
+
+1. 자식 node의 집합
+2. parent node와 parent에서 현재 node로 이동할 때 사용한 action에 대한 pointer
+3. 해당 node를 몇 번 방문했는지 나타내는 visit count
+4. simulation 결과로부터 누적된 value 또는 reward 통계
+
+전체 흐름을 pseudocode로 쓰면 다음과 같다.
+
+{% capture mcts_algorithm %}
+$$
+\begin{array}{ll}
+\textbf{Input:} & M = \langle \mathcal{S}, s_0, \mathcal{A}, P_a(s' \mid s), r(s,a,s') \rangle,\ Q,\ B \\
+\textbf{Output:} & Q \\[1mm]
+\textbf{while} & \mathrm{current\_time} < B\ \textbf{do} \\
+& v \leftarrow \mathrm{Select}(s_0) \\
+& v' \leftarrow \mathrm{Expand}(v) \\[1mm]
+& \textbf{if}\ v'\ \text{is terminal}\ \textbf{then} \\
+& \quad T \leftarrow v' \\
+& \textbf{else} \\
+& \quad T \leftarrow \mathrm{Simulate}(v') \\[1mm]
+& G \leftarrow R(T) \\
+& \mathrm{Backpropagate}(v, v', Q, G) \\[1mm]
+\textbf{return} & Q
+\end{array}
+$$
+{% endcapture %}
+
+{% include algorithm.html title="Algorithm 1. Monte-Carlo Tree Search" label="algorithm:single-agent-mcts" math=mcts_algorithm %}
+
+### Selection
+
+![Selection](/assets/img/blog/monte-carlo-tree-search-concept-practice/selection.png)
+
+Selection은 root node에서 시작한다. 현재 node에서 이미 확장된 child node가 있다면, selection policy에 따라 다음 child node를 선택하면서 tree 아래로 내려간다.
+이 과정은 terminal state에 도달하거나, 아직 확장하지 않은 action이 남아 있는 node에 도착했을 때 종료된다. 즉 Selection은 이미 만들어진 tree 안에서 어디까지 내려갈지를 결정하는 단계이다.
+
+{% capture mcts_select_algorithm %}
+$$
+\begin{array}{ll}
+\textbf{Input:} & \text{state } s \in \mathcal{S} \\
+\textbf{Output:} & \text{unexpanded state } s \\[1mm]
+\textbf{while} & s\ \text{is fully expanded and non-terminal}\ \textbf{do} \\
+& \text{Select action } a\ \text{using a multi-armed bandit algorithm} \\
+& \text{Choose one outcome } s'\ \text{according to } P_a(s' \mid s) \\
+& s \leftarrow s' \\[1mm]
+\textbf{return} & s
+\end{array}
+$$
+{% endcapture %}
+
+{% include algorithm.html title="Function -- Select(s)" label="algorithm:mcts:select" math=mcts_select_algorithm %}
+
+### Expansion
+
+![Expansion](/assets/img/blog/monte-carlo-tree-search-concept-practice/expansion.png)
+
+Expansion은 Selection이 멈춘 node에서 새로운 child node를 추가하는 단계이다. 현재 node가 terminal state가 아니라면, 아직 시도하지 않은 action 중 하나를 선택하고, 그 action을 적용해 도달하는 next state를 tree memory 안에 child node로 추가한다.
+새로 추가된 node가 terminal state라면 별도의 simulation 없이 바로 Backpropagation으로 넘어갈 수 있다. 그렇지 않다면 이 node에서 Simulation / Rollout을 시작한다.
+
+{% capture mcts_expand_algorithm %}
+$$
+\begin{array}{ll}
+\textbf{Input:} & \text{state } s \in \mathcal{S} \\
+\textbf{Output:} & \text{expanded state } s' \\[1mm]
+\textbf{if} & s\ \text{is not fully expanded}\ \textbf{then} \\
+& \text{Randomly select an untried action } a\ \text{to apply in } s \\
+& \text{Expand one outcome } s'\ \text{according to } P_a(s' \mid s) \\
+& \text{Observe reward } r \\[1mm]
+\textbf{return} & s'
+\end{array}
+$$
+{% endcapture %}
+
+{% include algorithm.html title="Function -- Expand(s)" label="algorithm:mcts:expand" math=mcts_expand_algorithm %}
+
+### Simulation / Rollout
+
+![Simulation](/assets/img/blog/monte-carlo-tree-search-concept-practice/simulation.png)
+
+Simulation은 확장된 node에서 시작해 terminal state에 도달할 때까지 진행한다. 기본적인 MCTS에서는 이 과정을 random policy로 수행한다.
+그림의 $T$는 rollout이 도달한 terminal state를 의미한다. Simulation이 끝나면 terminal state $T$에서 최종 reward 또는 return $G$를 계산한다. 이 값은 현재 선택이 얼마나 좋았는지를 추정하기 위한 sample로 사용된다.
+
+### Backpropagation
+
+![Backpropagation](/assets/img/blog/monte-carlo-tree-search-concept-practice/backpropagation.png)
+
+Backpropagation은 Simulation에서 얻은 return $G$를 path상의 node들에 반영하는 단계이다. 확장된 node에서 root node 방향으로 거슬러 올라가며 각 node의 visit count와 value estimate를 업데이트한다.
+예를 들어 node $v$에 대해 다음과 같이 업데이트할 수 있다.
+
+{% capture mcts_backpropagation_algorithm %}
+$$
+\begin{array}{ll}
+\textbf{Input:} & \text{state-action pair } (s,a),\ Q:\mathcal{S}\times\mathcal{A}\rightarrow\mathbb{R},\ G\in\mathbb{R} \\
+\textbf{Output:} & \text{none} \\[1mm]
+\textbf{do} \\
+& N(s,a) \leftarrow N(s,a) + 1 \\
+& G \leftarrow r + \gamma G \\
+& Q(s,a) \leftarrow Q(s,a) + \frac{1}{N(s,a)}\left[G - Q(s,a)\right] \\
+& s \leftarrow \text{parent of } s \\
+& a \leftarrow \text{parent action of } s \\[1mm]
+\textbf{while} & s \ne s_0
+\end{array}
+$$
+{% endcapture %}
+
+{% include algorithm.html title="Function -- Backpropagation(s, a, Q, G)" label="algorithm:mcts:backpropagation" math=mcts_backpropagation_algorithm %}
+
+$$
+N(v) \leftarrow N(v) + 1
+$$
+
+$$
+W(v) \leftarrow W(v) + G
+$$
+
+$$
+Q(v) \leftarrow \frac{W(v)}{N(v)}
+$$
+
+여기서 $N(v)$는 visit count, $W(v)$는 누적 return, $Q(v)$는 평균 value estimate이다.
+
+## UCT
+
+-
+
+## 간단한 예제
+
+-
+
+## 구현 실습
+
+-
+
+## 정리
+
+-
+
+## Reference
+
+- [Monte Carlo Tree Search: A Review of Recent Modifications and Applications](https://arxiv.org/pdf/2103.04931)
+- [Monte-Carlo Tree Search (MCTS)](https://gibberblot.github.io/rl-notes/single-agent/mcts.html)
