@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Monte-Carlo Tree Search (MCTS) 개념 및 실습'
+title: 'Monte-Carlo Tree Search (MCTS) 개념'
 date: 2026-06-27 00:34:30 +0900
 slug: monte-carlo-tree-search-concept-practice
 render_with_liquid: true
@@ -238,9 +238,9 @@ a^*
 \left[
 Q(s,a)
 +
-2 C_p
+C_p
 \sqrt{
-\frac{2 \ln N(s)}
+\frac{ \ln N(s)}
 {N(s,a)}
 }
 \right]
@@ -250,21 +250,57 @@ $$
 
 - $N(s)$는 state node $s$가 방문된 횟수이다.
 - $N(s,a)$는 state $s$에서 action $a$가 선택된 횟수이다.
-- $C_p > 0$는 exploration을 얼마나 강하게 할지를 결정하는 상수이다.
+- $C_p > 0$는 exploration을 얼마나 강하게 할지를 결정하는 상수이다. 보통 초기값은 $\sqrt{2}$로 두고, 문제에 따라 조정한다.
 
 $C_p$가 크면 아직 덜 탐색한 action을 더 자주 선택하고, $C_p$가 작으면 현재까지 $Q(s,a)$가 크게 추정된 action을 더 자주 선택한다. 따라서 UCT는 exploitation과 exploration 사이의 균형을 조절하는 Selection policy로 볼 수 있다.
 
-## 간단한 예제
+이러한 sampling 기반 탐색과 exploration 항이 함께 작동하기 때문에, MCTS는 minimax와 같은 전통적인 tree search 방법과 달리 tree를 균일하게 펼치지 않는다. 더 유망하거나 더 불확실한 branch에 더 많은 simulation을 할당하면서 tree를 비대칭적으로 확장한다.
+즉, 기댓값이 높아 보이는 branch에는 더 많은 계산을 할당하고, 기댓값이 낮아 보이는 branch에는 더 적은 계산을 할당하기 때문에 tree가 불균등한 모양으로 커져 나간다.
 
--
+### UCB1-Tuned
 
-## 구현 실습
+기존 UCT 수식보다 더 정교한 방법으로 UCB1-Tuned를 사용할 수도 있다. UCB1-Tuned는 기존 UCB1 계열의 식에 action별 reward 분산을 반영하는 항을 추가한다. 직관적으로는 평균 return이 높은 action만 보는 것이 아니라, 해당 action의 rollout 결과가 얼마나 불안정한지도 함께 고려하는 방식이다.
 
--
+$$
+a^*
+=
+\arg\max_{a \in A(s)}
+\left\{
+Q(s,a)
++
+C
+\sqrt{
+\frac{\ln N(s)}{N(s,a)}
+\,
+\min\!\left(
+\frac{1}{4},
+\sigma_a
++
+\frac{2\ln N(s)}{N(s,a)}
+\right)
+}
+\right\}
+$$
+
+여기서 $\sigma_a$는 action $a$를 선택했을 때 관측된 rollout return의 분산을 반영하는 항이다. 따라서 UCB1-Tuned는 단순히 방문 횟수만으로 exploration bonus를 정하는 것이 아니라, reward 또는 return의 변동성까지 고려해 exploration 정도를 조절한다.
+
+### Exponential-weight algorithm for Exploration and Exploitation(EXP3)
+
+UCB1이나 UCB1-Tuned는 기본적으로 각 action의 reward distribution이 비교적 안정적이고, 여러 번 시도하면 평균 return이 점점 믿을 만해지는 상황에 잘 맞는다. 반대로 결과가 더 불안정하거나, 선택지의 품질이 시간에 따라 달라질 수 있는 상황에서는 EXP3 같은 adversarial bandit 알고리즘을 사용할 수도 있다.
+
+유한한 횟수의 선택 horizon이 정해져 있을 때, 지금까지 내가 선택한 action들의 누적 성능과 사후적으로 가장 좋았던 단일 action을 계속 선택했을 때의 성능 차이를 regret으로 본다. EXP3는 이 regret이 일정 수준 이상 커지지 않도록 이론적 보장을 제공하는 알고리즘이다.
+
+예를 들어 바둑에서는 내가 둔 수에 따라 상대방의 대응도 달라진다. 초반 rollout에서는 action $A$가 좋아 보였더라도, 이후 상대의 대응이나 탐색 상황이 바뀌면서 action $B$가 더 좋아질 수 있다. 기존 UCT가 누적 평균 return을 강하게 믿는다면 이런 변화에 둔감할 수 있다. EXP3 계열의 방법은 이런 불안정한 reward 상황에 좀 더 강하게 대응하기 위한 선택지로 볼 수 있다.
 
 ## 정리
 
--
+이번 게시글에서 MCTS 알고리즘에 대해 다루어보았다. MCTS는 모든 경우를 완전 탐색하여 최적해를 직접 찾는 방식이 아니다. 대신 현재까지 얻은 rollout 결과를 바탕으로 어떤 선택이 더 좋아 보이는지를 점진적으로 추정하고, 더 유망한 방향에 계산을 더 많이 할당한다.
+
+이를 위해 MCTS는 Selection, Expansion, Simulation, Backpropagation의 네 단계로 구성된다. Selection과 Expansion을 통해 tree에서 탐색할 위치를 정하고, Simulation을 통해 그 선택이 미래에 어떤 결과로 이어질지 샘플링한다. 이후 Backpropagation 단계에서 rollout 결과를 tree의 node들에 반영하여 각 state-action pair의 value estimate를 갱신한다.
+
+MCTS를 사용하려면 선택한 action 이후의 다음 state를 샘플링하고 reward를 계산할 수 있어야 한다. 즉, transition과 reward를 제공하는 simulator 또는 model이 필요하다는 점에서 model-based 방식으로 볼 수 있다.
+
+simulation에 필요한 transition과 reward를 대략적으로라도 모델링할 수 있고, 가능한 미래의 경우의 수가 매우 큰 환경에서는 MCTS가 기존의 완전 탐색이나 단순 sampling 기반 탐색보다 효율적일 수 있다. 결국 MCTS는 반복적인 rollout과 평균화를 통해 $Q(s,a)$를 추정하고, expected return이 큰 action을 선택하는 방향으로 탐색을 진행하는 알고리즘이다.
 
 ## Reference
 
