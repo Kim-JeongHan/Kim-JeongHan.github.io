@@ -3,12 +3,9 @@
 {% assign algorithm_code = include.code | strip %}
 {% assign algorithm_math = include.math | strip %}
 
-<figure class="algorithm-block" id="{{ algorithm_id }}">
+<figure class="algorithm-block" id="{{ algorithm_id }}"{% if include.label %} data-label="{{ include.label }}"{% endif %}>
   <figcaption class="algorithm-block__caption">
     <span class="algorithm-block__title">{{ algorithm_title }}</span>
-    {% if include.label %}
-      <span class="algorithm-block__label">{{ include.label }}</span>
-    {% endif %}
   </figcaption>
   {% if include.math %}
     <div class="algorithm-block__math">{{ algorithm_math }}</div>

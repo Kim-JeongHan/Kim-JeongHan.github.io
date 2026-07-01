@@ -13,7 +13,6 @@ tags:
 - planning
 - monte-carlo-tree-search
 - mcts
-last_modified_at: 2026-06-27 00:34:30 +0900
 ---
 
 ## 개요
@@ -87,19 +86,19 @@ MCTS를 설명하기 전에 몇 가지 용어를 먼저 정리한다.
 
 {% capture mcts_algorithm %}
 $$
-\begin{array}{ll}
-\textbf{Input:} & M = \langle \mathcal{S}, s_0, \mathcal{A}, P_a(s' \mid s), r(s,a,s') \rangle,\ Q,\ B \\
-\textbf{Output:} & Q \\[1mm]
-\textbf{while} & \mathrm{current\_time} < B\ \textbf{do} \\
-& v \leftarrow \mathrm{Select}(s_0) \\
-& v' \leftarrow \mathrm{Expand}(v) \\[1mm]
-& \textbf{if}\ v'\ \text{is terminal}\ \textbf{then} \\
-& \quad T \leftarrow v' \\
-& \textbf{else} \\
-& \quad T \leftarrow \mathrm{Simulate}(v') \\[1mm]
-& G \leftarrow R(T) \\
-& \mathrm{Backpropagate}(v, v', Q, G) \\[1mm]
-\textbf{return} & Q
+\begin{array}{l}
+\textbf{Input : } M = \langle \mathcal{S}, s_0, \mathcal{A}, P_a(s' \mid s), r(s,a,s') \rangle,\ Q,\ B \\
+\textbf{Output : } Q \\[1mm]
+\textbf{while } \mathrm{current\_time} < B\ \textbf{do} \\
+\quad\quad v \leftarrow \operatorname{Select}(s_0) \\
+\quad\quad v' \leftarrow \operatorname{Expand}(v) \\[1mm]
+\quad\quad \textbf{if } v'\ \text{is terminal}\ \textbf{then} \\
+\quad\quad\quad\quad T \leftarrow v' \\
+\quad\quad \textbf{else} \\
+\quad\quad\quad\quad T \leftarrow \operatorname{Simulate}(v') \\[1mm]
+\quad\quad G \leftarrow R(T) \\
+\quad\quad \operatorname{Backpropagate}(v, v', Q, G) \\[1mm]
+\textbf{return } Q
 \end{array}
 $$
 {% endcapture %}
@@ -113,16 +112,31 @@ $$
 Selection은 root node에서 시작한다. 현재 node에서 이미 확장된 child node가 있다면, selection policy에 따라 다음 child node를 선택하면서 tree 아래로 내려간다.
 이 과정은 terminal state에 도달하거나, 아직 확장하지 않은 action이 남아 있는 node에 도착했을 때 종료된다. 즉 Selection은 이미 만들어진 tree 안에서 어디까지 내려갈지를 결정하는 단계이다.
 
+{% capture multi_armed_bandit_callout %}
+슬롯 머신이 여러 대 있다고 생각해보자. 각 머신은 누를 때마다 결과가 조금씩 다르고, 평균적으로 어느 머신이 좋은지는 처음에 알 수 없다.
+
+이때 좋은 선택을 하기 위해서는 두 가지를 함께 고려해야 한다.
+
+1. 좋아 보이는 머신을 더 눌러서 이득을 얻는다.
+2. 아직 충분히 눌러보지 않은 머신도 확인한다.
+
+첫 번째는 exploitation이고, 두 번째는 exploration이다. Multi-Armed Bandit은 이 둘의 균형을 잡는 문제로 볼 수 있다.
+
+MCTS에서는 보통 Upper Confidence bounds applied to Trees, 즉 UCT를 사용한다. UCT는 뒤에서 좀 더 자세히 다룰 예정이다.
+{% endcapture %}
+
+{% include callout.html type="note" title="Multi-Armed Bandit이란" content=multi_armed_bandit_callout %}
+
 {% capture mcts_select_algorithm %}
 $$
-\begin{array}{ll}
-\textbf{Input:} & \text{state } s \in \mathcal{S} \\
-\textbf{Output:} & \text{unexpanded state } s \\[1mm]
-\textbf{while} & s\ \text{is fully expanded and non-terminal}\ \textbf{do} \\
-& \text{Select action } a\ \text{using a multi-armed bandit algorithm} \\
-& \text{Choose one outcome } s'\ \text{according to } P_a(s' \mid s) \\
-& s \leftarrow s' \\[1mm]
-\textbf{return} & s
+\begin{array}{l}
+\textbf{Input : } \text{state } s \in \mathcal{S} \\
+\textbf{Output : } \text{unexpanded state } s \\[1mm]
+\textbf{while } s\ \text{is fully expanded and non-terminal}\ \textbf{do} \\
+\quad\quad \text{Select action } a\ \text{using a multi-armed bandit algorithm} \\
+\quad\quad \text{Choose one outcome } s'\ \text{according to } P_a(s' \mid s) \\
+\quad\quad s \leftarrow s' \\[1mm]
+\textbf{return } s
 \end{array}
 $$
 {% endcapture %}
@@ -138,14 +152,14 @@ Expansion은 Selection이 멈춘 node에서 새로운 child node를 추가하는
 
 {% capture mcts_expand_algorithm %}
 $$
-\begin{array}{ll}
-\textbf{Input:} & \text{state } s \in \mathcal{S} \\
-\textbf{Output:} & \text{expanded state } s' \\[1mm]
-\textbf{if} & s\ \text{is not fully expanded}\ \textbf{then} \\
-& \text{Randomly select an untried action } a\ \text{to apply in } s \\
-& \text{Expand one outcome } s'\ \text{according to } P_a(s' \mid s) \\
-& \text{Observe reward } r \\[1mm]
-\textbf{return} & s'
+\begin{array}{l}
+\textbf{Input : } \text{state } s \in \mathcal{S} \\
+\textbf{Output : } \text{expanded state } s' \\[1mm]
+\textbf{if } s\ \text{is not fully expanded}\ \textbf{then} \\
+\quad\quad \text{Randomly select an untried action } a\ \text{to apply in } s \\
+\quad\quad \text{Expand one outcome } s'\ \text{according to } P_a(s' \mid s) \\
+\quad\quad \text{Observe reward } r \\[1mm]
+\textbf{return } s'
 \end{array}
 $$
 {% endcapture %}
@@ -168,16 +182,16 @@ Backpropagation은 Simulation에서 얻은 return $G$를 path상의 node들에 �
 
 {% capture mcts_backpropagation_algorithm %}
 $$
-\begin{array}{ll}
-\textbf{Input:} & \text{state-action pair } (s,a),\ Q:\mathcal{S}\times\mathcal{A}\rightarrow\mathbb{R},\ G\in\mathbb{R} \\
-\textbf{Output:} & \text{none} \\[1mm]
+\begin{array}{l}
+\textbf{Input : } \text{state-action pair } (s,a),\ Q:\mathcal{S}\times\mathcal{A}\rightarrow\mathbb{R},\ G\in\mathbb{R} \\
+\textbf{Output : } \text{none} \\[1mm]
 \textbf{do} \\
-& N(s,a) \leftarrow N(s,a) + 1 \\
-& G \leftarrow r + \gamma G \\
-& Q(s,a) \leftarrow Q(s,a) + \frac{1}{N(s,a)}\left[G - Q(s,a)\right] \\
-& s \leftarrow \text{parent of } s \\
-& a \leftarrow \text{parent action of } s \\[1mm]
-\textbf{while} & s \ne s_0
+\quad\quad N(s,a) \leftarrow N(s,a) + 1 \\
+\quad\quad G \leftarrow r + \gamma G \\
+\quad\quad Q(s,a) \leftarrow Q(s,a) + \frac{1}{N(s,a)}\left[G - Q(s,a)\right] \\
+\quad\quad s \leftarrow \text{parent of } s \\
+\quad\quad a \leftarrow \text{parent action of } s \\[1mm]
+\textbf{while } s \ne s_0
 \end{array}
 $$
 {% endcapture %}

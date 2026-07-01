@@ -1,0 +1,17 @@
+{% assign callout_type = include.type | default: 'note' | downcase | slugify %}
+{% assign callout_title = include.title | default: '' | strip %}
+{% assign callout_content = include.content | default: '' | strip %}
+
+<aside class="callout callout--{{ callout_type }}" role="note">
+  <div class="callout__marker" aria-hidden="true"></div>
+  <div class="callout__content">
+    {% if callout_title != '' %}
+      <div class="callout__title">{{ callout_title }}</div>
+    {% endif %}
+    {% if callout_content != '' %}
+      <div class="callout__body">
+        {{ callout_content | markdownify }}
+      </div>
+    {% endif %}
+  </div>
+</aside>

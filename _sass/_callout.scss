@@ -1,0 +1,98 @@
+.callout {
+  --callout-accent: var(--global-theme-color);
+  --callout-marker: "i";
+
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--global-divider-color);
+  border-left: 4px solid var(--callout-accent);
+  border-radius: 4px;
+  background: var(--global-code-bg-color);
+  color: var(--global-text-color);
+}
+
+.callout__marker {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 1.35rem;
+  padding-top: 0.05rem;
+}
+
+.callout__marker::before {
+  content: var(--callout-marker);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 50%;
+  background: var(--callout-accent);
+  color: #fff;
+  font-family: var(--global-mono-font);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.callout__content {
+  min-width: 0;
+}
+
+.callout__title {
+  margin-bottom: 0.25rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.callout__body {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.callout__body > :first-child {
+  margin-top: 0;
+}
+
+.callout__body > :last-child {
+  margin-bottom: 0;
+}
+
+.callout__body mjx-container[jax="CHTML"][display="true"] {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.callout--idea {
+  --callout-accent: #2f855a;
+  --callout-marker: "*";
+}
+
+.callout--warning {
+  --callout-accent: #b7791f;
+  --callout-marker: "!";
+}
+
+.callout--quote {
+  --callout-accent: #6b7280;
+  --callout-marker: ">";
+}
+
+.callout--danger {
+  --callout-accent: #c53030;
+  --callout-marker: "!";
+}
+
+@media (max-width: 575.98px) {
+  .callout {
+    gap: 0.6rem;
+    padding: 0.75rem 0.8rem;
+  }
+
+  .callout__body {
+    font-size: 0.92rem;
+  }
+}
