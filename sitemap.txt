@@ -155,7 +155,6 @@ https://kim-jeonghan.github.io/blog/tag/planning/
 https://kim-jeonghan.github.io/blog/tag/%EC%88%98%EC%97%85/
 https://kim-jeonghan.github.io/blog/tag/motion-planning/
 https://kim-jeonghan.github.io/blog/tag/diffusion-model/
-https://kim-jeonghan.github.io/blog/tag/ai/
 https://kim-jeonghan.github.io/blog/tag/monte-carlo-tree-search/
 https://kim-jeonghan.github.io/blog/tag/mcts/
 https://kim-jeonghan.github.io/blog/category/tool/
@@ -187,4 +186,3 @@ https://kim-jeonghan.github.io/blog/page/7/
 https://kim-jeonghan.github.io/blog/page/8/
 https://kim-jeonghan.github.io/blog/page/9/
 https://kim-jeonghan.github.io/blog/page/10/
-https://kim-jeonghan.github.io/google61a4412921b33989.html
