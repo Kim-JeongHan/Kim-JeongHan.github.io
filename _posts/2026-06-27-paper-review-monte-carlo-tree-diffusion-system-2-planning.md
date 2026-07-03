@@ -225,15 +225,21 @@ Backpropagation 단계에서는 simulation에서 얻은 평가 결과를 tree의
 
 즉 어떤 subplan에서 $\mathrm{GUIDE}$를 사용하는 것이 좋았는지, 또는 $\mathrm{NO\_GUIDE}$를 통해 더 넓게 탐색하는 것이 좋았는지를 tree 안에 누적해 다음 selection 단계에서 활용한다.
 
+### Prospective
+
 ![MCTD Two Perspectives](/assets/img/blog/paper-review-monte-carlo-tree-diffusion-system-2-planning/mctd-two-perspectives.png)
 
 위 그림은 MCTD를 MCTS 관점과 diffusion 관점에서 각각 보여준다. MCTS 관점에서는 selection, expansion, simulation, backpropagation의 네 단계가 partial denoising tree 위에서 표현되며, 각 node는 partially denoised sub-trajectory에 대응된다. Diffusion 관점에서는 같은 과정이 denoising depth와 planning horizon 위에서 표현되며, 전체 row가 동시에 denoise되지만 subplan마다 서로 다른 denoising level을 갖는다.
 
-<img src="/assets/img/blog/paper-review-monte-carlo-tree-diffusion-system-2-planning/algorithm-1-mctd.png" alt="Algorithm 1. Monte Carlo Tree Diffusion" style="width: 70%; display: block; margin: 0 auto;">
-
 ![MCTD Search Tree Example](/assets/img/blog/paper-review-monte-carlo-tree-diffusion-system-2-planning/mctd-search-tree-example.png)
 
 위 그림은 pointmaze-medium task에서 binary guidance set $\{\mathrm{NO\_GUIDE}, \mathrm{GUIDE}\}$를 사용한 MCTD tree-search 과정을 보여준다. 각 node는 partially denoised trajectory에 대응되며, 왼쪽 이미지는 noisy partial plan, 오른쪽 이미지는 fast denoising 이후의 plan을 나타낸다. Search는 $\mathrm{NO\_GUIDE}$ 또는 $\mathrm{GUIDE}$를 선택해 child node를 확장하고, 새로 생성된 plan을 평가하면서 최종적으로 reward가 높은 leaf로 수렴한다.
+
+
+### 알고리즘
+
+<img src="/assets/img/blog/paper-review-monte-carlo-tree-diffusion-system-2-planning/algorithm-1-mctd.png" alt="Algorithm 1. Monte Carlo Tree Diffusion" style="width: 50%; display: block; margin: 0 auto;">
+
 
 ## Experiments
 
@@ -281,6 +287,18 @@ sparse reward 환경에서는 trajectory의 좋고 나쁨을 판별하기 어렵
 
 1. MCTD는 subplan을 temporally extended state로 보고, 이를 MCTS의 node처럼 사용한다. 이 구조가 가능한 핵심 이유는 무엇인가? 단순히 DDIM 기반 jumpy denoising으로 future trajectory를 빠르게 샘플링하고 reward/value를 근사적으로 평가할 수 있기 때문인지, 아니면 subplan abstraction과 guidance schedule을 meta-action으로 정의한 점이 더 본질적인지 궁금하다.
 2. MCTD는 low-level state가 아니라 subplan 단위로 tree를 구성하기 때문에 기존 MCTS보다 tree depth는 줄어든다. 하지만 search tree 안에 partial trajectory, value, visit count, guidance schedule 등을 저장해야 한다면 memory cost는 여전히 커질 수 있지 않은가?
+
+## 내가 이해한 핵심
+
+이 논문은 결국 diffusion의 denoising process에 MCTS를 적용한 방법으로 볼 수 있다. 여기서 subplan은 low-level action sequence를 직접 나누는 것이라기보다, diffusion denoising process 안에서 trajectory를 구간 단위로 나눈 것으로 이해할 수 있다.
+
+diffusion은 inference 과정에서 Gaussian noise로부터 시작한 trajectory를 reverse denoising step을 통해 점점 더 실행 가능한 trajectory로 바꿔 간다. 기존 방식이 이 과정을 단순 sampling 또는 iterative refinement로 수행했다면, MCTD는 이 denoising 과정 위에 MCTS search를 얹는다. 즉, 후보 trajectory를 단순히 많이 뽑는 것이 아니라, 어떤 denoising branch를 더 탐색하고 어떤 branch를 덜 볼지를 tree search 방식으로 결정한다.
+
+causal semi-autoregressive하다는 의미 역시 경로 자체를 일반적인 autoregressive generation으로 만든다는 뜻이 아니다. subplan별 noise level을 다르게 두어, denoising 과정에서 앞선 subplan이 먼저 구체화되고 뒤쪽 subplan이 그 결과에 조건화되는 구조를 만든다는 의미에 가깝다.
+
+MCTS를 적용하기 위해 중요한 것은 simulation 단계와 exploration-exploitation 개념을 diffusion framework 안에 넣는 것이다. MCTD는 Guidance Levels as Meta-Actions 개념을 사용해, prior distribution을 따르는 선택과 goal-directed distribution을 따르는 선택을 구분한다. 이를 통해 denoising 과정 안에서 exploration과 exploitation을 조절한다.
+
+simulation 단계에서는 설정해 둔 reward function으로 빠르게 trajectory를 평가하는 것이 중요하다. MCTD는 DDIM 기반 jumpy denoising을 사용해 full trajectory를 빠르게 생성하고, 이를 통해 선택된 subplan 이후의 future trajectory를 조기 평가할 수 있게 한다.
 
 ## 결론
 
