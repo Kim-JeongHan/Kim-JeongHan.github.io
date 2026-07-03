@@ -31,16 +31,22 @@ diffusion-based planner는 denoising step을 통해 전체 trajectory를 한 번
 
 ### 기존 방식의 한계
 
-diffusion-based planner와 MCTS는 각각 다른 장점을 갖지만, long-horizon planning에서는 서로 다른 한계를 보인다.
+diffusion-based planner와 MCTS는 서로 다른 장점을 갖지만, long-horizon planning에서는 각각 다른 병목을 갖는다. 먼저 diffusion 계열 방법은 trajectory-level generation에는 강하지만, inference-time search를 구조적으로 활용하기 어렵다.
 
-| 접근 | 장점 | 한계 |
+| Diffusion 계열 접근 | 장점 | 한계 |
 | --- | --- | --- |
-| diffusion-based planner | 전체 trajectory를 한 번에 생성할 수 있고, forward dynamics model rollout에 따른 long-term error accumulation을 줄일 수 있다. | reward나 task objective를 직접적으로 반영하기 어렵고, 중간 decision point에서 exploration-exploitation tradeoff를 구조적으로 다루기 어렵다. |
-| denoising step 수 증가 | 더 많은 refinement를 통해 trajectory quality를 높일 수 있다. | 초반에는 성능이 향상되지만, 일정 수준 이후에는 빠르게 plateau에 도달한다. |
-| sample 수 증가 | 여러 trajectory 후보를 생성한 뒤 더 좋은 sample을 선택할 수 있다. | inference cost가 크게 증가하고, long-horizon task에서는 sample을 많이 뽑아도 여전히 실패할 수 있다. |
-| 전통적인 MCTS | simulation을 반복하면서 exploratory feedback을 얻고, 좋은 선택지를 더 깊게 탐색할 수 있다. | forward model에 의존하며, step-by-step rollout 때문에 global trajectory consistency를 유지하기 어렵다. 또한 discrete action 기반 tree가 깊고 넓어져 계산 비용이 커진다. |
+| diffusion-based planner | 전체 trajectory를 한 번에 생성해 forward model rollout에 따른 error accumulation을 줄인다. | reward나 task objective를 직접 반영하기 어렵고, 중간 decision point에서 exploration-exploitation을 구조적으로 다루기 어렵다. |
+| denoising step 수 증가 | 더 많은 refinement로 trajectory quality를 높이려 한다. | 초반에는 성능이 좋아지지만 빠르게 plateau에 도달하고 inference cost가 증가한다. |
+| sample 수 증가 | 여러 trajectory 후보를 만들고 좋은 sample을 선택할 수 있다. | sample 간 feedback을 공유하지 못하고, long-horizon task에서는 많은 sample을 뽑아도 실패할 수 있다. |
 
-따라서 이 논문은 diffusion-based planner의 trajectory-level generation 능력과 MCTS의 exploration-exploitation search 능력을 결합하는 방향으로 문제를 설정한다. 핵심 질문은 전체 trajectory를 생성하는 diffusion framework 안에서 어떻게 tree search 구조를 만들고, 이를 통해 inference-time scalability를 높일 수 있는가이다.
+반면 MCTS는 search feedback을 활용해 exploration과 exploitation을 조절할 수 있지만, 전통적인 형태 그대로는 long-horizon continuous planning에 적용하기 어렵다.
+
+| Search 계열 접근 | 장점 | 한계 |
+| --- | --- | --- |
+| 전통적인 MCTS | simulation feedback을 통해 좋은 선택지를 더 깊게 탐색하고, 덜 탐색한 선택지도 확인할 수 있다. | forward model에 의존하고, step-by-step rollout 때문에 global trajectory consistency를 유지하기 어렵다. |
+| discrete action tree search | action branch를 명시적으로 펼쳐 decision point마다 선택을 비교할 수 있다. | action space가 크거나 continuous하면 tree가 깊고 넓어져 계산 비용이 커진다. |
+
+따라서 이 논문은 diffusion model의 trajectory-level generation 능력은 유지하면서, MCTS의 exploration-exploitation search를 denoising process 안에 넣는 방향으로 문제를 설정한다. 핵심 질문은 전체 trajectory를 생성하는 diffusion framework 안에서 어떻게 tree search 구조를 만들고, 이를 통해 inference-time scalability를 높일 수 있는가이다.
 
 ## 핵심 아이디어
 
@@ -86,12 +92,6 @@ $$
 Diffusion Forcing은 trajectory $\mathbf{x}$를 여러 token으로 나누어 다룰 수 있게 확장한다. 이러한 tokenization을 사용하면 각 token이 서로 다른 noise level에서 denoising될 수 있다. 따라서 uncertainty가 높은 상황에서 전체 trajectory를 full noise에서 no noise까지 한 번에 완성할 필요 없이, 필요한 segment만 부분적으로 denoise하면서 trajectory를 구성할 수 있다. 이러한 token-level control은 long-horizon planning처럼 causal consistency가 중요한 문제에서 특히 유용하다.
 
 ### Monte Carlo Tree Diffusion
-
-![MCTD Two Perspectives](/assets/img/blog/paper-review-monte-carlo-tree-diffusion-system-2-planning/mctd-two-perspectives.png)
-
-위 그림은 MCTD를 MCTS 관점과 diffusion 관점에서 각각 보여준다. MCTS 관점에서는 selection, expansion, simulation, backpropagation의 네 단계가 partial denoising tree 위에서 표현되며, 각 node는 partially denoised sub-trajectory에 대응된다. Diffusion 관점에서는 같은 과정이 denoising depth와 planning horizon 위에서 표현되며, 전체 row가 동시에 denoise되지만 subplan마다 서로 다른 denoising level을 갖는다.
-
-<img src="/assets/img/blog/paper-review-monte-carlo-tree-diffusion-system-2-planning/algorithm-1-mctd.png" alt="Algorithm 1. Monte Carlo Tree Diffusion" style="width: 70%; display: block; margin: 0 auto;">
 
 #### Denoising as Tree-Rollout
 
@@ -224,6 +224,12 @@ $$
 Backpropagation 단계에서는 simulation에서 얻은 평가 결과를 tree의 상위 node들로 전달한다. MCTD에서는 primitive action이 아니라 meta-action 기반 guidance schedule을 사용하므로, 각 subplan에서 선택된 guidance schedule에 대한 value와 visit count가 업데이트된다.
 
 즉 어떤 subplan에서 $\mathrm{GUIDE}$를 사용하는 것이 좋았는지, 또는 $\mathrm{NO\_GUIDE}$를 통해 더 넓게 탐색하는 것이 좋았는지를 tree 안에 누적해 다음 selection 단계에서 활용한다.
+
+![MCTD Two Perspectives](/assets/img/blog/paper-review-monte-carlo-tree-diffusion-system-2-planning/mctd-two-perspectives.png)
+
+위 그림은 MCTD를 MCTS 관점과 diffusion 관점에서 각각 보여준다. MCTS 관점에서는 selection, expansion, simulation, backpropagation의 네 단계가 partial denoising tree 위에서 표현되며, 각 node는 partially denoised sub-trajectory에 대응된다. Diffusion 관점에서는 같은 과정이 denoising depth와 planning horizon 위에서 표현되며, 전체 row가 동시에 denoise되지만 subplan마다 서로 다른 denoising level을 갖는다.
+
+<img src="/assets/img/blog/paper-review-monte-carlo-tree-diffusion-system-2-planning/algorithm-1-mctd.png" alt="Algorithm 1. Monte Carlo Tree Diffusion" style="width: 70%; display: block; margin: 0 auto;">
 
 ![MCTD Search Tree Example](/assets/img/blog/paper-review-monte-carlo-tree-diffusion-system-2-planning/mctd-search-tree-example.png)
 
