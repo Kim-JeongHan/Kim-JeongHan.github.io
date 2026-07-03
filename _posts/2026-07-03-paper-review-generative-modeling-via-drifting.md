@@ -27,13 +27,6 @@ tags:
 
 ## 문제 정의
 
-Discriminative model과 generative model은 다음과 같이 구분할 수 있다.
-
-| 모델 | 관점 | 학습 목표 |
-| --- | --- | --- |
-| Discriminative model | 각 sample이 어떤 label에 대응되는지 본다. | $p(y \mid x)$처럼 input $x$가 주어졌을 때 label $y$를 예측한다. |
-| Generative model | data가 어떤 distribution에서 생성되는지 본다. | model이 생성하는 distribution이 실제 data distribution과 같아지도록 학습한다. |
-
 Generative model은 prior sample $z \sim p_z$를 generator $f_{\theta}$로 data space에 mapping한다.
 
 $$
@@ -45,7 +38,7 @@ $$
 이때 생성된 distribution은 pushforward distribution $q_{\theta}$로 표현된다.
 
 $$
-q_{\theta} = (f_{\theta})_{\#} p_z
+q_{\theta} = (f_{\theta})_{\sharp} p_z
 $$
 
 따라서 목표는 $q_{\theta}$가 실제 data distribution $p_{\mathrm{data}}$와 가까워지도록 $f_{\theta}$를 학습하는 것이다.
@@ -54,7 +47,7 @@ $$
 
 위 그림은 training이 진행될수록 generator가 만든 pushforward distribution이 data distribution에 가까워지는 과정을 보여준다. 아래 loss curve는 iteration이 증가할수록 두 distribution 사이의 loss가 낮아지는 것을 나타낸다.
 
-diffusion model이나 flow-based model의 관점은 복잡한 pushforward map $f_{\#}$를 inference time에 적용되는 여러 개의 더 쉬운 transformation chain으로 분해하는 것으로 볼 수 있다. 즉 prior distribution에서 data distribution으로 바로 이동하는 하나의 mapping을 학습하기보다, 반복적으로 noise를 제거하거나 vector field를 따라 sample을 조금씩 이동시키면서 data distribution에 가까워진다.
+diffusion model이나 flow-based model의 관점은 복잡한 pushforward map $f_{\sharp}$를 inference time에 적용되는 여러 개의 더 쉬운 transformation chain으로 분해하는 것으로 볼 수 있다. 즉 prior distribution에서 data distribution으로 바로 이동하는 하나의 mapping을 학습하기보다, 반복적으로 noise를 제거하거나 vector field를 따라 sample을 조금씩 이동시키면서 data distribution에 가까워진다.
 
 ### 기존 방식의 한계
 
@@ -94,15 +87,15 @@ $$
 $q$는 $p_{\epsilon}$이 $f$에 의해 밀려서 만들어진 pushforward distribution이다.
 
 $$
-q = f_{\#}p_{\epsilon}
+q = f_{\sharp}p_{\epsilon}
 $$
 
-여기서 $\#$는 $f$에 의해 유도되는 pushforward를 의미한다.
+여기서 $\sharp$는 $f$에 의해 유도되는 pushforward를 의미한다.
 
 neural network training은 반복적으로 진행되므로, training 과정은 model sequence $\{f_i\}$를 만든다고 볼 수 있다. 마찬가지로 각 training iteration $i$에 대응되는 pushforward distribution sequence $\{q_i\}$도 정의할 수 있다.
 
 $$
-q_i = [f_i]_{\#}p_{\epsilon}
+q_i = [f_i]_{\sharp}p_{\epsilon}
 $$
 
 training이 진행될수록 $q_i$는 점진적으로 data distribution $p_{\mathrm{data}}$와 match되도록 학습된다.
