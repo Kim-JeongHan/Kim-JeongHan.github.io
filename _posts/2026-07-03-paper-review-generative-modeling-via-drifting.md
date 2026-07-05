@@ -328,7 +328,14 @@ k(\mathbf{x},\mathbf{y})
 \tag{6}
 $$
 
-여기서 $\tau$는 temperature이고, $\|\cdot\|_2$는 $\ell_2$ distance이다. 식 (5)에서는 normalization factor가 함께 들어가므로, normalized kernel을 $\tilde{k}(\mathbf{x},\mathbf{y}) \coloneqq \frac{1}{Z}k(\mathbf{x},\mathbf{y})$처럼 볼 수 있다.
+여기서 $\tau$는 temperature이고, $\|\cdot\|_2$는 $\ell_2$ distance이다. 식 (5)에서는 normalization factor가 함께 들어가므로, normalized kernel을 다음처럼 볼 수 있다.
+
+$$
+\tilde{k}(\mathbf{x},\mathbf{y})
+:=
+\frac{1}{Z}
+k(\mathbf{x},\mathbf{y})
+$$
 
 실제 구현에서는 $\tilde{k}$를 softmax operation으로 계산한다. 이때 logit은 $-\frac{1}{\tau}\|\mathbf{x}-\mathbf{y}\|_2$로 주어지고, softmax는 $\mathbf{y}$에 대해 계산된다.
 
