@@ -21,30 +21,30 @@ tags:
 
 ## 한 줄 요약
 
+이 논문은 diffusion planner의 성능 한계를 모델 구조가 아니라 학습 데이터의 trajectory coverage 문제로 바라본다. SCoTS는 짧은 trajectory segment들을 reward 없이 이어 붙이고 diffusion-based refinement로 정제하여, 더 넓은 state space를 포함하는 augmented dataset을 만든다. 이 데이터로 학습한 diffusion planner는 기존 offline data보다 긴 horizon과 unseen task에 더 잘 일반화한다.
+
 ## 문제 정의
+
+Diffusion planner는 offline dataset으로부터 trajectory distribution을 학습해 start state와 goal state를 연결하는 trajectory를 생성한다. 하지만 planner의 성능은 학습 데이터의 trajectory coverage에 크게 의존하기 때문에, training data가 짧은 segment나 특정 behavior pattern에 치우쳐 있으면 unseen task나 long-horizon goal에 일반화하기 어렵다.
+
+따라서 이 논문은 기존 offline dataset의 짧은 trajectory segment들을 어떻게 재조합하여, 더 넓은 state space를 cover하는 augmented dataset을 만들 수 있는가를 문제로 설정한다.
 
 ### 기존 방식의 한계
 
-Model-based reinforcement learning은 dynamics model을 학습해 planning을 수행하기 때문에, 기존에 보지 못한 상황에 대한 generalization을 어느 정도 향상시킬 수 있다. 그러나 autoregressive하게 미래 state를 예측하는 과정에서는 prediction error가 누적될 수 있다. 이 오차가 커지면 물리적으로 불가능한 trajectory가 만들어지거나, 생성된 trajectory가 suboptimal해질 수 있다.
-
-반면 diffusion planner는 trajectory를 한번에 생성한다. 전체 trajectory를 한 번에 만들기 때문에 autoregressive prediction error가 step마다 누적되는 문제를 줄일 수 있다. 또한 conditioning이나 guidance를 추가하여 goal이나 expected return이 더 큰 방향으로 trajectory generation을 유도할 수도 있다.
-
-하지만 diffusion planner도 다음과 같은 한계를 가진다.
-
-1. Effective planning horizon은 학습된 최대 trajectory length 안에서 coherent plan을 만들 수 있는지에 의해 제한된다. Long-horizon task에서는 여러 trajectory segment가 일관되게 연결되어야 하는데, 이를 안정적으로 만드는 것은 어렵다.
-2. Generalization capability는 training data 안에 포함된 trajectory의 종류나 transition coverage에 의해 제한된다. 예를 들어 dataset이 특정 behavior pattern에 치우쳐 있다면, planner는 새로운 task에 필요한 transition을 조합하거나 연결하는 데 어려움을 겪을 수 있다. 이 한계는 논문에서 제시한 예시 그림에서도 확인할 수 있다.
-
-<img src="/assets/img/blog/paper-review-state-covering-trajectory-stitching-diffusion-planners/state-coverage-comparison.png" alt="State Coverage Comparison" style="width: 50%; display: block; margin: 0 auto;">
-
-위 그림은 SCoTS를 사용했을 때 generalization이 어떻게 개선되는지를 보여준다. (a)는 training dataset의 예시로, offline data의 coverage가 제한적임을 보여준다. (b)는 Hierarchical Diffuser(HD)가 생성한 plan으로, training data의 coverage가 부족하기 때문에 out-of-distribution task에 잘 일반화하지 못한다. (c)는 SCoTS-augmented data로 학습한 HD의 plan이며, unseen task에 대해 trajectory stitching capability와 generalization이 크게 개선된 것을 보여준다. 각 색상은 planner가 생성한 10개의 plan 중 하나를 의미한다.
-
-가장 단순한 해결책은 다양한 task와 state를 포함하는 데이터를 극단적으로 많이 모으는 것이다. 그러나 실제 환경에서 이런 방식은 너무 비싸고, 필요한 모든 transition을 직접 수집하는 것도 현실적이지 않다.
-
-그래서 이미 존재하는 짧은 trajectory segment들을 이어 붙여 더 긴 sequence를 만드는 stitching 접근이 제안되어 왔다. 하지만 기존 stitching 방식은 어떤 segment를 선택하고 연결할지 결정할 때 extrinsic reward에 강하게 의존하는 경우가 많다. 이 경우 reward가 명확하지 않거나 sparse한 환경에서는 좋은 stitching을 만들기 어렵고, 결국 diffusion planner의 generalization을 충분히 확장하는 데 한계가 남는다.
+| 접근 | 장점 | 한계 |
+| --- | --- | --- |
+| Model-based reinforcement learning | Dynamics model을 학습해 planning을 수행하므로, 기존에 보지 못한 상황에 대한 generalization을 어느 정도 기대할 수 있다. | Autoregressive하게 미래 state를 예측하는 과정에서 prediction error가 누적된다. 이 오차가 커지면 물리적으로 불가능한 trajectory가 만들어지거나 suboptimal trajectory가 생성될 수 있다. |
+| Diffusion planner | Trajectory를 한번에 생성하므로 autoregressive prediction error가 step마다 누적되는 문제를 줄일 수 있다. Conditioning이나 guidance를 추가해 goal 또는 expected return이 큰 방향으로 generation을 유도할 수도 있다. | Effective planning horizon이 학습된 최대 trajectory length와 coherent plan 생성 능력에 의해 제한된다. 또한 generalization capability는 training data의 trajectory type과 transition coverage에 크게 의존한다. |
+| 더 많은 data collection | 다양한 task와 state transition을 직접 수집하면 dataset coverage를 넓힐 수 있다. | 실제 환경에서는 비용이 너무 크고, 필요한 모든 transition을 충분히 포함하는 dataset을 만드는 것도 현실적이지 않다. |
+| 기존 trajectory stitching | 이미 존재하는 짧은 trajectory segment들을 이어 더 긴 sequence를 만들 수 있다. | Segment 선택과 연결이 extrinsic reward에 강하게 의존하는 경우가 많다. Reward가 명확하지 않거나 sparse한 환경에서는 좋은 stitching을 만들기 어렵다. |
 
 ## 핵심 아이디어
 
 이 논문은 reward-free trajectory augmentation framework를 제안한다. 다른 연구들이 diffusion planner의 architecture나 sampling 과정을 직접 개선하는 데 집중했다면, 이 논문은 augmented dataset $\mathcal{D}_{\mathrm{aug}}$ 자체에 집중한다. 핵심 목표는 latent directional exploration으로 짧은 trajectory segment들을 이어 붙여 다양하고 긴 trajectory를 만들고, 이를 통해 diffusion planner가 training distribution의 한계를 넘어서도록 만드는 것이다.
+
+<img src="/assets/img/blog/paper-review-state-covering-trajectory-stitching-diffusion-planners/state-coverage-comparison.png" alt="State Coverage Comparison" style="width: 50%; display: block; margin: 0 auto;">
+
+위 그림은 SCoTS를 사용했을 때 generalization이 어떻게 개선되는지를 보여준다. (a)는 training dataset의 예시로, offline data의 coverage가 제한적임을 보여준다. (b)는 Hierarchical Diffuser(HD)가 생성한 plan으로, training data의 coverage가 부족하기 때문에 out-of-distribution task에 잘 일반화하지 못한다. (c)는 SCoTS-augmented data로 학습한 HD의 plan이며, unseen task에 대해 trajectory stitching capability와 generalization이 크게 개선된 것을 보여준다. 각 색상은 planner가 생성한 10개의 plan 중 하나를 의미한다.
 
 ## Method
 
