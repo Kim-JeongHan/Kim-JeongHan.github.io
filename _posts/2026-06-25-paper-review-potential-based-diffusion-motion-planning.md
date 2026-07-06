@@ -6,8 +6,8 @@ slug: paper-review-potential-based-diffusion-motion-planning
 render_with_liquid: false
 use_math: true
 categories:
-- 공부
-- 로봇공학
+- 논문리뷰
+- diffusion
 tags:
 - robotics
 - motion-planning

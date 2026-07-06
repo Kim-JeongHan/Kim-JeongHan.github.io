@@ -6,8 +6,8 @@ slug: paper-review-generative-modeling-via-drifting
 render_with_liquid: false
 use_math: true
 categories:
-- 공부
-- 인공지능
+- 논문리뷰
+- diffusion
 tags:
 - ai
 - generative-modeling
@@ -46,8 +46,6 @@ $$
 ![Pushforward Training Loss](/assets/img/blog/paper-review-generative-modeling-via-drifting/pushforward-training-loss.png)
 
 위 그림은 training이 진행될수록 generator가 만든 pushforward distribution이 data distribution에 가까워지는 과정을 보여준다. 아래 loss curve는 iteration이 증가할수록 두 distribution 사이의 loss가 낮아지는 것을 나타낸다.
-
-diffusion model이나 flow-based model의 관점은 복잡한 pushforward map $f_{\sharp}$를 inference time에 적용되는 여러 개의 더 쉬운 transformation chain으로 분해하는 것으로 볼 수 있다. 즉 prior distribution에서 data distribution으로 바로 이동하는 하나의 mapping을 학습하기보다, 반복적으로 noise를 제거하거나 vector field를 따라 sample을 조금씩 이동시키면서 data distribution에 가까워진다.
 
 ### 기존 방식의 한계
 
@@ -357,6 +355,8 @@ V\!\left(f_{\theta}(\epsilon)\right)
 \tag{7}
 $$
 
+다만 이는 loss의 값이 $\|V\|^2$와 같다는 의미이지, $\|V\|^2$를 직접 미분한다는 뜻은 아니다. stop-gradient 때문에 gradient는 target 바깥쪽 $f_{\theta}$로만 흐르며, $f_{\theta}$는 고정된 drifted target $f_{\theta} + V$ 쪽으로 당겨진다.
+
 따라서 이 loss는 $\|V\|^2$를 줄이도록 학습한다. 이상적으로는 $V \approx 0$이면 $q \approx p$가 되기를 기대할 수 있다. 하지만 이 implication은 임의의 $V$에 대해 항상 성립하지는 않는다. 논문에서는 경험적으로 $\|V\|^2$가 감소할수록 generation quality가 좋아지는 경향을 관찰했고, kernelized construction에서는 zero-drift condition이 $(p,q)$에 많은 bilinear constraint를 부여하여 mild non-degeneracy assumption 아래에서 $p$와 $q$가 근사적으로 match되도록 만든다고 설명한다.
 
 stochastic training에서는 empirical mean을 사용해 $V$를 추정한다. 각 training step에서 noise $\epsilon \sim p_{\epsilon}$를 여러 개 뽑고, 이를 generator에 통과시켜 generated sample batch $\mathbf{x} = f_{\theta}(\epsilon) \sim q$를 만든다. 이 generated sample들은 같은 batch 안에서 negative sample $\mathbf{y}^{-} \sim q$로 사용된다. 반면 positive sample은 data distribution에서 $N_{\mathrm{pos}}$개의 data point를 뽑아 $\mathbf{y}^{+} \sim p_{\mathrm{data}}$로 사용한다.
@@ -415,7 +415,7 @@ q_{\theta}(\,\cdot \mid c\,)
 p_{\mathrm{data}}(\,\cdot \mid \varnothing)
 $$
 
-여기서 $\gamma \in [0,1)$는 unconditional data distribution과 conditional data distribution을 섞는 비율을 조절한다.
+여기서 $\gamma \in [0,1)$는 conditional 생성 분포 $q_{\theta}(\,\cdot \mid c\,)$와 unconditional data distribution $p_{\mathrm{data}}(\,\cdot \mid \varnothing)$를 섞는 비율을 조절한다.
 
 equilibrium 관점에서는 guided target이 conditional data distribution에 맞춰지도록 $q_{\theta}(\,\cdot \mid c\,)$를 조정하는 것으로 볼 수 있다.
 

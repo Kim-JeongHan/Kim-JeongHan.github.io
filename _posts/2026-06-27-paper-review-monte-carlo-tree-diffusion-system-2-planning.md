@@ -6,8 +6,8 @@ slug: paper-review-monte-carlo-tree-diffusion-system-2-planning
 render_with_liquid: true
 use_math: true
 categories:
-- 공부
-- 인공지능
+- 논문리뷰
+- diffusion
 tags:
 - ai
 - planning

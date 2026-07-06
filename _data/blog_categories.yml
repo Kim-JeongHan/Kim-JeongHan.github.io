@@ -1,5 +1,6 @@
 primary_order:
   - 공부
+  - 논문리뷰
   - 프로그래밍
   - Tool
   - 알고리즘
@@ -18,6 +19,7 @@ secondary_order:
   - 오픈소스 분석
   - Git
   - 인공지능
+  - diffusion
   - Rust
   - c++
   - python
