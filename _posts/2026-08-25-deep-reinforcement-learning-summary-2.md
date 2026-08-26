@@ -112,9 +112,7 @@ $$
 
 ## 기초적인 강화학습 수학 기초
 
-### 기초적인 확률
-
-#### Law of total probability
+### Law of total probability
 
 서로 겹치지 않고 전체 sample space를 이루는 사건들의 집합 $\{B_n\}$이 있을 때, 사건 $A$가 발생할 확률은 각 경우에서 $A$가 발생할 조건부 확률을 이용해 계산할 수 있다.
 
@@ -124,7 +122,7 @@ $$
 
 이를 여러 가능한 상태나 사건으로 나누어 전체 확률을 계산한다고 생각할 수 있다. 강화학습에서는 next state나 reward가 여러 가지로 나뉘는 stochastic environment의 확률을 합칠 때 이와 같은 marginalization을 사용한다.
 
-#### Law of total expectation
+### Law of total expectation
 
 확률변수 $Y$가 가질 수 있는 값에 대해 조건부 expectation을 평균내면 원래 random variable의 expectation을 얻을 수 있다.
 
@@ -153,7 +151,7 @@ $$
 = \sum_x xP(X=x \mid Z=z)
 $$
 
-#### Law of large numbers
+### Law of large numbers
 
 많은 독립적인 시행을 반복하면 그 결과의 평균은 expected value에 가까워지고, 시행 횟수가 증가할수록 점점 더 가까워진다.
 
@@ -171,7 +169,7 @@ $$
 
 즉, random sample을 많이 모으면 sample mean으로 실제 expectation을 근사할 수 있다. 강화학습에서는 같은 policy로 여러 episode를 실행하고 얻은 return을 평균내어 value function이나 expected return을 추정할 때 이 성질을 이용한다.
 
-### Bellman equation
+## Bellman equation
 
 Bellman equation은 현재 state의 value를 즉시 받는 reward와 다음 state의 value로 나누어 표현하는 식이다. Value function의 정의에서 출발하여 law of total probability와 law of total expectation을 적용하면 유도할 수 있다.
 
@@ -190,6 +188,8 @@ v_\pi(s)
 $$
 
 즉, Bellman expectation equation은 return을 완전히 새롭게 정의하는 것이 아니라, Markov property와 expectation을 이용해 같은 value를 **one-step reward + discounted next value**의 형태로 바꾸어 표현한 것이다. 이 표현 덕분에 episode가 끝날 때까지 기다리지 않고도 value를 재귀적으로 계산하거나 갱신할 수 있다.
+
+### State-value function의 Bellman equation
 
 먼저 state-value function의 정의는 다음과 같다. 강의의 $v_\pi(s)$는 앞에서 사용한 $V^\pi(s)$와 같은 의미이다.
 
@@ -267,7 +267,7 @@ $$
 
 ### Action-value function의 Bellman equation
 
-Action-value function은 state $s$와 첫 action $a$까지 고정한 value function이다.
+State-value function의 관계를 확인했으므로, 이제 state $s$와 첫 action $a$까지 고정한 action-value function을 정리한다.
 
 $$
 q_\pi(s,a) = \mathbb{E}_\pi[G_t \mid S_t=s,A_t=a]
@@ -283,7 +283,7 @@ q_\pi(s,a)
 \end{aligned}
 $$
 
-이는 다음과 같이 표현할 수도 있다.
+이는 다음과 같이 한 단계 reward와 next action-value의 expectation으로 표현할 수도 있다.
 
 $$
 q_\pi(s,a)
@@ -292,7 +292,7 @@ q_\pi(s,a)
 \mid S_t=s,A_t=a\right]
 $$
 
-### Bellman equation의 유도 흐름
+### Diagram을 사용한 Bellman equation 유도
 
 위 식은 그림의 왼쪽에서 오른쪽으로 단계적으로 유도할 수 있다. 먼저 state $s$의 value는 policy가 선택할 수 있는 action value의 weighted sum이다.
 
@@ -567,39 +567,12 @@ $$
 
 즉, 하나의 sample만 사용하는 것이 아니라 transition probability가 알려주는 모든 branch를 한 번에 backup한다.
 
-#### Monte Carlo: sample multi-step backup
+#### Monte Carlo와 Temporal Difference
 
-Monte Carlo method는 한 episode를 끝까지 실행하여 실제로 얻은 전체 return $G_t$를 사용한다.
+- **Monte Carlo**: episode를 끝까지 실행해 얻은 실제 return을 사용하는 sample multi-step backup이다. Episode가 끝난 뒤 update할 수 있으며 bootstrapping을 사용하지 않는다.
+- **Temporal Difference**: 한 step 뒤의 reward와 next state의 value estimate를 사용하는 sample one-step backup이다. Episode가 끝나기 전에도 update할 수 있으며 bootstrapping을 사용한다.
 
-$$
-V(S_t) \leftarrow V(S_t)
-+ \alpha\left[G_t-V(S_t)\right]
-$$
-
-여기서
-
-$$
-G_t = \sum_{k=0}^{T-t-1}\gamma^kR_{t+1+k}
-$$
-
-이다. 여러 step 이후의 reward를 모두 사용하므로 sample multi-step backup이라고 한다. 다만 episode가 끝나야 $G_t$를 계산할 수 있고, 현재 value 대신 실제 sampled return을 target으로 사용하므로 bootstrapping은 하지 않는다.
-
-#### Temporal Difference: sample one-step backup
-
-Temporal Difference(TD)는 한 step 뒤에 관측한 reward와 next state의 현재 value estimate를 사용한다.
-
-$$
-V(S_t) \leftarrow V(S_t)
-+ \alpha\left[R_{t+1}+\gamma V(S_{t+1})-V(S_t)\right]
-$$
-
-TD target은 다음과 같다.
-
-$$
-R_{t+1}+\gamma V(S_{t+1})
-$$
-
-TD는 episode가 끝나지 않아도 update할 수 있고, 추정된 $V(S_{t+1})$를 target에 사용하므로 bootstrapping을 수행한다. 대신 한 step의 sample만 사용하므로 sample noise가 포함된다.
+두 방법의 구체적인 update 식과 알고리즘은 이후 Monte Carlo와 Temporal Difference 단원에서 자세히 다룬다.
 
 | 방법 | Model 필요 여부 | Backup | Episode 종료 필요 | Bootstrapping |
 | --- | --- | --- | --- | --- |
@@ -647,7 +620,17 @@ $$
 **Synchronous backup**은 모든 state에 대한 새로운 값 $V_{k+1}(s)$를 계산할 때 오직 이전 table $V_k$만 사용하는 방식이다. 모든 state의 update를 끝낸 뒤 새로운 table을 한 번에 교체한다.
 
 $$
-V_{k+1}(s) = \mathcal{T}V_k(s) \quad \text{for all }s\in S
+V_{k+1}(s)
+= \max_a\sum_{s',r}p(s',r \mid s,a)
+\left[r+\gamma V_k(s')\right]
+\quad \text{for all }s\in S
+$$
+Policy evaluation에서는 최댓값 대신 고정된 policy를 사용한다.
+
+$$
+V_{k+1}(s)
+= \sum_{s',r}p(s',r \mid s,\pi(s))
+\left[r+\gamma V_k(s')\right]
 $$
 
 - update 순서에 영향을 받지 않는다.
@@ -788,19 +771,6 @@ $$
 
 이 경우 현재 policy는 optimal policy이다. 반대로 하나라도 더 좋은 action이 있으면 $\pi\leftarrow\pi'$로 바꾸고 다시 policy evaluation을 수행한다.
 
-### Policy Iteration의 전체 흐름
-
-```text
-policy π를 임의로 초기화한다.
-
-반복:
-    1. π를 고정하고 V^π를 policy evaluation으로 계산한다.
-    2. 각 state에서
-       π'(s) ← argmax_a Σ_{s',r} p(s',r|s,a)[r + γV^π(s')]
-    3. π' = π이면 종료한다.
-    4. π ← π'로 바꾸고 반복한다.
-```
-
 ## Policy Improvement Theorem
 
 Policy improvement가 실제로 policy를 더 좋게 만드는지 다음 정리로 확인할 수 있다.
@@ -819,7 +789,7 @@ v_{\pi'}(s) \geq v_\pi(s)
 \quad \text{for all }s\in S
 $$
 
-### 증명 흐름
+### 증명
 
 조건에 의해 다음 부등식이 성립한다.
 
@@ -985,3 +955,11 @@ $$
 ### 정답 예시
 
 ![Value Iteration 구현 결과](/assets/img/blog/deep-reinforcement-learning-summary-2/value-iteration-solution.png)
+
+## 참고 강의
+
+- [고려대 오승상 강화학습 05 — Bellman equation 1](https://www.youtube.com/watch?v=Z8RZbcg96Qk)
+- [고려대 오승상 강화학습 06 — Bellman equation 2](https://www.youtube.com/watch?v=WoJoB1D69cA)
+- [고려대 오승상 강화학습 07 — Dynamic Programming](https://www.youtube.com/watch?v=4i_ycR6uCdQ)
+- [고려대 오승상 강화학습 08 — Value Iteration](https://www.youtube.com/watch?v=rC6xkxS_myY)
+- [고려대 오승상 강화학습 09 — Policy Iteration](https://www.youtube.com/watch?v=6GhwCE43oFk)
