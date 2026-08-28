@@ -14,7 +14,7 @@ tags:
 
 ## Value function
 
-Policy $\pi$가 정해져 있을 때, 현재 state $s$에서 시작하여 policy $\pi$를 계속 따랐을 때 얻을 수 있는 return의 expectation을 value function이라고 한다. 즉, value function은 현재 state가 얼마나 좋은지를 평가하는 함수이다.
+Policy $\pi$가 정해져 있을 때, 현재 state $s$에서 시작하여 policy $\pi$를 계속 따랐을 때 얻을 수 있는 return의 expectation을 value function이라고 한다. 즉, value function은 현재 state가 얼마나 좋은지를 평가하는 함수이다. state-value function과 action-value function 두 가지가 있다.
 
 ## State-value function
 
@@ -74,7 +74,7 @@ $$
 V^\pi(s) = Q^\pi(s,\pi(s))
 $$
 
-## Action-value function을 사용하는 이유
+### Action-value function을 사용하는 이유
 
 Action-value function을 알고 있으면 각 state에서 어떤 action이 더 좋은지 직접 비교할 수 있다.
 
@@ -474,7 +474,7 @@ $$
 q_*(s,a) = R_s^a + \gamma\sum_{s'}P^a_{ss'}v_*(s')
 $$
 
-따라서 이 식을 직접 계산하는 dynamic programming은 model-based 방법이다. 다만 optimal value function이나 optimal policy가 model-based 방법에서만 존재한다는 뜻은 아니다. Model-free reinforcement learning은 $P$와 $R$을 명시적으로 알지 못해도 environment에서 얻은 sample $(s,a,r,s')$을 사용해 $v_*$나 $q_*$를 추정한다.
+따라서 이 식을 직접 계산하는 dynamic programming은 model-based 방법이다. 다만 optimal value function이나 optimal policy가 model-based 방법에서만 존재한다는 뜻은 아니다. Model-free reinforcement learning은 $P$와 $R$을 명시적으로 알지 못해도 environment에서 얻은 sample $(s,a,r,s')$을 사용해 $v_*$나  $q_*$를 추정한다.
 
 ## Dynamic Programming
 
