@@ -29,7 +29,7 @@ I am a robotics researcher and software engineer focused on path planning for hi
 
 Most recently, I was a Visiting Student Researcher at the University of Michigan, advised by Prof. Kang G. Shin, where I worked on generative path planning and offline decision-making. Previously, I developed motion-planning software for industrial manipulators at Roboe Technologies and autonomous mobile robot software at Gole Robotics.
 
-I received my B.S. degree in Robot Engineering from Hanyang University ERICA, where I conducted undergraduate research at RAISE Lab. I am grateful to Prof. Youngmoon Lee for his mentorship and guidance during this period.
+I received my B.S. degree in Robot Engineering from Hanyang University ERICA, where I conducted undergraduate research at RAISE Lab. I am grateful to [Prof. Youngmoon Lee](https://sites.google.com/umich.edu/youngmoonlee/home) for his mentorship and guidance during this period.
 
 <div class="mb-4">
   <a class="btn btn-sm btn-outline-primary mb-2 mr-2" href="{{ '/cv/' | relative_url }}">CV</a>

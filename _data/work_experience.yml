@@ -1,6 +1,6 @@
 - role: Software Engineer, Motion Algorithm Team
   company: Roboe Technologies
-  logo: /assets/img/work-experience/roboe-technologies.jpg
+  logo: /assets/img/work-experience/roboe-technologies.webp
   period: Mar. 2024 - Jun. 2026
   description: >
     I developed motion algorithms for manipulator-based robot systems. My main
@@ -11,7 +11,7 @@
 
 - role: Intern, Autonomous Driving Software
   company: Gole Robotics
-  logo: /assets/img/work-experience/gole-robotics.jpg
+  logo: /assets/img/work-experience/gole-robotics.png
   period: Aug. 2023 - Oct. 2023
   description: >
     I worked on autonomous mobile robot software, including packet-based serial
