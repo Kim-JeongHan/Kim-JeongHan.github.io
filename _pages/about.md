@@ -43,7 +43,7 @@ I received my B.S. degree in Robot Engineering from Hanyang University ERICA, wh
 
 {% include news.liquid limit=true %}
 
-## Work Experience
+## Experience
 
 {% include work_experience.liquid %}
 
