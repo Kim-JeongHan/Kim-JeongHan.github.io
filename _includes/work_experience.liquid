@@ -4,6 +4,10 @@
   <div class="publications work-experience">
     <ol class="bibliography">
       {% for item in work_experience %}
+        {% assign content_column_class = 'col-sm-10' %}
+        {% if item.logo %}
+          {% assign content_column_class = 'col-9 col-sm-8' %}
+        {% endif %}
         {% assign company_link_external = false %}
         {% if item.company_url %}
           {% if item.company_url contains '://' %}
@@ -12,8 +16,20 @@
         {% endif %}
 
         <li>
-          <div class="row">
-            <div id="{{ item.company | append: '-' | append: item.role | slugify }}" class="col-sm-10">
+          <div class="row align-items-start">
+            {% if item.logo %}
+              <div class="col-3 col-sm-2 abbr work-experience-logo-column">
+                <img
+                  class="work-experience-logo"
+                  src="{{ item.logo | relative_url }}"
+                  alt="{{ item.company | append: ' logo' | escape }}"
+                  width="200"
+                  height="200"
+                  loading="lazy"
+                >
+              </div>
+            {% endif %}
+            <div id="{{ item.company | append: '-' | append: item.role | slugify }}" class="{{ content_column_class }}">
               <div class="title">
                 {{ item.role }} @
                 {% if item.company_url %}

@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: Robotics Software Engineer | Motion Planning and Control
+subtitle: Robotics Researcher & Software Engineer | Path Planning
 
 profile:
   align: right
@@ -25,11 +25,11 @@ latest_posts:
 display_categories: [research, robotics, open-source]
 ---
 
-I am a robotics software engineer on the Motion Algorithm Team at Roboe Technologies, where I work on motion planning and control.
+I am a robotics researcher and software engineer focused on path planning for high-dimensional robotic systems under complex constraints.
 
-Before joining Roboe, I worked on autonomous mobile robot software at Gole Robotics. I received my B.S. degree from Hanyang University ERICA.
+Most recently, I was a Visiting Student Researcher at the University of Michigan, advised by Prof. Kang G. Shin, where I worked on generative path planning and offline decision-making. Previously, I developed motion-planning software for industrial manipulators at Roboe Technologies and autonomous mobile robot software at Gole Robotics.
 
-I am interested in real-time robot path and motion planning for high-dimensional, constraint-rich environments.
+I received my B.S. degree in Robot Engineering from Hanyang University ERICA, where I conducted undergraduate research at RAISE Lab. I am grateful to Prof. Youngmoon Lee for his mentorship and guidance during this period.
 
 <div class="mb-4">
   <a class="btn btn-sm btn-outline-primary mb-2 mr-2" href="{{ '/cv/' | relative_url }}">CV</a>

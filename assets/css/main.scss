@@ -64,3 +64,27 @@
     margin: 0 0 1rem 1.25rem;
   }
 }
+
+.work-experience {
+  .work-experience-logo-column {
+    display: flex;
+    justify-content: center;
+  }
+
+  .work-experience-logo {
+    width: 96px;
+    height: 96px;
+    padding: 0.35rem;
+    object-fit: contain;
+    background: #fff;
+    border: 1px solid var(--global-divider-color);
+    border-radius: 0.35rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .work-experience .work-experience-logo {
+    width: 64px;
+    height: 64px;
+  }
+}

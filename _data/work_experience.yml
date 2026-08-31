@@ -1,15 +1,17 @@
 - role: Software Engineer, Motion Algorithm Team
   company: Roboe Technologies
-  period: Mar. 2024 - Present
+  logo: /assets/img/work-experience/roboe-technologies.jpg
+  period: Mar. 2024 - Jun. 2026
   description: >
-    I develop motion algorithms for manipulator-based robot systems. My main
-    responsibility is building a Behavior Tree-based framework that runs motion
-    tasks efficiently and implementing the motion path logic behind those tasks.
-    I also work on task-level optimization and virtual controller development,
+    I developed motion algorithms for manipulator-based robot systems. My main
+    responsibilities included building a Behavior Tree-based framework that ran
+    motion tasks efficiently and implementing the motion path logic behind those
+    tasks. I also worked on task-level optimization and virtual controller development,
     primarily in C++ and Python.
 
 - role: Intern, Autonomous Driving Software
   company: Gole Robotics
+  logo: /assets/img/work-experience/gole-robotics.jpg
   period: Aug. 2023 - Oct. 2023
   description: >
     I worked on autonomous mobile robot software, including packet-based serial

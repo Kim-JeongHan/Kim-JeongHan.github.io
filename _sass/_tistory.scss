@@ -1,4 +1,46 @@
 #markdown-content {
+  mjx-container[jax="CHTML"][display="true"] {
+    padding-block: 0.5em;
+    overflow-y: hidden;
+  }
+
+  .algorithm-block__math mjx-container[jax="CHTML"][display="true"] {
+    padding-block: 0;
+    overflow-y: visible;
+  }
+
+  &.table-responsive {
+    overflow-x: visible;
+  }
+
+  > table {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .policy-comparison-table {
+    th:nth-child(2),
+    td:nth-child(2) {
+      background-color: color-mix(in srgb, #3b82f6 7%, var(--global-bg-color));
+    }
+
+    th:nth-child(3),
+    td:nth-child(3) {
+      background-color: color-mix(in srgb, var(--global-theme-color) 7%, var(--global-bg-color));
+    }
+
+    thead th:nth-child(2) {
+      background-color: color-mix(in srgb, #3b82f6 12%, var(--global-bg-color));
+    }
+
+    thead th:nth-child(3) {
+      background-color: color-mix(in srgb, var(--global-theme-color) 12%, var(--global-bg-color));
+    }
+  }
+
   img {
     max-width: 100%;
     height: auto;

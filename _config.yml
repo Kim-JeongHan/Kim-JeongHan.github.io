@@ -10,9 +10,9 @@ author:
   name: Jeonghan Kim
   email: kimjh9813@naver.com
 contact_note: >
-  Robotics Software Engineer | Motion Planning and Control
+  Robotics Researcher & Software Engineer | Path Planning
 description: > # the ">" symbol means to ignore newlines until "footer_text:"
-  Robotics software engineer focused on motion planning, control, and autonomy for real-world robot systems.
+  Robotics researcher and software engineer focused on path planning for high-dimensional robotic systems under complex constraints.
 footer_text: >
   Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme.
   Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
