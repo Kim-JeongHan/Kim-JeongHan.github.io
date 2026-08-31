@@ -66,6 +66,13 @@
 }
 
 .work-experience {
+  .work-experience-entry-with-logo {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+  }
+
   .work-experience-logo-column {
     display: flex;
     justify-content: center;
@@ -73,18 +80,21 @@
 
   .work-experience-logo {
     width: 96px;
-    height: 96px;
-    padding: 0.35rem;
-    object-fit: contain;
-    background: #fff;
-    border: 1px solid var(--global-divider-color);
-    border-radius: 0.35rem;
+    height: 64px;
+    object-fit: cover;
   }
 }
 
 @media (max-width: 575.98px) {
-  .work-experience .work-experience-logo {
-    width: 64px;
-    height: 64px;
+  .work-experience {
+    .work-experience-entry-with-logo {
+      grid-template-columns: 64px minmax(0, 1fr);
+      gap: 0.75rem;
+    }
+
+    .work-experience-logo {
+      width: 64px;
+      height: 44px;
+    }
   }
 }
