@@ -9,8 +9,6 @@ last_name: Kim
 author:
   name: Jeonghan Kim
   email: kimjh9813@naver.com
-contact_note: >
-  Robotics Researcher & Software Engineer | Path Planning
 description: > # the ">" symbol means to ignore newlines until "footer_text:"
   Robotics researcher and software engineer focused on path planning for high-dimensional robotic systems under complex constraints.
 footer_text: >

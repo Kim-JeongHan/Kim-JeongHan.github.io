@@ -3,18 +3,16 @@
   logo: /assets/img/work-experience/roboe-technologies.webp
   period: Mar. 2024 - Jun. 2026
   description: >
-    I developed motion algorithms for manipulator-based robot systems. My main
-    responsibilities included building a Behavior Tree-based framework that ran
-    motion tasks efficiently and implementing the motion path logic behind those
-    tasks. I also worked on task-level optimization and virtual controller development,
-    primarily in C++ and Python.
+    I developed motion algorithms for manipulator-based robot systems, including
+    a Behavior Tree-based framework for efficient motion-task execution and the
+    underlying motion-planning logic. I also worked on task-level optimization and
+    virtual controller development, primarily in C++ and Python.
 
 - role: Intern, Autonomous Driving Software
   company: Gole Robotics
   logo: /assets/img/work-experience/gole-robotics.png
   period: Aug. 2023 - Oct. 2023
   description: >
-    I worked on autonomous mobile robot software, including packet-based serial
-    communication for embedded controller protocols, sensor benchmarking for
-    IMU, LiDAR, ToF, and barometer candidates, and team development environment
-    standardization with Docker, VS Code, Git, ROS, and ROS 2.
+    I developed autonomous mobile robot software, including a packet-based serial
+    communication library aligned with embedded controller protocols and statistical
+    benchmarking of IMU, LiDAR, ToF, and barometer candidates for sensor selection.

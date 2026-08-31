@@ -2,7 +2,6 @@
 layout: about
 title: about
 permalink: /
-subtitle: Robotics Researcher & Software Engineer | Path Planning
 
 profile:
   align: right
