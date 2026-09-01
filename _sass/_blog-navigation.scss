@@ -56,7 +56,8 @@
   gap: 1rem;
 }
 
-.archive-post-hidden {
+.blog-post-card[hidden],
+.blog-post-card.archive-post-hidden {
   display: none;
 }
 

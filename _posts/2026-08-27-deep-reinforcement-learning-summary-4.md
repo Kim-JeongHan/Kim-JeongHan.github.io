@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Deep Reinforcement Learning 요약 4
+title: Reinforcement Learning 4 - Deep Q-Network
 date: 2026-08-27 00:00:00 +0900
 slug: deep-reinforcement-learning-summary-4
 render_with_liquid: true
@@ -12,7 +12,7 @@ tags:
 - reinforcement-learning
 ---
 
-## Deep Reinforcement Learning의 주요 milestones
+## 00_Deep Reinforcement Learning 개요
 
 강화학습은 Bellman의 Dynamic Programming과 optimal control에서 출발해 Q-learning, neural network 기반 function approximation, policy gradient와 actor-critic 방법으로 발전해 왔다.
 
@@ -30,9 +30,9 @@ tags:
 - **PPO와 MPO**: policy optimization을 안정적으로 수행하기 위한 대표적인 modern DRL 방법이다.
 
 
-## Reinforcement Learning과 Deep Reinforcement Learning
+### Tabular RL과 Deep RL
 
-### Tabular Reinforcement Learning
+#### Tabular Reinforcement Learning
 
 기본적인 Reinforcement Learning에서는 각 state-action pair의 value를 Q-table에 저장하고, Q값을 update하면서 optimal policy를 찾는다.
 
@@ -46,7 +46,7 @@ $$
 - state나 action space가 연속적이면 모든 값을 table에 미리 만들 수 없다.
 - 비슷한 state 사이의 관계를 공유하지 못하므로, 각 state-action pair를 별도로 학습해야 한다.
 
-### Deep Reinforcement Learning
+#### Deep Reinforcement Learning
 
 Deep Reinforcement Learning(DRL)은 Q function, value function 또는 policy를 neural network로 근사하는 방법이다.
 
@@ -67,7 +67,7 @@ DRL은 state 또는 action space가 매우 크거나 연속적인 문제에도 �
 | 일반화 | state-action pair 사이의 일반화가 거의 없음 | 유사한 입력 사이의 일반화 가능 |
 | 주요 한계 | table 크기와 차원의 저주 | 학습 불안정성, sample 효율, hyperparameter 의존성 |
 
-## Deep Q-Network (DQN)
+## 01_Deep Q-Network
 
 DQN은 Q-learning과 Convolutional Neural Network(CNN)를 결합한 모델이다. Q-table을 직접 저장하는 대신 CNN 기반 neural network가 state를 입력받아 각 action의 Q-value를 출력한다.
 
@@ -96,11 +96,11 @@ $$
 
 따라서 DQN은 이미지처럼 크거나 연속적인 state space에서도 Q-learning을 적용할 수 있게 해준다. 반면 기본 DQN의 출력층은 가능한 action마다 하나의 Q-value를 출력하므로 action space는 discrete해야 한다. 즉, DQN은 state space의 크기나 연속성에는 비교적 유연하지만, continuous action space를 직접 처리하지는 못한다. Continuous action space에서는 DDPG, TD3, SAC와 같은 다른 접근이 필요하다.
 
-## Naive DQN
+### Naive DQN
 
 Naive DQN은 Q-learning의 Q-table을 neural network로 단순히 대체한 초기 형태의 DQN이다. 이때 target policy와 behavior policy는 Q-learning의 방식에 따라 다를 수 있지만, 현재 Q network 하나를 사용해 Q값과 target을 함께 계산한다.
 
-### Q-learning update와 loss
+#### Q-learning update와 loss
 
 Naive DQN의 Q-learning update는 다음과 같이 표현할 수 있다.
 
@@ -123,12 +123,12 @@ $$
 
 여기서 $\theta$는 network parameter이고, SGD를 통해 $L(\theta)$가 작아지도록 network를 update한다. Naive DQN에서는 3개의 convolutional layer와 2개의 fully connected layer를 사용해 Q-value를 추정했지만, 간단한 1개의 fully connected layer를 사용하는 linear model과 성능 차이가 크지 않은 문제가 있었다.
 
-### Naive DQN의 문제
+#### Naive DQN의 문제
 
 1. **Temporal correlation between samples**: environment에서 연속적으로 얻는 sample은 서로 독립적이지 않다.
 2. **Non-stationary target**: Q network가 update될 때 target을 계산하는 Q값도 함께 변하므로 target이 계속 움직인다.
 
-#### Temporal correlation
+##### Temporal correlation
 
 Agent가 연속된 time step에서 얻는 transition은 서로 강한 상관관계를 가진다. 예를 들어 agent가 넘어지기 시작한 상황에서는 비슷한 state와 action이 연속해서 관측될 수 있다.
 
@@ -136,13 +136,13 @@ Agent가 연속된 time step에서 얻는 transition은 서로 강한 상관관�
 
 이러한 data를 순서대로 바로 학습하면 neural network가 다양한 상황을 고르게 학습하지 못하고, i.i.d. sample을 가정하는 일반적인 SGD의 장점도 약해진다.
 
-#### Non-stationary target
+##### Non-stationary target
 
 현재 Q network로 prediction과 target을 모두 계산하면 network parameter가 바뀔 때 target도 함께 바뀐다. 즉, network가 따라가야 하는 정답이 update 과정에서 계속 움직이므로 학습이 불안정해질 수 있다.
 
 이 두 문제를 완화하기 위해 DQN에서는 reward clipping과 Experience Replay 같은 기법을 사용한다. Target network는 non-stationary target 문제를 완화하기 위한 또 다른 핵심 기법이며, 이후에 별도로 다룬다.
 
-### Target network
+#### Target network
 
 Naive DQN에서는 현재 Q-network 하나를 사용해 prediction과 target을 모두 계산한다.
 
@@ -194,9 +194,9 @@ $$
 
 따라서 $K$번의 update 동안 target network는 고정되어 있고, 그동안 online Q-network만 target에 가까워지도록 학습한다. 일정 시간이 지나 target network를 다시 복사하면 새로운 target이 만들어진다. 이처럼 target을 일정 기간 고정하면 target이 online network의 모든 변화에 즉시 따라 움직이는 문제를 줄여 학습을 안정화할 수 있다.
 
-## DQN의 개선
+### DQN의 개선
 
-### Reward clipping
+#### Reward clipping
 
 Atari 게임처럼 게임마다 score의 크기와 단위가 다르면 reward scale도 서로 달라진다. 이를 통일하고 큰 reward가 gradient를 과도하게 키우는 문제를 줄이기 위해 reward의 부호만 사용하는 clipping을 적용할 수 있다.
 
@@ -211,7 +211,7 @@ $$
 
 Reward clipping은 서로 다른 게임에 동일한 학습 설정을 적용하기 쉽게 해주지만, 원래 reward의 크기 정보가 사라진다는 trade-off가 있다.
 
-### Experience Replay
+#### Experience Replay
 
 Experience Replay는 agent가 경험한 transition을 replay buffer에 저장한 뒤, 저장된 경험에서 random minibatch를 뽑아 학습하는 방법이다.
 
@@ -255,7 +255,7 @@ Replay buffer를 사용하면 다음과 같은 효과가 있다.
 
 Experience Replay가 temporal correlation을 줄여주기는 하지만, buffer가 가득 차면 오래된 transition은 삭제된다. 따라서 드문 event가 영원히 보존되는 것은 아니며, 이후에는 중요한 경험을 더 자주 뽑는 Prioritized Experience Replay와 같은 방법도 사용된다.
 
-## DQN 전체 구조
+### DQN 전체 구조
 
 DQN은 online Q-network와 target Q-network, replay buffer를 함께 사용하여 다음과 같은 순서로 학습한다.
 
@@ -291,7 +291,7 @@ $$
 
 {% include algorithm.html title="Algorithm 1. Deep Q-Network" label="algorithm:dqn" math=dqn_algorithm %}
 
-### Replay period $K$
+#### Replay period $K$
 
 Replay period $K$는 새로운 transition을 replay buffer에 저장한 뒤, 몇 step마다 minibatch를 sampling하여 Q-network를 update할지를 정하는 주기이다.
 
@@ -308,9 +308,9 @@ $$
 
 여기서 $K$는 replay buffer의 최대 저장 개수 $N$, 한 번에 뽑는 minibatch 크기 $B$, target network를 복사하는 주기 $C$와 서로 다른 hyperparameter이다.
 
-### DQN의 성능과 CNN 구조
+#### DQN의 성능과 CNN 구조
 
-#### Replay와 Target Network의 효과
+##### Replay와 Target Network의 효과
 
 다음 표는 Replay Buffer와 Target Network를 각각 사용했을 때의 성능을 비교한 것이다. 두 기법을 함께 사용한 DQN이 Naive DQN이나 Linear NN보다 여러 Atari 게임에서 높은 점수를 얻는다.
 
@@ -318,13 +318,13 @@ $$
 
 이 결과는 CNN을 사용해 state를 표현하는 것만으로 충분하지 않고, 안정적인 학습을 위해 Replay Buffer와 Target Network가 함께 필요하다는 점을 보여준다. Replay Buffer는 sample 간 temporal correlation을 줄이고, Target Network는 moving target 문제를 완화한다.
 
-#### Max pooling을 사용하지 않는 이유
+##### Max pooling을 사용하지 않는 이유
 
 일반적인 CNN에서는 feature map의 크기를 줄이고 작은 위치 변화에 강건하게 만들기 위해 max pooling을 사용하기도 한다. Max pooling은 translation invariance를 높이는 장점이 있지만, Atari와 같이 frame별 위치와 이동 방향이 중요한 게임에서는 세밀한 spatial information을 잃게 만들 수 있다.
 
 예를 들어 공이나 적이 한 칸 이동한 차이가 action 선택에 중요할 수 있는데, max pooling을 적용하면 두 위치가 비슷한 feature로 합쳐질 수 있다. 따라서 DQN에서는 max pooling 대신 convolution의 stride를 이용해 feature map의 크기를 줄이면서 위치 정보를 최대한 보존한다.
 
-## DQN의 여러 구조
+## 02_DQN Variants
 
 ### Prioritized Experience Replay
 
@@ -383,7 +383,7 @@ $$
 
 기존 Q-learning은 한 step 뒤의 reward와 next state의 Q-value만 사용하는 one-step TD target을 사용한다. 하지만 어떤 문제에서는 현재 state에서 몇 step 동안 발생한 reward를 함께 고려하는 것이 더 유리할 수 있다. 이때 사용하는 방법이 multi-step learning이다.
 
-### Multi-step target
+#### Multi-step target
 
 1-step부터 episode가 끝날 때까지의 target은 다음과 같이 연결된다.
 
@@ -410,7 +410,7 @@ $$
 | $G_t^{(n)}$ | $R_{t+1},\ldots,R_{t+n}$과 $V(S_{t+n})$ | multi-step TD, truncated return |
 | $G_t^{(\infty)}$ | episode 전체 reward | Monte Carlo, no bootstrapping |
 
-### DQN의 multi-step loss
+#### DQN의 multi-step loss
 
 Q-learning에서는 $V(S_{t+n})$ 대신 next state에서의 최대 Q-value를 사용한다. $n$-step reward를 다음과 같이 정의하면,
 
@@ -449,7 +449,7 @@ $$
 
 Q estimate에는 sample noise가 포함되어 있기 때문에, 여러 action 중 최댓값을 고르는 과정에서 실제 value보다 큰 값을 선택하는 **overestimation bias**가 발생할 수 있다. 같은 Q function으로 최댓값을 선택하고 그 값을 평가하기 때문에 생기는 문제이다.
 
-### Double Q-learning
+#### Double Q-learning
 
 Double Q-learning은 두 개의 Q estimate $Q_1,Q_2$를 사용하여 action selection과 action evaluation을 분리한다. 예를 들어 $Q_1$을 update할 때는 $Q_1$으로 action을 선택하고 $Q_2$로 그 action을 평가한다.
 
@@ -471,7 +471,7 @@ $$
 
 보통 매 update에서 두 Q function 중 어느 것을 update할지 확률적으로 선택한다. 두 Q function을 분리하면 하나의 Q function이 우연히 크게 추정한 값을 그대로 target으로 평가하는 현상을 줄일 수 있다.
 
-### Double DQN의 target
+#### Double DQN의 target
 
 Double DQN에서는 online Q-network가 next state에서 target action을 선택하고, target Q-network가 그 action의 value를 평가한다.
 
@@ -486,7 +486,7 @@ $$
 
 따라서 target과 evaluation에 같은 network를 사용하는 기본 DQN보다 overestimation bias를 줄일 수 있다. Online network와 target network를 함께 사용하는 DQN의 구조를 action selection과 action evaluation의 분리에 활용한 것이다.
 
-### DQN에 Double Q-learning 아이디어 적용하기
+#### DQN에 Double Q-learning 아이디어 적용하기
 
 Overestimation이 모든 action에 대해 동일하게 발생한다면 action 사이의 순서가 바뀌지 않으므로 greedy policy 선택에는 큰 영향을 주지 않는다. 반면 특정 action의 Q값만 크게 overestimate되면 실제로는 좋지 않은 action이 최댓값을 갖는 것처럼 보일 수 있고, policy가 잘못된 action을 선택하게 된다.
 
@@ -530,7 +530,7 @@ $$
 
 이렇게 action selection과 action evaluation을 서로 다른 network로 분리하면, 한 network의 우연한 overestimation이 선택과 평가에 동시에 반영되는 것을 줄일 수 있다.
 
-### Double DQN with Prioritized Experience Replay
+#### Double DQN with Prioritized Experience Replay
 
 Double DQN과 Prioritized Experience Replay를 함께 사용하면 action selection/evaluation을 분리하면서 동시에 TD error가 큰 transition을 더 자주 학습할 수 있다. 아래 알고리즘에서 기본 DQN과 달라진 부분은 색으로 표시했다.
 
@@ -566,13 +566,13 @@ $$
 
 Dueling DQN은 기존 DQN의 Q-value 추정 구조를 개선한 방법이다. 기존 DQN은 state를 입력받아 각 action의 Q-value를 바로 출력하지만, Dueling DQN은 state의 가치와 action의 상대적인 이점을 분리해서 학습한다.
 
-### Dueling DQN을 사용하는 이유
+#### Dueling DQN을 사용하는 이유
 
 어떤 state에서는 어떤 action을 선택해도 결과가 거의 달라지지 않을 수 있다. 이런 경우에는 action마다 Q-value를 별도로 학습하는 것보다, 현재 state 자체가 얼마나 좋은지를 나타내는 state value $V(s)$를 먼저 학습하는 것이 효율적이다.
 
 반대로 action에 따라 결과가 크게 달라지는 state에서는 특정 action이 평균적인 action보다 얼마나 좋은지를 나타내는 advantage $A(s,a)$가 중요하다. Dueling DQN은 이 두 정보를 분리해 학습한다.
 
-### Network 구조
+#### Network 구조
 
 ![DQN과 Dueling DQN의 network 구조 비교](/assets/img/blog/deep-reinforcement-learning-summary-4/dueling-dqn-architecture.png)
 
@@ -624,7 +624,7 @@ $$
 
 여기서 $\theta$는 CNN feature extractor의 parameter, $\beta$는 value stream의 parameter, $\alpha$는 advantage stream의 parameter이다.
 
-### Dueling DQN의 장점
+#### Dueling DQN의 장점
 
 다음은 Atari 게임 Enduro에서 value stream과 advantage stream이 집중하는 부분을 비교한 예시이다.
 
@@ -635,7 +635,7 @@ $$
 
 기존 DQN에서는 한 transition의 loss가 선택된 action $Q(s_t,a_t)$에 직접 연결된다. 반면 Dueling DQN에서는 여러 action의 Q-value가 공통 value stream $V(s)$와 결합되어 있으므로, action 선택과 무관하게 state value를 학습하는 데 유리하다.
 
-### Identifiability issue
+#### Identifiability issue
 
 단순히 $Q=V+A$로 두면 $V$와 $A$를 유일하게 구분할 수 없다. 임의의 상수 $c$에 대해 다음이 성립하기 때문이다.
 
@@ -646,7 +646,7 @@ $$
 
 즉, $V$가 $c$만큼 증가하고 $A$가 $c$만큼 감소해도 최종 Q-value는 변하지 않는다. 이를 identifiability issue라고 한다. 따라서 network가 실제로 state value와 advantage를 올바르게 분리해서 학습했는지 보장하기 어렵다.
 
-### Advantage normalization
+#### Advantage normalization
 
 이 문제를 해결하기 위해 advantage에 기준을 두어 수렴하는 방법을 취한다. advantage를 optimal action에서 0이 되도록 고정면, identifiability issue를 해결할 수 있다. 이를 위해 Q-value를 다음과 같이 변경한 형태를 사용한다.
 
@@ -712,7 +712,7 @@ $$
 
 이 결합 방식은 advantage의 기준점을 고정하여 $V$와 $A$를 보다 안정적으로 분리하도록 돕는다. 앞서 본 max-centering과 달리, 원 논문과 실제 구현에서는 max 대신 action 평균을 빼는 방식이 주로 사용된다.
 
-### Mean aggregation을 사용하는 이유
+#### Mean aggregation을 사용하는 이유
 
 실용적인 Dueling DQN에서는 max 대신 advantage의 평균을 빼는 방식을 주로 사용한다.
 

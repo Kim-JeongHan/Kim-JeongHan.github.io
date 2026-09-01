@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Deep Reinforcement Learning 요약 1
+title: Reinforcement Learning 1 - Markov Decision Process
 date: 2026-08-25 00:00:00 +0900
 slug: reinforcement-learning-study-log
 render_with_liquid: false
@@ -12,7 +12,7 @@ tags:
 - reinforcement-learning
 ---
 
-## 기본적인 구성
+## 00_RL 기본 구성
 
 - **State**: agent가 가질 수 있는 상태
 - **Action**: agent의 행동
@@ -59,7 +59,7 @@ $$
 G_t = \sum_{k=0}^{T-t-1} \gamma^k R_{t+1+k}
 $$
 
-## Policy evaluation과 policy improvement
+### Policy Evaluation과 Policy Improvement
 
 - **Policy evaluation**: policy를 따랐을 때 얻는 return의 기대값을 계산하는 과정
 - **Policy improvement**: policy evaluation 결과를 높이는 방향으로 policy를 개선하는 과정
@@ -76,7 +76,7 @@ $$
 \sum_a \pi(a \mid s) = 1
 $$
 
-### Stochastic policy와 deterministic policy
+#### Stochastic policy와 deterministic policy
 
 **Stochastic policy**는 하나의 state에서 여러 action을 확률적으로 선택하는 policy이다. 같은 state를 보더라도 매번 다른 action이 선택될 수 있다.
 
@@ -107,7 +107,7 @@ P(A_t=a \mid S_0,A_0,\ldots,S_t=s)
 = P(A_t=a \mid S_t=s)
 $$
 
-### Known MDP와 unknown MDP에서의 policy
+#### Known MDP와 unknown MDP에서의 policy
 
 Known MDP에서는 transition probability $P$와 reward function $R$을 알고 있으므로, value function을 계산한 뒤 optimal policy를 구할 수 있다. 표준적인 유한 MDP에서는 deterministic optimal policy가 존재하며, 이를 $\pi_*$로 나타낸다.
 
@@ -173,7 +173,7 @@ $$
 \pi'(s) = \arg\max_a Q^\pi(s,a)
 $$
 
-## Stochastic process와 deterministic process
+## 01_Stochastic Process
 
 - **Deterministic process**: action을 취하면 의도한 대로 state가 바뀐다. 예를 들어 북쪽으로 가라는 action을 수행하면 100% 확률로 북쪽으로 이동한다.
 - **Stochastic process**: 북쪽으로 가라는 action을 수행해도 남쪽으로 갈 수 있다. 원하는 결과가 100% 발생하지 않고 확률에 따라 state가 달라진다.
@@ -192,7 +192,7 @@ $$
 S_{t+1} = f(S_t, A_t)
 $$
 
-## Markov property
+## 02_Markov Property와 Transition
 
 과거의 모든 정보가 현재 state에 요약되어 있어서, 현재 state를 알고 있다면 과거를 추가로 알더라도 미래 state의 조건부 확률이 달라지지 않는 성질이다.
 
@@ -210,7 +210,7 @@ $$
 
 과거를 모두 저장하지 않아도 되므로 연산량과 메모리를 줄일 수 있다. 이러한 특성 때문에 Markov property를 memoryless property라고도 한다. 단, 현재 state에 필요한 정보가 빠져 있으면 Markov property가 성립하지 않는다. 예를 들어 속도가 중요한 환경에서 위치만 state로 사용하면, 같은 위치라도 속도가 다른 상황을 구분하지 못할 수 있다.
 
-## Transition
+### Transition
 
 Transition probability는 state $s_i$에서 state $s_j$로 이동할 확률이다. Stochastic process에서는 action을 수행해도 다음 state가 하나로 정해지지 않을 수 있기 때문에 transition probability가 필요하다.
 
@@ -244,7 +244,7 @@ $$
 \mathbf{p}_{t+1} = \mathbf{p}_t P
 $$
 
-## Markov process
+## 03_Markov Process
 
 Markov process 또는 Markov chain은 다음 두 요소로 구성된다.
 
@@ -259,7 +259,7 @@ $$
 
 여기서 $R$은 각 state 또는 transition에서 얻는 reward를 나타낸다.
 
-## Markov decision process (MDP)
+## 04_Markov Decision Process
 
 MDP는 agent가 action을 선택할 수 있는 Markov process이다. MDP의 state가 현재 상황에 필요한 정보를 모두 포함하고 있다면 Markov property가 성립한다.
 
@@ -440,7 +440,7 @@ $$
 
 MDP 이론은 state space $S$와 action space $A$가 finite인지 infinite인지와 관계없이 정의할 수 있다. 다만 기초적인 예제와 dynamic programming에서는 계산을 쉽게 하기 위해 유한한 state와 action을 주로 사용한다. 실제 강화학습에서는 연속적인 위치, 속도, 관절각 등을 다루기 때문에 $S$나 $A$가 infinite인 경우도 많다.
 
-## Notation 정리
+## 05_Notation 정리
 
 | 표기 | 의미 |
 | --- | --- |

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Deep Reinforcement Learning 요약 5
+title: Reinforcement Learning 5 - Policy Gradient, REINFORCE, Actor-Critic
 date: 2026-08-28 00:00:00 +0900
 slug: deep-reinforcement-learning-summary-5
 render_with_liquid: true

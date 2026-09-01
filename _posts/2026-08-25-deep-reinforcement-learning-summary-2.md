@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Deep Reinforcement Learning 요약 2
+title: Reinforcement Learning 2 - Value Function과 Dynamic Programming
 date: 2026-08-25 00:01:00 +0900
 slug: deep-reinforcement-learning-summary-2
 render_with_liquid: true
@@ -12,11 +12,11 @@ tags:
 - reinforcement-learning
 ---
 
-## Value function
+## 00_Value Function
 
 Policy $\pi$가 정해져 있을 때, 현재 state $s$에서 시작하여 policy $\pi$를 계속 따랐을 때 얻을 수 있는 return의 expectation을 value function이라고 한다. 즉, value function은 현재 state가 얼마나 좋은지를 평가하는 함수이다. state-value function과 action-value function 두 가지가 있다.
 
-## State-value function
+### State-value function
 
 State-value function은 state만 고정한 상황에서 이후에 얻을 수 있는 return들의 expectation이다.
 
@@ -28,7 +28,7 @@ $$
 
 ![Value function backup diagram](/assets/img/blog/deep-reinforcement-learning-summary-2/backup-diagram-value-functions.png)
 
-### Backup diagram
+#### Backup diagram
 
 Backup diagram은 value function을 계산할 때 현재 state의 value가 이후에 발생할 수 있는 action, reward, next state의 value를 이용해 계산된다는 관계를 보여준다.
 
@@ -46,7 +46,7 @@ V^\pi(s)
   \left[r + \gamma V^\pi(s')\right]
 $$
 
-## Action-value function
+### Action-value function
 
 Action-value function은 state와 첫 action까지 고정한 상황에서 이후에 얻을 수 있는 return들의 expectation이다.
 
@@ -74,7 +74,7 @@ $$
 V^\pi(s) = Q^\pi(s,\pi(s))
 $$
 
-### Action-value function을 사용하는 이유
+#### Action-value function을 사용하는 이유
 
 Action-value function을 알고 있으면 각 state에서 어떤 action이 더 좋은지 직접 비교할 수 있다.
 
@@ -86,7 +86,7 @@ $$
 
 기초적인 dynamic programming에서는 policy를 평가할 때 state-value function $V$를 중심으로 설명하는 경우가 많다. 다만 dynamic programming이 반드시 $Q$ function을 사용할 수 없다는 뜻은 아니며, 문제의 표현과 구현에 따라 $Q$ function을 사용할 수도 있다. Model-free reinforcement learning에서는 environment에서 얻은 random sample을 이용하여 $Q$ function을 직접 추정하는 방법도 많이 사용한다.
 
-## Advantage function
+### Advantage function
 
 Advantage function은 특정 action $a$가 해당 state에서 policy가 평균적으로 선택하는 action보다 얼마나 좋은지 또는 나쁜지를 나타낸다.
 
@@ -110,7 +110,7 @@ $$
 \sum_a \pi(a \mid s) A_\pi(s,a) = 0
 $$
 
-## 기초적인 강화학습 수학 기초
+## 01_RL 수학 기초
 
 ### Law of total probability
 
@@ -169,7 +169,7 @@ $$
 
 즉, random sample을 많이 모으면 sample mean으로 실제 expectation을 근사할 수 있다. 강화학습에서는 같은 policy로 여러 episode를 실행하고 얻은 return을 평균내어 value function이나 expected return을 추정할 때 이 성질을 이용한다.
 
-## Bellman equation
+## 02_Bellman Equation
 
 Bellman equation은 현재 state의 value를 즉시 받는 reward와 다음 state의 value로 나누어 표현하는 식이다. Value function의 정의에서 출발하여 law of total probability와 law of total expectation을 적용하면 유도할 수 있다.
 
@@ -347,7 +347,7 @@ State value는 policy에 따른 action 선택을 평균낸 값이고, action val
 
 정리하면 Bellman equation은 한 시점의 value를 즉시 reward와 미래 value의 합으로 표현한다. 이 재귀적 구조를 이용하면 전체 episode가 끝날 때까지 기다리지 않고도 value를 계산하거나 갱신할 수 있다.
 
-## Optimal value function과 optimal policy
+## 03_Optimal Value와 Bellman Optimality Equation
 
 여러 policy의 value function을 비교했을 때, 각 state에서 가장 큰 value를 만들어내는 value function을 optimal value function이라고 한다.
 
@@ -418,7 +418,7 @@ $$
 
 동일한 최댓값을 갖는 action이 여러 개라면 optimal policy가 하나만 존재할 필요는 없다. 서로 다른 action을 선택하더라도 모든 state에서 동일한 optimal value를 만들면 모두 optimal policy가 될 수 있다.
 
-## Bellman optimality equation
+### Bellman optimality equation
 
 Bellman expectation equation은 policy $\pi$가 정해졌을 때 policy가 선택하는 action들의 value를 확률적으로 평균내는 식이었다. Optimal value function에서는 여러 policy 중 가장 좋은 action을 선택하므로, action에 대한 weighted sum 대신 $\max$를 사용한다.
 
@@ -466,7 +466,7 @@ Bellman expectation equation과 비교하면 다음과 같은 차이가 있다.
 - policy에 대한 value인 $v_\pi, q_\pi$ 대신 optimal value인 $v_*, q_*$를 사용한다.
 - 평균적인 policy의 성능이 아니라 가능한 action 중 가장 높은 value를 주는 action을 선택한다.
 
-### Model이 필요한 이유
+#### Model이 필요한 이유
 
 Bellman optimality equation을 표에 있는 모든 state와 action에 대해 정확하게 계산하려면 transition probability $P$와 reward function $R$을 알아야 한다. 예를 들어 다음 계산에는 $P^a_{ss'}$가 필요하다.
 
@@ -476,7 +476,7 @@ $$
 
 따라서 이 식을 직접 계산하는 dynamic programming은 model-based 방법이다. 다만 optimal value function이나 optimal policy가 model-based 방법에서만 존재한다는 뜻은 아니다. Model-free reinforcement learning은 $P$와 $R$을 명시적으로 알지 못해도 environment에서 얻은 sample $(s,a,r,s')$을 사용해 $v_*$나  $q_*$를 추정한다.
 
-## Dynamic Programming
+## 04_Dynamic Programming
 
 Dynamic Programming(DP)은 복잡한 문제를 여러 개의 작은 sub-problem으로 나누어 해결하는 방법이다. 작은 문제의 해를 저장하고 재사용하여 같은 계산을 반복하지 않는 것이 핵심이다.
 
@@ -495,7 +495,7 @@ DP가 효과적으로 적용되려면 보통 다음 두 성질이 필요하다.
 
 MDP는 Bellman equation을 통해 현재 state의 문제를 next state의 더 작은 문제로 재귀적으로 분해할 수 있다. 또한 동일한 state의 value가 여러 계산 경로에서 반복해서 필요하므로 table에 저장해 재사용할 수 있다.
 
-## Sequential decision problem의 해결 방법
+### Sequential decision problem의 해결 방법
 
 Sequential decision problem은 environment model을 알고 있는지 여부에 따라 대표적으로 model-based와 model-free 방법으로 나눌 수 있다.
 
@@ -514,11 +514,11 @@ Model-based DP의 주요 한계는 다음과 같다.
 
 Model-free RL은 model을 명시적으로 만들지 않는 대신 실제 environment와 상호작용하며 sample을 얻는다. 따라서 model을 알 수 없는 문제에 적용할 수 있지만, sample의 수가 충분히 필요하고 stochasticity 때문에 추정값의 분산이 생길 수 있다.
 
-## Dynamic Programming과 Reinforcement Learning의 비교
+### Dynamic Programming과 Reinforcement Learning의 비교
 
 DP와 RL은 모두 Bellman optimality equation을 바탕으로 optimal policy를 찾는 방법으로 볼 수 있다. 이를 적용하려면 state가 Markov property를 만족해야 하며, MDP를 state, action, reward, transition으로 표현할 수 있어야 한다.
 
-### Dynamic Programming
+#### Dynamic Programming
 
 - **Model-based**: transition probability $P$와 reward function $R$을 알고 있어야 한다.
 - **Full backup**: 가능한 모든 next state와 reward의 확률을 사용하여 expectation을 계산한다.
@@ -532,7 +532,7 @@ $$
 
 다만 state와 action의 크기가 커지면 table의 크기와 full backup 계산량이 급격히 증가한다. 이를 차원의 저주라고 하며, 큰 문제에서는 DP를 직접 적용하기 어렵다.
 
-### Reinforcement Learning
+#### Reinforcement Learning
 
 - **Model-free**: transition probability와 reward function을 미리 알 필요가 없다.
 - **Sample backup**: 모든 가능한 transition을 계산하는 대신 실제 environment에서 얻은 sample $(s,a,r,s')$을 사용한다.
@@ -548,7 +548,7 @@ $$
 
 DP가 model의 모든 가능한 결과를 사용하는 full backup이라면, RL은 실제로 관측된 일부 결과를 사용하는 sample backup이다. 따라서 RL은 model을 알 수 없는 문제와 큰 상태 공간에 더 유연하지만, sample noise와 function approximation 오차가 생길 수 있다. 차원의 저주를 완전히 없애는 것은 아니며, sample-based learning과 function approximation으로 그 영향을 완화하는 방식이다.
 
-### Backup 방식의 비교
+#### Backup 방식의 비교
 
 DP와 model-free RL은 value를 update할 때 서로 다른 종류의 backup을 사용한다.
 
@@ -556,7 +556,7 @@ DP와 model-free RL은 value를 update할 때 서로 다른 종류의 backup을 
 
 그림에서 위쪽 DP는 현재 state에서 가능한 모든 branch를 펼쳐 expectation을 계산하는 **full backup**이다. 가운데 Monte Carlo는 실제로 선택된 하나의 trajectory를 episode 끝까지 따라간 뒤 전체 return을 이용하는 **sample multi-step backup**이다. 아래쪽 TD는 실제 trajectory에서 한 step만 관측하고, 다음 state의 value estimate를 이용하는 **sample one-step backup**이다.
 
-#### Dynamic Programming: full backup
+##### Dynamic Programming: full backup
 
 DP는 model을 알고 있으므로 가능한 모든 next state와 reward를 고려하여 expectation을 계산한다.
 
@@ -567,7 +567,7 @@ $$
 
 즉, 하나의 sample만 사용하는 것이 아니라 transition probability가 알려주는 모든 branch를 한 번에 backup한다.
 
-#### Monte Carlo와 Temporal Difference
+##### Monte Carlo와 Temporal Difference
 
 - **Monte Carlo**: episode를 끝까지 실행해 얻은 실제 return을 사용하는 sample multi-step backup이다. Episode가 끝난 뒤 update할 수 있으며 bootstrapping을 사용하지 않는다.
 - **Temporal Difference**: 한 step 뒤의 reward와 next state의 value estimate를 사용하는 sample one-step backup이다. Episode가 끝나기 전에도 update할 수 있으며 bootstrapping을 사용한다.
@@ -582,7 +582,7 @@ $$
 
 따라서 DP는 정확한 model이 있을 때 expectation을 이용해 전체 branch를 계산하고, Monte Carlo와 TD는 sample data만으로 value를 추정한다. Monte Carlo는 실제 episode return을 사용하고, TD는 아직 완전히 계산되지 않은 next-state value를 이용해 더 빠르게 update한다.
 
-## Value Iteration
+## 05_Value Iteration
 
 Value Iteration은 Bellman optimality equation을 반복적인 update rule로 바꾸어 optimal state-value function을 구하는 방법이다.
 
@@ -704,7 +704,7 @@ Value Iteration은 value table $V$를 중심으로 계산하고 policy는 마지
 
 이러한 Value Iteration의 한계를 보완하고 policy를 직접 평가·개선하는 방법으로 Policy Iteration을 사용할 수 있다.
 
-## Policy Iteration
+## 06_Policy Iteration
 
 Policy Iteration은 **policy evaluation**과 **policy improvement**를 번갈아 수행하여 optimal policy를 찾는 방법이다.
 
@@ -712,7 +712,7 @@ Policy Iteration은 **policy evaluation**과 **policy improvement**를 번갈아
 
 Value Iteration은 매 value update에서 모든 action 중 최댓값을 바로 선택한다. 반면 Policy Iteration은 하나의 policy를 먼저 고정하여 평가한 뒤, 그 value를 이용해 policy를 개선한다.
 
-### 1. Policy evaluation
+### Policy Evaluation
 
 현재 policy $\pi$를 고정하고, 그 policy를 따랐을 때의 state-value function $V^\pi$를 계산한다. 보통 policy iteration에서는 각 state에서 하나의 action을 선택하는 deterministic policy를 사용한다.
 
@@ -740,7 +740,7 @@ $$
 
 Policy evaluation이 수렴하면 $V^\pi$를 얻는다. 한 번의 sweep만 비교하면 Value Iteration보다 계산량이 작을 수 있지만, Policy Iteration은 각 policy마다 evaluation을 반복해야 하므로 전체 계산 시간이 항상 더 짧다고 말할 수는 없다.
 
-### 2. Policy improvement
+### Policy Improvement
 
 현재 policy의 value function $V^\pi$를 이용해 각 state에서 더 좋은 action을 선택하는 새로운 policy $\pi'$를 만든다.
 
@@ -771,7 +771,7 @@ $$
 
 이 경우 현재 policy는 optimal policy이다. 반대로 하나라도 더 좋은 action이 있으면 $\pi\leftarrow\pi'$로 바꾸고 다시 policy evaluation을 수행한다.
 
-## Policy Improvement Theorem
+### Policy Improvement Theorem
 
 Policy improvement가 실제로 policy를 더 좋게 만드는지 다음 정리로 확인할 수 있다.
 
@@ -789,7 +789,7 @@ v_{\pi'}(s) \geq v_\pi(s)
 \quad \text{for all }s\in S
 $$
 
-### 증명
+#### 증명
 
 조건에 의해 다음 부등식이 성립한다.
 
@@ -823,7 +823,7 @@ $$
 
 유한한 MDP에서 deterministic policy의 개수는 유한하므로, policy improvement가 더 이상 일어나지 않는 stable policy에 도달하면 그 policy는 optimal policy $\pi_*$이다.
 
-### Policy Iteration의 수렴 흐름
+#### Policy Iteration의 수렴 흐름
 
 Policy Iteration은 다음 순서를 반복한다.
 
@@ -841,7 +841,7 @@ $$
 
 각 policy에 대해 먼저 policy evaluation을 수행해 $V^\pi$를 계산하고, 그 value를 이용해 greedy policy로 policy improvement를 수행한다. 이 과정을 반복하면 policy의 value는 감소하지 않고 점점 좋아진다.
 
-### Stable policy가 optimal policy인 이유
+#### Stable policy가 optimal policy인 이유
 
 새로운 greedy policy $\pi'$가 기존 policy $\pi$보다 좋거나 같지만 더 이상 좋아지지 않는 상황을 생각해 보자.
 
@@ -870,7 +870,7 @@ $$
 
 가 되고 $\pi'$는 optimal policy가 된다. 따라서 policy improvement를 반복하다가 더 이상 value가 증가하지 않는 stable policy에 도달하면, 그 policy는 곧 $\pi_*$이다.
 
-### Policy Iteration 알고리즘
+#### Policy Iteration 알고리즘
 
 Policy Iteration은 다음과 같이 policy evaluation과 policy improvement를 반복한다.
 
@@ -899,7 +899,7 @@ $$
 
 {% include algorithm.html title="Algorithm 2. Policy Iteration" label="algorithm:policy-iteration" math=policy_iteration_algorithm %}
 
-#### Policy evaluation update
+##### Policy evaluation update
 
 Policy evaluation에서는 현재 policy $\pi$가 state $s$에서 선택하는 action $\pi(s)$가 이미 정해져 있다. 따라서 모든 action을 대상으로 최댓값을 계산하지 않고, 해당 action 하나만 사용한다.
 
@@ -919,7 +919,7 @@ $$
 
 Value Iteration은 매 update마다 모든 action을 비교하지만, Policy Iteration의 policy evaluation은 현재 policy가 정한 action 하나만 평가한다.
 
-#### Policy improvement update
+##### Policy improvement update
 
 Policy evaluation이 끝나면 현재 value $V^\pi$를 사용해 각 state에서 가장 좋은 action을 선택하도록 policy를 바꾼다.
 
@@ -938,7 +938,7 @@ $$
 
 모든 state에서 action이 바뀌지 않았다면 policy가 stable하므로 반복을 즉시 종료하고 현재 $V$와 $\pi$를 반환한다.
 
-#### Value Iteration과 비교한 장점
+##### Value Iteration과 비교한 장점
 
 - Policy evaluation에서는 $\max_a$를 계산하지 않고 $a=\pi(s)$ 하나만 사용하므로 한 번의 backup이 단순하다.
 - Policy improvement가 끝난 뒤 policy가 stable한지 검사하므로, policy가 더 이상 바뀌지 않으면 즉시 종료할 수 있다.
@@ -946,7 +946,7 @@ $$
 
 다만 Policy Iteration은 각 policy마다 policy evaluation을 수렴할 때까지 반복해야 한다. 따라서 한 번의 update는 Value Iteration보다 저렴할 수 있지만, 전체 계산 시간이 항상 더 짧은 것은 아니다.
 
-## 구현 문제: Value Iteration
+## 07_Value Iteration 구현
 
 다음 GridWorld 환경에서 Value Iteration을 직접 구현하는 문제이다.
 

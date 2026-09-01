@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Deep Reinforcement Learning 요약 3
+title: Reinforcement Learning 3 - Monte Carlo & Temporal Difference Learning
 date: 2026-08-26 00:02:00 +0900
 slug: deep-reinforcement-learning-summary-3
 render_with_liquid: true
@@ -12,11 +12,11 @@ tags:
 - reinforcement-learning
 ---
 
-## Dynamic Programming과 Reinforcement Learning의 비교
+## 00_DP, MC, TD 비교
 
 Dynamic Programming(DP)과 Reinforcement Learning(RL)은 모두 Bellman equation을 이용해 value function과 optimal policy를 찾는다. 하지만 value를 계산할 때 environment model을 사용하는지, 모든 가능한 branch를 계산하는지, 실제 sample 하나를 사용하는지에서 차이가 난다.
 
-## Bellman expectation equation의 두 가지 표현
+### Bellman expectation equation의 두 가지 표현
 
 State-value function은 time step $t$ 이후에 얻는 return $G_t$의 expectation으로 정의된다.
 
@@ -37,11 +37,11 @@ $$
 
 두 식은 서로 다른 value를 정의하는 것이 아니라, Bellman equation에 의해 같은 value를 두 가지 방식으로 표현한 것이다.
 
-## Backup 방식
+### Backup 방식
 
 ![Dynamic Programming, Monte Carlo, Temporal Difference backup 비교](/assets/img/blog/deep-reinforcement-learning-summary-3/dp-mc-td-backup-comparison.png)
 
-### Dynamic Programming: full backup
+#### Dynamic Programming: full backup
 
 DP는 transition probability와 reward function을 알고 있는 model-based 방법이다. 가능한 모든 next state와 reward의 branch를 고려하여 expectation을 계산한다.
 
@@ -55,7 +55,7 @@ $$
 
 Return $G_t$를 직접 계산하려면 가능한 episode가 끝날 때까지의 모든 경로를 고려해야 하므로 계산량이 매우 커질 수 있다. DP는 이를 한 step reward와 next value를 이용하는 Bellman equation 형태로 바꾸어 계산한다.
 
-### Monte Carlo: sample multi-step backup
+#### Monte Carlo: sample multi-step backup
 
 Monte Carlo(MC)는 model을 알지 못해도 실제 environment와 상호작용하여 얻은 하나의 episode sample을 사용할 수 있다. Episode가 끝난 뒤 실제 return $G_t$를 이용해 value를 update한다.
 
@@ -66,7 +66,7 @@ $$
 
 전체 episode의 reward를 사용하므로 sample multi-step backup이라고 한다. 실제 sample 하나를 사용하기 때문에 모든 가능한 branch를 계산할 필요는 없지만, episode가 끝나야 return을 계산할 수 있다.
 
-### Temporal Difference: sample one-step backup
+#### Temporal Difference: sample one-step backup
 
 Temporal Difference(TD)는 하나의 sample에서 한 step 뒤에 관측한 reward와 next state의 현재 value estimate를 사용한다.
 
@@ -77,7 +77,7 @@ $$
 
 TD는 한 step만 사용하는 sample backup이므로 episode가 끝나기 전에도 value를 update할 수 있다. 또한 $V(S_{t+1})$라는 현재 추정값을 target에 사용하므로 bootstrapping을 수행한다.
 
-## DP, MC, TD의 차이
+### DP, MC, TD의 차이
 
 | 방법 | Model | Target | Backup | Episode 종료 |
 | --- | --- | --- | --- | --- |
@@ -87,7 +87,7 @@ TD는 한 step만 사용하는 sample backup이므로 episode가 끝나기 전�
 
 정리하면 DP는 model을 이용해 Bellman expectation을 정확하게 계산하고, MC와 TD는 sample을 이용해 value를 근사한다. MC는 전체 return $G_t$를 사용하고, TD는 한 step reward와 next value를 사용한다. 따라서 DP와 TD는 비슷한 one-step target을 사용하지만, DP는 모든 가능한 branch를 계산하고 TD는 관측된 sample 하나만 사용한다.
 
-## DP와 RL에서 policy를 개선하는 방법
+### DP와 RL에서 policy를 개선하는 방법
 
 DP에서는 transition probability와 reward function을 알고 있으므로, state $s$에서 각 action을 수행했을 때의 expected value를 모두 계산할 수 있다. 따라서 state-value function $V^\pi$를 사용해 다음과 같이 policy를 개선할 수 있다.
 
@@ -118,7 +118,7 @@ $$
 
 다만 model-free RL이 반드시 Q function만 사용해야 하는 것은 아니다. Policy Gradient처럼 policy를 직접 학습하거나, Actor-Critic처럼 policy와 value function을 함께 학습하는 방법도 있다. 여기서는 discrete action을 Q값으로 비교하는 Q-based RL의 경우를 다룬다.
 
-## Generalized Policy Iteration (GPI)
+## 01_Generalized Policy Iteration
 
 Generalized Policy Iteration(GPI)은 Policy Iteration을 더 일반화한 관점이다. GPI 자체는 model-based와 model-free 모두에 적용할 수 있으며, 다음 두 과정이 서로 영향을 주고받으며 반복되는 구조로 이해할 수 있다.
 
@@ -162,7 +162,7 @@ $$
 
 따라서 많은 RL 알고리즘은 서로 다른 형태의 policy evaluation과 policy improvement를 번갈아 수행하는 GPI의 관점으로 설명할 수 있다. 다만 sample noise, 함수 근사, 유한한 학습 시간 등이 있으면 실제 학습에서는 정확한 optimal policy가 아니라 근사 optimal policy에 수렴할 수 있다.
 
-## Monte Carlo method (MC)
+## 02_Monte Carlo Method
 
 Monte Carlo method는 tabular updating을 사용하는 model-free 방법이다. Environment의 transition model을 알지 못하므로 실제로 실행한 episode에서 얻은 sample return을 이용해 value function이나 Q function을 update한다.
 
@@ -295,14 +295,14 @@ $$
 
 강의나 자료에 따라 continuing task를 continuous task라고 부르기도 하지만, 시간이나 action이 연속적이라는 뜻의 continuous와는 구분해야 한다. Continuing task에서는 TD처럼 episode가 끝나지 않아도 update할 수 있는 방법이 더 자연스럽다.
 
-## MC Control: $\epsilon$-greedy policy improvement
+### MC Control: $\epsilon$-greedy policy improvement
 
 MC policy evaluation으로 $Q(s,a)$를 추정한 뒤에는, 이 Q값을 이용해 policy를 개선할 수 있다. 이때 현재까지의 경험에서 가장 좋은 action만 선택하면 새로운 action을 시도할 기회를 잃을 수 있으므로 exploitation과 exploration을 함께 고려한다.
 
 - **Exploitation**: 지금까지의 경험에서 가장 높은 Q값을 가진 action을 선택한다.
 - **Exploration**: 아직 충분히 시도하지 않은 action도 선택하여 더 좋은 action을 발견할 기회를 만든다.
 
-### $\epsilon$-greedy policy
+#### $\epsilon$-greedy policy
 
 가능한 action의 개수를 $m=|\mathcal{A}(s)|$라고 하자. $\epsilon$-greedy policy는 확률 $1-\epsilon$으로 greedy action을 선택하고, 확률 $\epsilon$으로 action을 uniform random하게 선택한다.
 
@@ -318,7 +318,7 @@ $$
 
 Random action을 선택하는 과정에서 greedy action이 다시 선택될 수도 있기 때문에 greedy action의 최종 확률은 $1-\epsilon+\epsilon/m$이 된다. 나머지 $m-1$개 action은 각각 $\epsilon/m$의 확률을 가진다.
 
-### $\epsilon$-greedy policy improvement
+#### $\epsilon$-greedy policy improvement
 
 현재 policy $\pi$가 각 action을 최소 $\epsilon/m$의 확률로 선택하는 $\epsilon$-soft policy라고 하자. 새로운 policy $\pi'$는 $Q^\pi$에 대해 greedy한 action을 더 자주 선택한다.
 
@@ -361,7 +361,7 @@ $$
 
 가 성립한다. 즉, $\epsilon$-greedy policy improvement는 exploration을 유지하면서도 기존 policy보다 나쁘지 않은 policy를 만든다. MC Control은 MC sample로 $Q^\pi$를 평가한 뒤 이 $\epsilon$-greedy policy improvement를 반복하는 방식이다.
 
-## GLIE MC Control
+### GLIE MC Control
 
 MC Control의 learning policy가 optimal policy로 수렴하기 위해서는 **GLIE(Greedy in the Limit with Infinite Exploration)** 조건을 만족시키는 것이 중요하다.
 
@@ -419,7 +419,7 @@ $$
 
 따라서 최종 policy는 $q_*(s,a)$가 가장 큰 action을 선택하는 optimal policy로 수렴한다.
 
-## MC Control algorithm
+### MC Control algorithm
 
 MC Control은 episode를 생성하고, episode의 return으로 $Q$를 평가한 뒤, $\epsilon$-greedy policy improvement를 수행한다.
 
@@ -471,7 +471,7 @@ $$
 
 Sample-average 방식은 지금까지의 return을 동일한 비중으로 평균내고, constant-$\alpha$ 방식은 최근 return에 더 큰 가중치를 준다.
 
-## Temporal Difference Learning (TD)
+## 03_Temporal Difference Learning
 
 Temporal Difference(TD) learning은 tabular updating을 사용하는 model-free 방법이다. Environment의 transition probability를 알지 못한 채 실제 sample transition을 이용해 value function이나 Q function을 update한다.
 
