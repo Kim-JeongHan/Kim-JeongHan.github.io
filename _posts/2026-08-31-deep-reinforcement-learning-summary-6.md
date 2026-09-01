@@ -535,7 +535,7 @@ $$
 
 #### Monotonic Improvement 조건
 
-여기서 $\rho_\pi(s)$는 normalized probability가 아니라 unnormalized discounted state visitation frequency이지만, $\gamma^tP(S_t=s\mid\pi)$의 합이므로 항상 nonnegative이다. 상태별 advantage expectation을 $g_\pi(s)\coloneqq\sum_a\pi(a\mid s)A_{\pi_{\mathrm{old}}}(s,a)$로 두면, 다음 조건은 performance가 감소하지 않기 위한 충분조건이다.
+여기서 $\rho_\pi(s)$는 normalized probability가 아니라 unnormalized discounted state visitation frequency이지만, $\gamma^tP(S_t=s\mid\pi)$의 합이므로 항상 nonnegative이다. 상태별 advantage expectation을 $g_\pi(s)\mathrel{:=}\sum_a\pi(a\mid s)A_{\pi_{\mathrm{old}}}(s,a)$로 두면, 다음 조건은 performance가 감소하지 않기 위한 충분조건이다.
 
 $$
 g_\pi(s)\ge 0\ \ \text{for every }s\text{ with }\rho_\pi(s)>0
@@ -574,7 +574,7 @@ $$
 이제 policy를 미분 가능한 parameterized policy $\pi_\theta$로 쓰고, old policy를 $\pi_{\theta_0}$로 두자. 편의를 위해
 
 $$
-L_{\theta_0}(\theta)\coloneqq L_{\pi_{\theta_0}}(\pi_\theta)
+L_{\theta_0}(\theta)\mathrel{:=} L_{\pi_{\theta_0}}(\pi_\theta)
 $$
 
 로 표기한다. 같은 policy를 대입한 matching point $\theta=\theta_0$에서는 statewise expected old advantage가
@@ -591,7 +591,7 @@ $$
 L_{\theta_0}(\theta_0)=\eta(\theta_0)
 $$
 
-가 된다. 또한 $f_\theta(s)\coloneqq\sum_a\pi_\theta(a\mid s)A_{\pi_{\theta_0}}(s,a)$라고 하면 $f_{\theta_0}(s)=0$이다. Exact expression을 $\theta$에 대해 미분하면
+가 된다. 또한 $f_\theta(s)\mathrel{:=}\sum_a\pi_\theta(a\mid s)A_{\pi_{\theta_0}}(s,a)$라고 하면 $f_{\theta_0}(s)=0$이다. Exact expression을 $\theta$에 대해 미분하면
 
 $$
 \left.\nabla_\theta\eta(\theta)\right\vert_{\theta=\theta_0}
