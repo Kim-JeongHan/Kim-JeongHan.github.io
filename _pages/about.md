@@ -26,7 +26,7 @@ display_categories: [research, robotics, open-source]
 
 I am a robotics researcher and software engineer focused on path planning for high-dimensional robotic systems under complex constraints.
 
-Most recently, I was a Visiting Student Researcher at the University of Michigan, advised by Prof. Kang G. Shin, where I worked on generative path planning and offline decision-making. Previously, I developed motion-planning software for industrial manipulators at Roboe Technologies and autonomous mobile robot software at Gole Robotics.
+Most recently, I was a Visiting Student Researcher at the University of Michigan, advised by [Prof. Kang G. Shin](https://web.eecs.umich.edu/~kgshin/), where I worked on generative path planning and offline decision-making. Previously, I developed motion-planning software for industrial manipulators at Roboe Technologies and autonomous mobile robot software at Gole Robotics.
 
 I received my B.S. degree in Robot Engineering from Hanyang University ERICA, where I conducted undergraduate research at RAISE Lab. I am grateful to [Prof. Youngmoon Lee](https://sites.google.com/umich.edu/youngmoonlee/home) for his mentorship and guidance during this period.
 

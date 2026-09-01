@@ -22,21 +22,11 @@
   }
 
   .policy-comparison-table {
-    th:nth-child(2),
-    td:nth-child(2) {
-      background-color: color-mix(in srgb, #3b82f6 7%, var(--global-bg-color));
-    }
-
-    th:nth-child(3),
-    td:nth-child(3) {
+    tbody td:first-child {
       background-color: color-mix(in srgb, var(--global-theme-color) 7%, var(--global-bg-color));
     }
 
-    thead th:nth-child(2) {
-      background-color: color-mix(in srgb, #3b82f6 12%, var(--global-bg-color));
-    }
-
-    thead th:nth-child(3) {
+    thead th {
       background-color: color-mix(in srgb, var(--global-theme-color) 12%, var(--global-bg-color));
     }
   }
