@@ -221,7 +221,7 @@ $$
 \phi\leftarrow\phi-\alpha_Q\nabla_\phi L(\phi)
 $$
 
-이며, 이를 한 번에 쓰면 $\phi\leftarrow\phi+\alpha_Q\mathbb{E}_{D}[\delta\nabla_\phi Q_\phi(s,a)]$이다. 즉 online critic은 천천히 변하는 target actor와 target critic이 제공하는 target을 향해 학습하므로, target이 매 순간 함께 크게 움직이는 경우보다 update가 안정적이다.
+이며, 이를 한 번에 쓰면 {::nomarkdown}\(\phi\leftarrow\phi+\alpha_Q\mathbb{E}_{D}[\delta\nabla_\phi Q_\phi(s,a)]\){:/nomarkdown}이다. 즉 online critic은 천천히 변하는 target actor와 target critic이 제공하는 target을 향해 학습하므로, target이 매 순간 함께 크게 움직이는 경우보다 update가 안정적이다.
 
 ### Actor Update
 
@@ -330,7 +330,7 @@ $$
 
 Replay buffer와 target network를 이용한 안정화는 DQN에서 이어진 공통점이다. DQN과 달라지는 핵심은 다음 세 가지다.
 
-1. **Action selection**: DQN은 discrete action space에서 $a_t=\operatorname*{arg\,max}_aQ(s_t,a;\theta)$처럼 Q값이 가장 큰 action을 선택한다. DDPG는 online actor가 $a_t=\mu_\theta(s_t)$를 직접 출력하고, 학습 데이터를 수집할 때는 $a_t=\mu_\theta(s_t)+N_t$처럼 외부 exploration noise를 더한다.
+1. **Action selection**: DQN은 discrete action space에서 {::nomarkdown}\(a_t=\operatorname*{arg\,max}_aQ(s_t,a;\theta)\){:/nomarkdown}처럼 Q값이 가장 큰 action을 선택한다. DDPG는 online actor가 {::nomarkdown}\(a_t=\mu_\theta(s_t)\){:/nomarkdown}를 직접 출력하고, 학습 데이터를 수집할 때는 {::nomarkdown}\(a_t=\mu_\theta(s_t)+N_t\){:/nomarkdown}처럼 외부 exploration noise를 더한다.
 2. **Critic target**: DQN은 next state에서 가능한 action의 최댓값을 사용해 $y=r+\gamma\max_a\hat Q(s',a;\hat\theta)$를 만든다. DDPG는 target actor가 continuous action $\mu_{\hat\theta}(s')$를 먼저 선택하고, target critic이 그 action을 평가해 $y=r+\gamma(1-d)Q_{\hat\phi}(s',\mu_{\hat\theta}(s'))$를 계산한다. 여기서 $\hat\theta,\hat\phi$는 generic estimate를 뜻하는 기호가 아니라 target network의 parameter이다.
 3. **Actor update**: DQN에는 별도의 actor가 없으므로 Q-network만 update한다. DDPG는 actor도 따로 update하며, critic이 제공하는 $\nabla_aQ_\phi$를 actor의 $\nabla_\theta\mu_\theta$까지 chain rule로 backpropagation하여 $\nabla_\theta J$를 계산한다.
 
@@ -446,12 +446,12 @@ $$
 각 변형이 성립하는 이유를 순서대로 보면 다음과 같다.
 
 1. Objective definition에 의해
-   $\mathbb{E}_{\tau\sim\pi}[\sum_{t=0}^{\infty}\gamma^t r(s_t)]=\eta(\pi)$이다.
+   {::nomarkdown}\(\mathbb{E}_{\tau\sim\pi}[\sum_{t=0}^{\infty}\gamma^t r(s_t)]=\eta(\pi)\){:/nomarkdown}이다.
 2. Positive value sum의 index를 reindex하면 $\sum_{t=0}^{\infty}\gamma^{t+1}V_{\pi_{\mathrm{old}}}(s_{t+1})=\sum_{t=1}^{\infty}\gamma^tV_{\pi_{\mathrm{old}}}(s_t)$이다. 
    따라서 $\sum_{t=0}^{\infty}\gamma^tV_{\pi_{\mathrm{old}}}(s_t)$에서 $t\ge1$인 항은 모두 소거되고 $-V_{\pi_{\mathrm{old}}}(s_0)$만 남는다.
    여기서 $V_{\pi_{\mathrm{old}}}$가 bounded이고 $\gamma<1$이므로 tail도 0으로 사라진다.
 3. 바깥 expectation은 $\tau\sim\pi$에 대해 취하지만, 남은 항은 $s_0$에만 의존한다. 모든 policy가 같은 $s_0\sim\rho_0$에서 시작하므로
-   $\mathbb{E}_{\tau\sim\pi}[V_{\pi_{\mathrm{old}}}(s_0)]=\mathbb{E}_{s_0}[V_{\pi_{\mathrm{old}}}(s_0)]=\eta(\pi_{\mathrm{old}})$이다.
+   {::nomarkdown}\(\mathbb{E}_{\tau\sim\pi}[V_{\pi_{\mathrm{old}}}(s_0)]=\mathbb{E}_{s_0}[V_{\pi_{\mathrm{old}}}(s_0)]=\eta(\pi_{\mathrm{old}})\){:/nomarkdown}이다.
 
 따라서 최종적으로
 
@@ -649,7 +649,7 @@ $$
 
 즉, surrogate improvement에서 policy mixture 때문에 생기는 mismatch를 quadratic penalty로 빼어도 실제 return의 lower bound가 남는다. 따라서 $\alpha$가 커질수록 penalty가 $\alpha^2$에 비례해 빠르게 증가하고, $\gamma\to1$이면 coefficient $2\epsilon\gamma/(1-\gamma)^2$가 커져 long-horizon에서 누적되는 visitation mismatch의 영향이 더 커진다. $\epsilon$은 모든 state에서 candidate policy가 만드는 expected old-policy advantage의 magnitude 중 최댓값인 worst-case quantity이다.
 
-하지만 이 bound를 그대로 practical deep-RL update에 사용하기는 어렵다. 우선 large 또는 continuous state space에서는 모든 state에 대한 exact maximum을 계산하는 것이 어렵거나 불가능하다. 또한 $\pi'=\operatorname*{arg\,max}_{\pi}L_{\pi_{\mathrm{old}}}(\pi)$를 정확히 구하는 일과, 그 candidate와 old policy의 mixture를 반복적으로 표현하고 적용하는 일도 까다로운 일이다. $\epsilon$, $\rho_{\pi_{\mathrm{old}}}$, advantage 등 bound에 필요한 quantities 역시 finite samples와 function approximation만으로 정확히 알기 어렵다. 따라서 CPI는 step size가 왜 중요하고 어떤 penalty가 생기는지 이론적으로 보여주지만, 그대로 구현하기에는 어려운 점이 많이 존재한다.
+하지만 이 bound를 그대로 practical deep-RL update에 사용하기는 어렵다. 우선 large 또는 continuous state space에서는 모든 state에 대한 exact maximum을 계산하는 것이 어렵거나 불가능하다. 또한 {::nomarkdown}\(\pi'=\operatorname*{arg\,max}_{\pi}L_{\pi_{\mathrm{old}}}(\pi)\){:/nomarkdown}를 정확히 구하는 일과, 그 candidate와 old policy의 mixture를 반복적으로 표현하고 적용하는 일도 까다로운 일이다. {::nomarkdown}\(\epsilon\){:/nomarkdown}, {::nomarkdown}\(\rho_{\pi_{\mathrm{old}}}\){:/nomarkdown}, advantage 등 bound에 필요한 quantities 역시 finite samples와 function approximation만으로 정확히 알기 어렵다. 따라서 CPI는 step size가 왜 중요하고 어떤 penalty가 생기는지 이론적으로 보여주지만, 그대로 구현하기에는 어려운 점이 많이 존재한다.
 
 ### 4. General Stochastic Policy로 확장
 
@@ -1277,7 +1277,7 @@ $\alpha$를 곱해 step을 줄이면 보통 KL도 줄어들지만, 근사와 비
 
 #### TRPO Algorithm
 
-아래 pseudocode에서 $\widehat L_k$는 trajectory set $\mathcal{D}_k$로 계산한 sampled surrogate이고, $\bar D_{\mathrm{KL},k}$는 같은 data에서 계산한 sampled average KL이다.
+아래 pseudocode에서 {::nomarkdown}\(\widehat L_k\){:/nomarkdown}는 trajectory set {::nomarkdown}\(\mathcal{D}_k\){:/nomarkdown}로 계산한 sampled surrogate이고, {::nomarkdown}\(\bar D_{\mathrm{KL},k}\){:/nomarkdown}는 같은 data에서 계산한 sampled average KL이다.
 
 {% capture trpo_algorithm %}
 $$
@@ -1428,7 +1428,7 @@ $$
 
 이때 이론적으로 $A(s,a)=Q(s,a)-V(s)$이지만, PPO가 별도의 $Q$ network를 반드시 요구하는 것은 아니다. Sampled reward로 계산한 reward-to-go, bootstrapped return, 또는 GAE로 $Q$ 또는 return과 advantage를 추정하고, value network인 critic을 함께 학습하는 방식이 일반적이다.
 
-$S[\pi_\theta](s_t)$는 policy distribution의 entropy bonus로, stochasticity와 exploration을 장려하고 policy가 너무 일찍 deterministic policy로 collapse하는 것을 막는다. 이는 action에 외부 noise를 더하는 항이 아니다. Maximize convention에서 $-c_1L^{\mathrm{VF}}$는 value error를 minimize하게 만들고, $+c_2S$는 entropy를 maximize하게 만든다. $c_1$과 $c_2$는 두 항의 가중치다.
+{::nomarkdown}\(S[\pi_\theta](s_t)\){:/nomarkdown}는 policy distribution의 entropy bonus로, stochasticity와 exploration을 장려하고 policy가 너무 일찍 deterministic policy로 collapse하는 것을 막는다. 이는 action에 외부 noise를 더하는 항이 아니다. Maximize convention에서 {::nomarkdown}\(-c_1L^{\mathrm{VF}}\){:/nomarkdown}는 value error를 minimize하게 만들고, {::nomarkdown}\(+c_2S\){:/nomarkdown}는 entropy를 maximize하게 만든다. {::nomarkdown}\(c_1\){:/nomarkdown}과 {::nomarkdown}\(c_2\){:/nomarkdown}는 두 항의 가중치다.
 
 ## 09_DRL Algorithm 비교
 
