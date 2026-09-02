@@ -191,7 +191,10 @@ $$
 
 ### 2. Trajectory probability의 분해
 
-$$ p(\tau;\theta) = p(s_0)p(a_0\mid s_0)p(s_1\mid s_0,a_0)\cdots p(a_{T-1}\mid s_{T-1}, a_{T-2}, \cdots s_0,a_0)p(s_T\mid s_{T-1},a_{T-1}, \cdots , s_0,a_0) $$
+$$
+p(\tau;\theta) = p(s_0)p(a_0\mid s_0)p(s_1\mid s_0,a_0)\cdots p(a_{T-1}\mid s_{T-1}, a_{T-2}, \cdots s_0,a_0)p(s_T\mid s_{T-1},a_{T-1}, \cdots , s_0,a_0)
+$$
+
 $p(\tau;\theta)$는 initial state distribution, policy, environment transition의 곱으로 분해된다. 이때 Markov property를 이용하면 마지막 항을 단순화할수 있다.
 
 <!-- callout -->
