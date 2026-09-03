@@ -459,6 +459,7 @@ MDP 이론은 state space $S$와 action space $A$가 finite인지 infinite인지
 | $v_*(s)$ 또는 $V_*(s)$ | optimal policy $\pi_*$를 따를 때 state $s$의 optimal value |
 | $q_\pi(s,a)$ 또는 $Q^\pi(s,a)$ | policy $\pi$에서 state $s$에서 action $a$를 수행했을 때의 action value |
 | $q_*(s,a)$ 또는 $Q_*(s,a)$ | optimal policy 기준으로 state $s$에서 action $a$를 수행했을 때의 optimal action value |
+{: .policy-comparison-table}
 
 Reward의 time index는 교재나 문맥에 따라 다르게 정의될 수 있다. 현재 문서에서는 $A_t$를 수행한 뒤 받는 reward를 $R_{t+1}$로 표기하지만, $R_t$를 $S_{t-1}, A_{t-1}$의 결과로 정의하는 표기법도 사용한다.
 

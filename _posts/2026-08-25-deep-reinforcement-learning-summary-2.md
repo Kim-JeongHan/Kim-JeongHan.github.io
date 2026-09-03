@@ -505,6 +505,7 @@ Sequential decision problem은 environment model을 알고 있는지 여부에 �
 | --- | --- | --- | --- |
 | Model-based | transition probability와 reward function을 알고 있음 | model을 사용해 미래를 예측하고 planning | Dynamic Programming |
 | Model-free | transition probability와 reward function을 모름 | environment sample에서 직접 value나 policy를 학습 | Monte Carlo, TD learning, Q-learning |
+{: .policy-comparison-table}
 
 Model-based DP의 주요 한계는 다음과 같다.
 
@@ -579,6 +580,7 @@ $$
 | Dynamic Programming | 필요 | 모든 branch를 사용하는 full backup | 아니오 | 다음 value function 사용 |
 | Monte Carlo | 불필요 | 실제 trajectory 전체를 사용하는 sample multi-step backup | 예 | 아니오 |
 | Temporal Difference | 불필요 | 한 step sample을 사용하는 sample one-step backup | 아니오 | 예 |
+{: .policy-comparison-table}
 
 따라서 DP는 정확한 model이 있을 때 expectation을 이용해 전체 branch를 계산하고, Monte Carlo와 TD는 sample data만으로 value를 추정한다. Monte Carlo는 실제 episode return을 사용하고, TD는 아직 완전히 계산되지 않은 next-state value를 이용해 더 빠르게 update한다.
 

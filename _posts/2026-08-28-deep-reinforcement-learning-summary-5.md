@@ -329,6 +329,7 @@ REINFORCE는 실제 episode의 return $G_t$를 사용하므로 target에 대한 
 | --- | --- | --- |
 | Monte Carlo / REINFORCE | 낮음 또는 없음 | 높음 |
 | Temporal Difference | 있음 | 낮음 |
+{: .policy-comparison-table}
 
 REINFORCE의 높은 variance를 줄이기 위해 total return에 **baseline**을 뺄 수 있다. Baseline은 보통 현재 state의 value function $b(s_t)=V^\pi(s_t)$를 사용한다.
 
@@ -418,6 +419,7 @@ REINFORCE with baseline에서는 두 개의 network를 사용한다.
 | --- | --- | --- | --- | --- |
 | Actor | policy $\pi(a\mid s;\theta)$ | $\theta$ | $\alpha$ | action 선택 policy 개선 |
 | Critic | state-value $V(s;\phi)$ | $\phi$ | $\beta$ | state value와 baseline 추정 |
+{: .policy-comparison-table}
 
 여기서 Actor와 Critic이 두 개라는 말은 반드시 전체 neural network를 두 벌 복제한다는 뜻은 아니다. 일반적으로는 state를 처리하는 앞부분의 feature extractor를 공유하고, 마지막 부분을 두 개의 head로 나눈다. 하나의 head는 Actor의 policy를 출력하고 다른 head는 Critic의 state-value를 출력한다.
 
@@ -905,6 +907,7 @@ A3C는 neural network를 function approximator로 사용하므로 discrete state
 | Update | Replay buffer에서 minibatch를 sampling | Worker gradient를 global network에 asynchronous하게 적용 |
 | Return | 기본적으로 one-step TD target | 최대 $t_{\max}$의 $n$-step return |
 | Action space | 기본적으로 discrete action | Discrete action과 continuous action 모두 가능 |
+{: .policy-comparison-table}
 
 [A3C 원 논문](https://proceedings.mlr.press/v48/mniha16.html)의 Atari 실험에서는 16개의 CPU worker를 사용한 asynchronous 방법들이 GPU로 학습한 DQN보다 빠르게 학습하는 경향을 보였고, A3C는 당시 DQN 계열과 비교해 절반의 training time으로 높은 평균 score를 기록했다. 다만 hardware, hyperparameter search와 game별 결과가 다르므로, 이를 모든 문제에서 A3C가 DQN이나 Double DQN보다 빠르게 수렴한다는 일반적인 결론으로 확대해서는 안 된다.
 
@@ -953,6 +956,7 @@ $$
 | Waiting | 다른 worker를 기다리지 않음 | 먼저 끝난 worker도 가장 느린 worker를 기다림 |
 | Compute pattern | 비동기 worker update, CPU 병렬 실행에 적합 | Batch/vectorized computation과 large batch 구성에 적합 |
 | Main trade-off | Staleness를 허용하는 대신 worker idle을 줄임 | 더 coherent한 update를 얻는 대신 synchronization과 straggler 대기 비용이 생김 |
+{: .policy-comparison-table}
 
 A2C는 같은 policy version에서 수집한 rollout을 사용하므로 gradient variance가 낮아지는 경우가 있고, large batch 또는 vectorized computation을 효율적으로 활용할 수 있다. 반면 매 cycle마다 가장 느린 worker를 기다려야 하며, batch size가 크다고 해서 항상 더 빠르게 수렴하거나 모든 task에서 A3C보다 좋은 성능을 보장하는 것은 아니다.
 

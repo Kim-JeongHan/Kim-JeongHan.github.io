@@ -348,6 +348,7 @@ Replay buffer와 target network를 이용한 안정화는 DQN에서 이어진 �
 | Exploration | Actor action에 external noise 추가 | Stochastic policy에서 action sampling |
 | Stability mechanism | Replay buffer와 target network로 critic target 안정화 | KL trust region으로 policy update 제한 |
 | Update characteristic / monotonicity | Critic gradient를 통한 actor update, 성능의 단조 증가 보장 없음 | Constrained surrogate update, 이론적 단조 증가 관점은 있으나 practical guarantee는 절대적이지 않음 |
+{: .policy-comparison-table}
 
 ### TRPO의 핵심 아이디어
 
@@ -1441,6 +1442,7 @@ $$
 | DDPG | model-free DRL | high-dimensional or continuous-valued state | continuous | off-policy replay | Q critic and deterministic actor gradient |
 | TRPO | model-free DRL | high-dimensional or continuous-valued state | discrete or continuous | on-policy | advantage surrogate with KL trust region |
 | PPO | model-free DRL | high-dimensional or continuous-valued state | discrete or continuous | on-policy rollout with minibatch reuse | clipped advantage surrogate |
+{: .policy-comparison-table}
 
 표의 state space와 action space 표기는 대표적인 사용 설정이며, 수학적으로 가능한 범위를 엄격히 배제하는 분류는 아니다. 특히 function approximation을 사용하면 state 처리 범위가 확장될 수 있다. A3C, TRPO, PPO는 기본적으로 on-policy 알고리즘이다. Importance sampling으로 제한적인 distribution mismatch를 보정할 수 있지만, ratio나 replay를 추가하는 것만으로 robust한 off-policy 알고리즘이 되는 것은 아니다. PPO의 ratio는 현재 rollout batch에서 여러 번 update할 때 old policy와 new policy의 mismatch를 보정하며, PPO 자체는 여전히 on-policy로 분류된다. Truly off-policy actor-critic은 보통 별도의 correction과 stability mechanism을 필요로 한다.
 

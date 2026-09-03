@@ -66,6 +66,7 @@ DRL은 state 또는 action space가 매우 크거나 연속적인 문제에도 �
 | State/action space | 작고 유한한 경우에 적합 | 크거나 연속적인 경우에도 적용 가능 |
 | 일반화 | state-action pair 사이의 일반화가 거의 없음 | 유사한 입력 사이의 일반화 가능 |
 | 주요 한계 | table 크기와 차원의 저주 | 학습 불안정성, sample 효율, hyperparameter 의존성 |
+{: .policy-comparison-table}
 
 ## 01_Deep Q-Network
 
@@ -409,6 +410,7 @@ $$
 | $G_t^{(1)}$ | $R_{t+1}$과 $V(S_{t+1})$ | one-step TD, 강한 bootstrapping |
 | $G_t^{(n)}$ | $R_{t+1},\ldots,R_{t+n}$과 $V(S_{t+n})$ | multi-step TD, truncated return |
 | $G_t^{(\infty)}$ | episode 전체 reward | Monte Carlo, no bootstrapping |
+{: .policy-comparison-table}
 
 #### DQN의 multi-step loss
 
@@ -632,6 +634,7 @@ $$
 | --- | --- | --- |
 | 차가 멀리 있는 상황 | ![Enduro에서의 value와 advantage 시각화 예시 1](/assets/img/blog/deep-reinforcement-learning-summary-4/dueling-dqn-enduro-value.png) | 어떤 action을 선택해도 결과가 크게 달라지지 않으므로 value stream이 현재 state와 도로의 전체적인 가치에 집중한다. |
 | 차가 바로 앞에 있는 상황 | ![Enduro에서의 value와 advantage 시각화 예시 2](/assets/img/blog/deep-reinforcement-learning-summary-4/dueling-dqn-enduro-advantage.png) | action 선택이 중요하므로 advantage stream이 피해야 할 차와 action별 차이에 집중한다. |
+{: .policy-comparison-table}
 
 기존 DQN에서는 한 transition의 loss가 선택된 action $Q(s_t,a_t)$에 직접 연결된다. 반면 Dueling DQN에서는 여러 action의 Q-value가 공통 value stream $V(s)$와 결합되어 있으므로, action 선택과 무관하게 state value를 학습하는 데 유리하다.
 

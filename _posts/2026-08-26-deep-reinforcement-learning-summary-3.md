@@ -84,6 +84,7 @@ TD는 한 step만 사용하는 sample backup이므로 episode가 끝나기 전�
 | Dynamic Programming | 필요 | $\mathbb{E}[R_{t+1}+\gamma V(S_{t+1})]$ | 모든 branch를 사용하는 full backup | 불필요 |
 | Monte Carlo | 불필요 | $G_t$ | 실제 episode의 sample multi-step backup | 필요 |
 | Temporal Difference | 불필요 | $R_{t+1}+\gamma V(S_{t+1})$ | 실제 sample one-step backup | 불필요 |
+{: .policy-comparison-table}
 
 정리하면 DP는 model을 이용해 Bellman expectation을 정확하게 계산하고, MC와 TD는 sample을 이용해 value를 근사한다. MC는 전체 return $G_t$를 사용하고, TD는 한 step reward와 next value를 사용한다. 따라서 DP와 TD는 비슷한 one-step target을 사용하지만, DP는 모든 가능한 branch를 계산하고 TD는 관측된 sample 하나만 사용한다.
 
@@ -506,6 +507,7 @@ $$
 | 실제 다음 action | $A_{t+1}$을 선택하고 update에 사용 | 다음 interaction을 위해 선택하지만 target에는 사용하지 않음 |
 | Update target | $R_{t+1}+\gamma Q(S_{t+1},A_{t+1})$ | $R_{t+1}+\gamma\max_{a'}Q(S_{t+1},a')$ |
 | Policy 유형 | On-policy TD prediction | Off-policy TD prediction |
+{: .policy-comparison-table}
 
 여기서 $\alpha$는 constant learning rate이다.
 
