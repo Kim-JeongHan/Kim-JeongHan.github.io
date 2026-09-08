@@ -746,7 +746,7 @@ $$
 QR-DQN의 Loss function을 quantile regression을 적용하여 다시 써보면 아래와 같다.
 
 $$
-\mathcal{L}_{\mathrm{QR}}(\theta)
+\mathcal{L}(\theta)
 =
 \sum_{i=1}^{N}
 \mathbb{E}_{J}\left[
@@ -800,7 +800,7 @@ $$
 \end{cases}
 $$
 
-$1/\kappa$는 QR-DQN 원 논문의 normalization이며, 흔히 사용하는 $\kappa=1$에서는 첨부한 식과 같은 형태가 된다. $|u|\le\kappa$에서는 quadratic function을 사용하여 0 근처를 smooth하게 만들고, $|u|>\kappa$에서는 linear tail을 유지한다. 실제 loss에서는 위 double summation의 $\rho_{\hat{\tau}_i}$를 $\rho_{\hat{\tau}_i}^{\kappa}$로 바꾸어 사용한다.
+$1/\kappa$는 QR-DQN 원 논문의 normalization이며,$|u|\le\kappa$에서는 quadratic function을 사용하여 0 근처를 smooth하게 만들고, $|u|>\kappa$에서는 linear tail을 유지한다. 실제 loss에서는 위 double summation의 $\rho_{\hat{\tau}_i}$를 $\rho_{\hat{\tau}_i}^{\kappa}$로 바꾸어 사용한다.
 
 ### 1-Wasserstein Minimization
 
