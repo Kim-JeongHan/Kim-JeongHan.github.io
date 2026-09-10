@@ -16,9 +16,9 @@ tags:
 ## 논문 정보
 
 - Title: Differentiable Motion Manifold Primitives for Reactive Motion Generation under Kinodynamic Constraints
-- Authors:
-- Venue / Year:
-- Links:
+- Authors: Yonghyeon Lee
+- Venue / Year: IEEE International Conference on Robotics and Automation (ICRA), 2026
+- Links: [Paper](https://arxiv.org/abs/2410.12193), [PDF](https://arxiv.org/pdf/2410.12193), [Project](https://diffmmp.github.io/)
 
 ## 한 줄 요약
 
