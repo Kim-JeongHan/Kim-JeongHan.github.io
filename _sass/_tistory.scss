@@ -22,7 +22,7 @@
   }
 
   .policy-comparison-table {
-    tbody td:first-child {
+    &:not(.header-only) tbody td:first-child {
       background-color: color-mix(in srgb, var(--global-theme-color) 7%, var(--global-bg-color));
     }
 

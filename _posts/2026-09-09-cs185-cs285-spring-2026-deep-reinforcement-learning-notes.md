@@ -95,7 +95,7 @@ $$
 | Supervised Learning | Reinforcement Learning |
 | --- | --- |
 | <a href="/assets/img/blog/cs185-cs285-spring-2026-deep-reinforcement-learning-notes/supervised-learning-maximum-likelihood.jpg"><img src="/assets/img/blog/cs185-cs285-spring-2026-deep-reinforcement-learning-notes/supervised-learning-maximum-likelihood.jpg" alt="이미지 입력에서 물체의 위치와 종류를 예측하는 supervised learning과 maximum likelihood 학습" style="width: 100%; min-width: 260px; height: auto; display: block;"></a> | <a href="/assets/img/blog/cs185-cs285-spring-2026-deep-reinforcement-learning-notes/reinforcement-learning-observation-action-loop.jpg"><img src="/assets/img/blog/cs185-cs285-spring-2026-deep-reinforcement-learning-notes/reinforcement-learning-observation-action-loop.jpg" alt="카메라 observation으로 운전 action을 선택하고 그 행동이 다음 observation에 영향을 주는 policy와 환경의 관계" style="width: 100%; min-width: 260px; height: auto; display: block;"></a> |
-{: .policy-comparison-table}
+{: .policy-comparison-table .header-only}
 
 
 ## 03_State, Observation과 Markov Property
