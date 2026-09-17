@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'CS185/285 (Spring 2026) - Deep Reinforcement Learning Notes'
+title: 'CS185/285 (Spring 2026) - Deep Reinforcement Learning 1'
 date: 2026-09-09 00:00:00 +0900
 slug: cs185-cs285-spring-2026-deep-reinforcement-learning-notes
 render_with_liquid: true
