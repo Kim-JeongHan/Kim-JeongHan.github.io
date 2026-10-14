@@ -4,6 +4,7 @@ title: 'Lyapunov Function: Stability을 증명하는 에너지 함수'
 date: 2025-09-23 17:21:54 +0900
 slug: lyapunov-function-stability
 render_with_liquid: false
+use_math: true
 categories:
 - 공부
 - mpc

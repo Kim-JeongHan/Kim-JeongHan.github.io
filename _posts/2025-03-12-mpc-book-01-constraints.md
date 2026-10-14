@@ -22,14 +22,22 @@ Model Predictive Control: Theory, Computation, and Design 책을 바탕으로 �
 ### 입력 제약 (Input Constraints)
 
 입력 제약은 물리적 한계를 나타내며, 예를 들어 다음과 같은 형태로 정의할 수 있다.
-$$ u(k) \in U, \quad k \in \mathbb{I}^{+} $$
-이는 입력 \( u(k) \)가 특정한 제약 집합 \( U \) 안에 있어야 한다는 뜻이다. 예를 들면, 로봇의 모터 토크 등에서 특정 한계를 넘지 못하도록 설정할 수 있다. 이러한 물리적 한계를 초과하려 하면, 실제 시스템이 강제로 제한을 가한다. 즉, 컨트롤러가 이를 준수하지 않더라도 실제 시스템이 물리적 한계로 인해 어쩔 수 없이 제약을 따르게 된다.
+
+$$
+u(k) \in U, \quad k \in \mathbb{I}^{+}
+$$
+
+이는 입력 $u(k)$가 특정한 제약 집합 $U$ 안에 있어야 한다는 뜻이다. 예를 들면, 로봇의 모터 토크 등에서 특정 한계를 넘지 못하도록 설정할 수 있다. 이러한 물리적 한계를 초과하려 하면, 실제 시스템이 강제로 제한을 가한다. 즉, 컨트롤러가 이를 준수하지 않더라도 실제 시스템이 물리적 한계로 인해 어쩔 수 없이 제약을 따르게 된다.
 
 ### 상태 및 출력 제약 (State and Output Constraints)
 
 상태 및 출력 제약은 바람직한 조건이지만, 항상 충족될 수 있는 것은 아니다.
-$$ \begin{align} x(k) \in X, \quad k \in \mathbb{I}^{+} \\ (x(k), u(k)) \in Z, \quad k \in \mathbb{I}^{+} \end{align} $$
-이는 상태 \( x(k) \)와 입력 \( u(k) \)가 특정한 제한된 범위 안에 있어야 한다는 뜻이다. 예를 들어, 온도, 속도, 압력 등 시스템이 특정 범위를 벗어나지 않도록 설계하는 경우가 이에 해당한다.
+
+$$
+\begin{align} x(k) \in X, \quad k \in \mathbb{I}^{+} \\ (x(k), u(k)) \in Z, \quad k \in \mathbb{I}^{+} \end{align}
+$$
+
+이는 상태 $x(k)$와 입력 $u(k)$가 특정한 제한된 범위 안에 있어야 한다는 뜻이다. 예를 들어, 온도, 속도, 압력 등 시스템이 특정 범위를 벗어나지 않도록 설계하는 경우가 이에 해당한다.
 하지만 **외부 교란(disturbance)** 이나 **시스템의 비선형성** 등의 이유로 항상 상태 제약을 만족시키는 것이 불가능할 수도 있다. 따라서 **MPC에서는 입력 제약은 강한(Hard) 제약으로 두고, 상태 및 출력 제약은 부드러운(Soft) 제약으로 설정하는 경우가 많다.**
 로보틱스에서는 로봇 관절의 속도, 토크, 가속도 등의 물리적 한계를 고려해야 하며, 특정 작업을 수행할 때 환경적인 제약(예: 충돌 회피, 작업 공간 내 유지)도 존재한다. 하지만 이러한 제약을 항상 엄격하게 유지하면 최적화 문제의 해가 존재하지 않을 가능성이 있다. 따라서 **Slack Variable**을 추가하여 특정 상태 제약을 완화할 수 있도록 한다.
 
@@ -46,44 +54,64 @@ MPC에서는 이를 고려하여 최적화 문제를 설정한다. 즉, 입력 �
 
 ## **Soft Constraints (부드러운 제약 조건)과 Slack Variable**
 
-MPC에서 **Soft Constraints**는 상태 또는 출력 제약이 불가능할 경우 이를 완화할 수 있도록 하는 방법이다. 이를 위해 **Slack Variable** \( \epsilon(k) \)을 도입한다.
+MPC에서 **Soft Constraints**는 상태 또는 출력 제약이 불가능할 경우 이를 완화할 수 있도록 하는 방법이다. 이를 위해 **Slack Variable** $\epsilon(k)$을 도입한다.
 로보틱스에서는 로봇 관절의 속도, 토크, 가속도 등의 물리적 한계를 고려해야 하며, 특정 작업을 수행할 때 환경적인 제약(예: 충돌 회피, 작업 공간 내 유지)도 존재한다. 하지만 이러한 제약을 항상 엄격하게 유지하면 최적화 문제의 해가 존재하지 않을 가능성이 있다. 따라서 **Slack Variable**을 추가하여 특정 상태 제약을 완화할 수 있도록 한다.
 
 ### **Hard Constraints (강한 제약)**
 
 일반적인 상태 제약은 다음과 같이 표현된다.
-$$ F x(k) \leq f, \quad k \in \mathbb{I}^{+} $$
+
+$$
+F x(k) \leq f, \quad k \in \mathbb{I}^{+}
+$$
+
 그러나 외란(disturbance)이나 시스템 모델링 오차 등으로 인해 항상 이 조건을 만족시키기 어려울 수 있다.
 
 ---
 
-### **Slack Variable \( \epsilon(k) \)을 이용한 Soft Constraints**
+### **Slack Variable $\epsilon(k)$을 이용한 Soft Constraints**
 
-Slack Variable \( \epsilon(k) \)을 추가하면 상태 제약이 다음과 같이 완화된다.
-$$ F x(k) \leq f + \epsilon(k), \quad k \in \mathbb{I}^{+} $$
-여기서 \( \epsilon(k) \geq 0 \) 조건을 추가하여, 필요할 때만 제약을 완화할 수 있도록 한다. 즉, 원래는 반드시 \( F x(k) \leq f \)를 만족해야 했지만, \( \epsilon(k) \)을 추가하면 일정 부분 제약을 초과할 수 있게 된다.
-하지만, \( \epsilon(k) \)이 너무 커지는 것은 바람직하지 않으므로, 이를 최소화하기 위해 **Stage Cost에 패널티를 추가**한다.
+Slack Variable $\epsilon(k)$을 추가하면 상태 제약이 다음과 같이 완화된다.
+
+$$
+F x(k) \leq f + \epsilon(k), \quad k \in \mathbb{I}^{+}
+$$
+
+여기서 $\epsilon(k) \geq 0$ 조건을 추가하여, 필요할 때만 제약을 완화할 수 있도록 한다. 즉, 원래는 반드시 $F x(k) \leq f$를 만족해야 했지만, $\epsilon(k)$을 추가하면 일정 부분 제약을 초과할 수 있게 된다.
+하지만, $\epsilon(k)$이 너무 커지는 것은 바람직하지 않으므로, 이를 최소화하기 위해 **Stage Cost에 패널티를 추가**한다.
 
 ---
 
 ### **비용 함수 (Cost Function)**
 
 Slack Variable을 포함한 비용 함수는 다음과 같이 정의된다.
-$$ J = \sum_{k=0}^{N-1} \left( x(k)^T Q x(k) + u(k)^T R u(k) + \rho |\epsilon(k)|^2 \right) $$
+
+$$
+J = \sum_{k=0}^{N-1} \left( x(k)^T Q x(k) + u(k)^T R u(k) + \rho |\epsilon(k)|^2 \right)
+$$
+
 여기서:
 
-- \( Q \) : 상태 \( x(k) \)에 대한 가중치 행렬
-- \( R \) : 입력 \( u(k) \)에 대한 가중치 행렬
-- \( \rho \) : Slack Variable \( \epsilon(k) \)에 대한 가중치 (값이 클수록 제약 초과를 최소화하려는 경향)
+- $Q$ : 상태 $x(k)$에 대한 가중치 행렬
+- $R$ : 입력 $u(k)$에 대한 가중치 행렬
+- $\rho$ : Slack Variable $\epsilon(k)$에 대한 가중치 (값이 클수록 제약 초과를 최소화하려는 경향)
 
-즉, \( \rho \) 값이 클수록 \( \epsilon(k) \)를 최소화하도록 유도되며, 상태 제약을 최대한 유지하려는 성향을 갖는다.
+즉, $\rho$ 값이 클수록 $\epsilon(k)$를 최소화하도록 유도되며, 상태 제약을 최대한 유지하려는 성향을 갖는다.
 
 ### **Soft Constraints를 포함한 상태-입력 혼합 제약 (Mixed State-Input Constraints)**
 
 Slack Variable을 추가한 상태 제약을 행렬 형태로 변환하면 다음과 같다.
-$$ F_e x(k) + E_e u_e(k) \leq e_e, \quad k \geq 0 $$
+
+$$
+F_e x(k) + E_e u_e(k) \leq e_e, \quad k \geq 0
+$$
+
 이를 행렬 형태로 정의하면,
-$$ \begin{align} F_e = \begin{bmatrix} 0 & 0 \\ F & 0 \end{bmatrix}, \quad E_e = \begin{bmatrix} E & 0 \\ 0 & I \\ 0 & I \end{bmatrix}, \quad u_e = \begin{bmatrix} u \\ \epsilon \end{bmatrix}, \quad e_e = \begin{bmatrix} e_0 \\ f \end{bmatrix} \end{align} $$
+
+$$
+\begin{align} F_e = \begin{bmatrix} 0 & 0 \\ F & 0 \end{bmatrix}, \quad E_e = \begin{bmatrix} E & 0 \\ 0 & I \\ 0 & I \end{bmatrix}, \quad u_e = \begin{bmatrix} u \\ \epsilon \end{bmatrix}, \quad e_e = \begin{bmatrix} e_0 \\ f \end{bmatrix} \end{align}
+$$
+
 이러한 변환을 통해, 원래의 상태 제약이 **Slack Variable**을 포함한 형태로 변형되며, 이를 통해 **최적화 문제의 해가 존재할 확률이 높아진다.**
 
 ---

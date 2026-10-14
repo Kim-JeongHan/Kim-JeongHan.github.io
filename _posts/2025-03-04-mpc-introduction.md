@@ -32,7 +32,7 @@ MPC(Model Predictive Control)는 **현재 상태와 예측 모델을 이용하�
   - 일반적으로 **선형 모델**(LTI, Linear Time-Invariant)이 사용되지만, 경우에 따라 비선형 모델(NLTI, Nonlinear Time-Invariant)사용하기도 한다.
 2. **Prediction Horizon(예측 시계열?)**
   - 일정한 미래 구간 동안 시스템의 ouput을 예측한다.
-  - 예측 구간을 \( N_p​ \)로 설정하면, \( t \) 시점에서 \( t+N_p \)까지의 시스템 output을 예측하게 된다.
+  - 예측 구간을 $N_p$로 설정하면, $t$ 시점에서 $t+N_p$까지의 시스템 output을 예측하게 된다.
   - 일반적으로 더 긴 예측 구간은 안정성과 성능을 향상시키지만, 계산 부담이 증가한다.
 3. ****Optimization(최적화)****
   - 예측된 출력이 원하는 궤적(reference trajectory)에 최대한 가까워지도록 입력을 최적화한다.
@@ -48,7 +48,9 @@ MPC(Model Predictive Control)는 **현재 상태와 예측 모델을 이용하�
 
 Continuous Time system modeling은 다음과 같다.
 
-$$ \begin{aligned} \dot{x}_m &= A_c x_m + B_c u \\ Y &= C_c x_m \end{aligned} $$
+$$
+\begin{aligned} \dot{x}_m &= A_c x_m + B_c u \\ Y &= C_c x_m \end{aligned}
+$$
 
 이 모델을 실제 구현에 적합하게 이산화(discretization)할 수 있다.
 
@@ -56,16 +58,20 @@ $$ \begin{aligned} \dot{x}_m &= A_c x_m + B_c u \\ Y &= C_c x_m \end{aligned} $$
 
 Discrete Time system modeling은 다음과 같다:
 
-$$ \begin{aligned} x_m(k+1) &= A_d x_m(k) + B_d u(k), \\ Y(k) &= C_d x_m(k) \end{aligned} $$
+$$
+\begin{aligned} x_m(k+1) &= A_d x_m(k) + B_d u(k), \\ Y(k) &= C_d x_m(k) \end{aligned}
+$$
 
-- \( x(k) \) : 상태 벡터 (state)
-- \( u(k) \) : 제어 입력 (control input)
-- \( y(k) \) : 출력 벡터 (output)
-- \( A, B, C \) : 시스템 행렬
+- $x(k)$ : 상태 벡터 (state)
+- $u(k)$ : 제어 입력 (control input)
+- $y(k)$ : 출력 벡터 (output)
+- $A, B, C$ : 시스템 행렬
 
 ### **(3) State변화 유도 과정**
 
-$$ \begin{aligned} \underbrace{x_m(k+1) - x_m(k)}_{\Delta x_m(k+1)} &= \underbrace{A_d (x_m(k) - x_m(k))}_{A_d \Delta x_m(k)} + \underbrace{B_d (u(k) - u(k-1))}_{B_d \Delta u(k)} \\ \Rightarrow \quad \Delta x_m(k+1) &= A_d \Delta x_m(k) + B_d \Delta u(k) \end{aligned} $$
+$$
+\begin{aligned} \underbrace{x_m(k+1) - x_m(k)}_{\Delta x_m(k+1)} &= \underbrace{A_d (x_m(k) - x_m(k))}_{A_d \Delta x_m(k)} + \underbrace{B_d (u(k) - u(k-1))}_{B_d \Delta u(k)} \\ \Rightarrow \quad \Delta x_m(k+1) &= A_d \Delta x_m(k) + B_d \Delta u(k) \end{aligned}
+$$
 
 이 식을 통해 input의 시간에 따른 변화에 따른 state의 변화를 표현할 수 있다..
 
@@ -73,20 +79,26 @@ $$ \begin{aligned} \underbrace{x_m(k+1) - x_m(k)}_{\Delta x_m(k+1)} &= \underbra
 
 예측 구간은 다음과 같은 파라미터로 구성된다:
 
-- 예측할 미래 출력 개수(\( N_p \)): Prediction Horizon
-- 예측할 미래 입력 개수(\( N_c \)): Control Horizon (보통 \( N_p > N_c \))
+- 예측할 미래 출력 개수($N_p$): Prediction Horizon
+- 예측할 미래 입력 개수($N_c$): Control Horizon (보통 $N_p > N_c$)
 
-Control 정보 \( (\Delta u_k) \)와
+Control 정보 $(\Delta u_k)$와
 
-$$ \Delta u(k), \Delta u(k+1), \dots, \Delta u(k+N_c-1) $$
+$$
+\Delta u(k), \Delta u(k+1), \dots, \Delta u(k+N_c-1)
+$$
 
 future state를
 
-$$ x(k_i+1 | k_i), \quad x(k_i+1 | k_i), \quad x(k_i+2 | k_i), \quad \dots, \quad x(k_i+N_p | k_i) $$
+$$
+x(k_i+1 | k_i), \quad x(k_i+1 | k_i), \quad x(k_i+2 | k_i), \quad \dots, \quad x(k_i+N_p | k_i)
+$$
 
 discrete time의 system modeling 수식을 사용하여, 아래 수식과 같이 표현이 가능하다.
 
-$$ \begin{aligned} x(k_i + 1 | k_i) &= A x(k_i) + B \Delta u(k_i) \\ x(k_i + 2 | k_i) &= A x(k_i + 1) + B \Delta u(k_i + 1) \end{aligned} $$
+$$
+\begin{aligned} x(k_i + 1 | k_i) &= A x(k_i) + B \Delta u(k_i) \\ x(k_i + 2 | k_i) &= A x(k_i + 1) + B \Delta u(k_i + 1) \end{aligned}
+$$
 
 이를 점화식으로 일반화할 수 있다.
 
@@ -94,26 +106,36 @@ $$
 \begin{aligned} x(k_i + 2 | k_i) &= A x(k_i + 1) + B \Delta u(k_i + 1) \\ &= A^2 x(k_i) + A B \Delta u(k_i) + B \Delta u(k_i + 1) \\ x(k_i + 3 | k_i) &= A x(k_i + 2) + B \Delta u(k_i + 2) \\ \downarrow \\ x(k_i + N_p | k_i) &= A^{N_p} x(k_i) + A^{N_p-1} B \Delta u(k_i) + A^{N_p-2} B \Delta u(k_i + 1) \\ &\quad + \dots + A^{N_p - N_c} B \Delta u(k_i + N_c - 1) \end{aligned}
 $$
 
-prediction of output은 \( Y(k) = C_d x_m(k) \) 에 위에 구해진 prediction of state를 넣으면 쉽게 구할 수 있다.
+prediction of output은 $Y(k) = C_d x_m(k)$ 에 위에 구해진 prediction of state를 넣으면 쉽게 구할 수 있다.
 
 시간에 따른 prediction of output의 표현이다.
 
-$$ \begin{aligned} y(k_i+1 | k_i) &= C A x(k_i) + C B \Delta u(k_i) \\ y(k_i+2 | k_i) &= C A x(k_i+1) + C B \Delta u(k_i+1) \\ &= C A^2 x(k_i) + C A B \Delta u(k_i) + C B \Delta u(k_i+1) \\ y(k_i+3 | k_i) &= C A x(k_i+2) + C B \Delta u(k_i+2) \\ \end{aligned} $$
+$$
+\begin{aligned} y(k_i+1 | k_i) &= C A x(k_i) + C B \Delta u(k_i) \\ y(k_i+2 | k_i) &= C A x(k_i+1) + C B \Delta u(k_i+1) \\ &= C A^2 x(k_i) + C A B \Delta u(k_i) + C B \Delta u(k_i+1) \\ y(k_i+3 | k_i) &= C A x(k_i+2) + C B \Delta u(k_i+2) \\ \end{aligned}
+$$
 
 이를 일반화하면 다음과 같이 표현된다.
 
-$$ y(k_i + N_p | k_i) = C A^{N_p} x(k_i) + C A^{N_p-1} B \Delta u(k_i) + C A^{N_p-2} B \Delta u(k_i+1) + \dots + C A^{N_p - N_c} B \Delta u(k_i + N_c - 1) $$
+$$
+y(k_i + N_p | k_i) = C A^{N_p} x(k_i) + C A^{N_p-1} B \Delta u(k_i) + C A^{N_p-2} B \Delta u(k_i+1) + \dots + C A^{N_p - N_c} B \Delta u(k_i + N_c - 1)
+$$
 
 최종적으로 출력 예측은 다음과 같은 행렬 형태로 표현 가능하다.
 
-$$ \mathbf{Y} = \begin{bmatrix} y(k_i+1 | k_i) \\ y(k_i+2 | k_i) \\ \vdots \\ y(k_i+N_p | k_i) \end{bmatrix} = \mathbf{F} x(k_i) + \mathbf{\Phi} \mathbf{\Delta U} $$
+$$
+\mathbf{Y} = \begin{bmatrix} y(k_i+1 | k_i) \\ y(k_i+2 | k_i) \\ \vdots \\ y(k_i+N_p | k_i) \end{bmatrix} = \mathbf{F} x(k_i) + \mathbf{\Phi} \mathbf{\Delta U}
+$$
 
 여기서 행렬 와 는 각각 다음과 같이 정의된다.
 
-\( F \) 정의
+$F$ 정의
 
-$$ \mathbf{F} = \begin{bmatrix} C A \\ C A^2 \\ \vdots \\ C A^{N_p} \end{bmatrix} $$
+$$
+\mathbf{F} = \begin{bmatrix} C A \\ C A^2 \\ \vdots \\ C A^{N_p} \end{bmatrix}
+$$
 
-\( \Phi \) 정의
+$\Phi$ 정의
 
-$$ \mathbf{\Phi} = \begin{bmatrix} C B & 0 & 0 & \cdots & 0 \\ C A B & C B & 0 & \cdots & 0 \\ C A^2 B & C A B & C B & \cdots & 0 \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ C A^{N_p-1} B & C A^{N_p-2} B & C A^{N_p-3} B & \cdots & C B \end{bmatrix} $$
+$$
+\mathbf{\Phi} = \begin{bmatrix} C B & 0 & 0 & \cdots & 0 \\ C A B & C B & 0 & \cdots & 0 \\ C A^2 B & C A B & C B & \cdots & 0 \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ C A^{N_p-1} B & C A^{N_p-2} B & C A^{N_p-3} B & \cdots & C B \end{bmatrix}
+$$

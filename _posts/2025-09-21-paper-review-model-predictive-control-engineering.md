@@ -85,13 +85,16 @@ finitite prediction horizion은 분명히 극단적으로 제약이 있지만, �
 MPC(Model Predictive Control)는 유한한 예측 구간 $N$ 동안만 cost를 최소화한다. 그러나 단순히 horizon을 잘라버리면 asymptotic stability(점근 안정성)을 보장하기 어렵다. 실제 시스템에서는 안정성을 보장하기 위해, 비용 함수 $J$를 Lyapunov 함수처럼 단조 감소(monotonically decreasing) 시키는 접근이 필요하다.
 
 이를 위해 도입되는 개념이 terminal cost이다.
+
 $$
 J = \sum_{i=0}^{N-1} \ell(x(k+i), u(k+i)) + V_f(x(k+N))
 $$
+
 여기서 $V_f(x(k+N))$는 Lyapunov 함수처럼 작동하는 최종 비용이다. 이 항을 추가함으로써, 유한 horizon 문제라도 마치 무한 horizon 문제처럼 안정성을 근사할 수 있다.
 
 그러나, terminal cost는 무한 horzion을 근사할때, $J(k+N) \approx J(\infty)$ 처럼 동작하여, 추가적인 제약이 필요로 하다.
 추가적인 제약은 또다시 최적화의 feasibility에 대한 문제를 야기할수 있으므로, terminal region constraint 방식이 사용된다.
+
 $$
 x(k+N) \in \mathcal{X}_f
 $$
@@ -111,13 +114,17 @@ $$
 MPC cost function을 다르게 정의하면 견고성을 설계에 반영할 수 있다.
 
 - 표준 MPC는 $L_2$-norm (least squares)을 사용:→ 전체 오차를 평균적으로 줄이는 데 최적화.
+
 - $$
   |x|_2 = \sqrt{x_1^2 + \cdots + x_n^2}
   $$
+
 - Robust MPC는 $L_\infty$-norm을 사용할 수 있음:→ 최대 오차를 줄이는 데 집중. 따라서 과격한 제어 대신 더 보수적이고 부드러운 제어를 유도.
+
 - $$
   |x|_\infty = \max{x_1, \dots, x_n}
   $$
+
 - 단점: 너무 보수적이어서 시스템의 성능(plant potential)을 충분히 활용하지 못함
 
 결국 robustness는 performance와 trade-off관계를 의미한다.

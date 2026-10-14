@@ -34,11 +34,11 @@ $$
 \begin{align} A &= \begin{bmatrix} 1.25 & 0.75 \\ 0.75 & 1.25 \end{bmatrix}, \quad B = \begin{bmatrix} 1 \\ 1 \end{bmatrix}, \quad C = \begin{bmatrix}-\frac{2}{3} & 1\end{bmatrix} \end{align}
 $$
 
-이 시스템은 의도적으로 **불안정한 zero (unstable zero)** 를 가지고 있다. 구체적으로 시스템 전달함수 \( G(z) \)의 zero가  \( z=3/2 \) (즉, 불안정한 zero)을 갖도록 설계하였다.
+이 시스템은 의도적으로 **불안정한 zero (unstable zero)** 를 가지고 있다. 구체적으로 시스템 전달함수 $G(z)$의 zero가  $z=3/2$ (즉, 불안정한 zero)을 갖도록 설계하였다.
 
 이 시스템에 대해서 다음의 LQ 제어 문제를 설정했다.
 
-- 비용함수의 가중치  \( Q, R \) 및 시간  \( N \) 을 다음과 같이 설정하여 unstable behavior를 유도하도록 했다.
+- 비용함수의 가중치  $Q, R$ 및 시간  $N$ 을 다음과 같이 설정하여 unstable behavior를 유도하도록 했다.
 
 $$
 \begin{align} Q &= C^T C + 0.001 I = \begin{bmatrix}4/9 + 0.001 & -2/3 \\[6pt] 2/3 & 1.001\end{bmatrix} \\ R &= 0.001,\quad N = 5 \end{align}
@@ -50,7 +50,7 @@ $$
 \begin{align} u(k) = K(k) x(k),\quad K(k) = -(B^T \Pi(k+1) B + R)^{-1} B^T \Pi(k+1) A \end{align}
 $$
 
-이때, 유한한 시간(예시에서는 \( N=5 \))을 설정하면, 결과적으로 얻어지는 폐루프 시스템의 eigenvalue는 다음과 같았다.
+이때, 유한한 시간(예시에서는 $N=5$)을 설정하면, 결과적으로 얻어지는 폐루프 시스템의 eigenvalue는 다음과 같았다.
 
 $$
 \begin{aligned}
@@ -64,7 +64,7 @@ $$
 
 ## NN을 증가시킨 결과 (무한 수평선 문제의 중요성)
 
-위의 예시에서 제어기의 horizon \( N \) 을 더 늘려서 \( N=7 \)로 하면 Riccati equation의 결과는
+위의 예시에서 제어기의 horizon $N$ 을 더 늘려서 $N=7$로 하면 Riccati equation의 결과는
 
 $$
 \begin{aligned}
@@ -88,10 +88,10 @@ $$
 \begin{align} V(x(0), u) = \frac{1}{2}\sum_{k=0}^{\infty}\left[ x(k)^T Q x(k) + u(k)^T R u(k)\right] \end{align}
 $$
 
-위 문제에서 입력 시퀀스 \( u(k) \)에 의해 시스템 상태 \( x(k) \)는 무한히 진행한다.
+위 문제에서 입력 시퀀스 $u(k)$에 의해 시스템 상태 $x(k)$는 무한히 진행한다.
 
 이러한 Infinite Horizon 문제를 다룰 때, **안정성 (stability)과 같은 중요한 특성이 보장된다.**
 
 그러나 Infinite Horizon 문제또한 단점이 존재한다.
 
-시스템 자체가 controllable 해야한다. 만약 \( B=0, A=I \)와 같은 시스템을 생각해보자. 이것은 controllable하지 않는다. stabilization을 확인하기 위해서, controllability, stabilizability observability detectability가 필요로 한다. 차후 다룰 예정
+시스템 자체가 controllable 해야한다. 만약 $B=0, A=I$와 같은 시스템을 생각해보자. 이것은 controllable하지 않는다. stabilization을 확인하기 위해서, controllability, stabilizability observability detectability가 필요로 한다. 차후 다룰 예정

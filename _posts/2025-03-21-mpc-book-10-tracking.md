@@ -16,9 +16,9 @@ series_order: 10
 
 ### Setpoint Tracking
 
-Setpoint Tracking이란 제어 시스템의 출력\( y(k) \)가 사용자가 정한 원하는 목표값 \( y_{sp} \)​ 에 도달도록 만드는 제어 전략이다.
+Setpoint Tracking이란 제어 시스템의 출력$y(k)$가 사용자가 정한 원하는 목표값 $y_{sp}$​ 에 도달도록 만드는 제어 전략이다.
 
-즉, \( y(k) \to y_{\text{sp}} \) as \( k \to \infty \)
+즉, $y(k) \to y_{\text{sp}}$ as $k \to \infty$
 
 실제 현업에서는 regulation(원점으로 보내기)보다는 tracking 문제가 더 일반적이다.
 
@@ -39,8 +39,8 @@ ex) 로봇암 위치제어 등등
 </tr>
 <tr>
 <td><span>수식<span> </span></span></td>
-<td>\( x \to 0 \)</td>
-<td>\( y \to y_{\text{sp}} \)</td>
+<td>$x \to 0$</td>
+<td>$y \to y_{\text{sp}}$</td>
 </tr>
 <tr>
 <td><span>예<span> </span></span></td>
@@ -57,24 +57,30 @@ ex) 로봇암 위치제어 등등
 
 #### Steady State정의
 
-$$ \begin{bmatrix} I - A & -B \\ C & 0 \end{bmatrix} \begin{bmatrix} x_s \\ u_s \end{bmatrix} = \begin{bmatrix} 0 \\ y_{\text{sp}} \end{bmatrix} $$
+$$
+\begin{bmatrix} I - A & -B \\ C & 0 \end{bmatrix} \begin{bmatrix} x_s \\ u_s \end{bmatrix} = \begin{bmatrix} 0 \\ y_{\text{sp}} \end{bmatrix}
+$$
 
 해당 수식은 stedady state를 정의하였다.
 
-시스템이 멈춘 상태에서 출력이 \( y_{\text{sp}} \)가 되도록 만드는 입력과 상태를 찾는 문제이다.
+시스템이 멈춘 상태에서 출력이 $y_{\text{sp}}$가 되도록 만드는 입력과 상태를 찾는 문제이다.
 
 #### Deviation Variables 정의
 
 시스템을 deviation variable기준으로 재표현한다.
 
-- state deviation: \( x_e(k) := x(k) - x_s \)
-- input deviation: \( u_e(k) := u(k) - u_s \)
+- state deviation: $x_e(k) := x(k) - x_s$
+- input deviation: $u_e(k) := u(k) - u_s$
 
-$$ x(k+1) = A x(k) + B u(k) $$
+$$
+x(k+1) = A x(k) + B u(k)
+$$
 
 이제 원래 시스템 식은 아래처럼 바뀐다:
 
-$$ x_e(k+1) = A x_e(k) + B u_e(k) $$
+$$
+x_e(k+1) = A x_e(k) + B u_e(k)
+$$
 
 이제 이 문제는 우리가 계속 다루었던 regulator 문제로 풀 수 있다.
 
@@ -84,15 +90,17 @@ $$ x_e(k+1) = A x_e(k) + B u_e(k) $$
 
 #### 해가 존재하는 조건
 
-$$ \begin{bmatrix} I - A & -B \\ C & 0 \end{bmatrix} \begin{bmatrix} x_s \\ u_s \end{bmatrix} = \begin{bmatrix} 0 \\ y_{\text{sp}} \end{bmatrix} $$
+$$
+\begin{bmatrix} I - A & -B \\ C & 0 \end{bmatrix} \begin{bmatrix} x_s \\ u_s \end{bmatrix} = \begin{bmatrix} 0 \\ y_{\text{sp}} \end{bmatrix}
+$$
 
-해당 수식이 해가 존재하려면 입력 수 \( m \) ≥ 출력 수 \( p \)를 만족하면 된다.
+해당 수식이 해가 존재하려면 입력 수 $m$ ≥ 출력 수 $p$를 만족하면 된다.
 
 #### 해가 존재하지 않는 조건에서의 상황
 
 그러나, 우리가 직면하게 되는 문제중에서, 출력수의 rank가 입력수보다 많을 때가 있다.
 
-그럴때는 전체 출력 \( y \)가 아니라 일부 조합 \( r = Hy \)을 사용하여 문제를 풀 수 있다.
+그럴때는 전체 출력 $y$가 아니라 일부 조합 $r = Hy$을 사용하여 문제를 풀 수 있다.
 
 이렇게 되면, 우리가 풀수없는 문제를 풀수 있는 문제로 바꾸어서 풀수 있지만 system size가 줄어들어 feasibility가 줄어든다.
 
@@ -100,11 +108,15 @@ $$ \begin{bmatrix} I - A & -B \\ C & 0 \end{bmatrix} \begin{bmatrix} x_s \\ u_s 
 
 **목적함수**
 
-$$ \min_{x_s, u_s} \quad \frac{1}{2} \left( \| C x_s - y_{\text{sp}} \|^2_{Q_s} + \| u_s - u_{\text{sp}} \|^2_{R_s} \right) $$
+$$
+\min_{x_s, u_s} \quad \frac{1}{2} \left( \| C x_s - y_{\text{sp}} \|^2_{Q_s} + \| u_s - u_{\text{sp}} \|^2_{R_s} \right)
+$$
 
 #### **제약조건**
 
-$$ \begin{aligned} & \begin{bmatrix} I - A & -B \\ HC & 0 \end{bmatrix} \begin{bmatrix} x_s \\ u_s \end{bmatrix} = \begin{bmatrix} 0 \\ r_{\text{sp}} \end{bmatrix} \\ & Eu_s \leq e \\ & FC x_s \leq f \end{aligned} $$
+$$
+\begin{aligned} & \begin{bmatrix} I - A & -B \\ HC & 0 \end{bmatrix} \begin{bmatrix} x_s \\ u_s \end{bmatrix} = \begin{bmatrix} 0 \\ r_{\text{sp}} \end{bmatrix} \\ & Eu_s \leq e \\ & FC x_s \leq f \end{aligned}
+$$
 
 이렇게 해가 존재하지 않는 경우에, cost function을 수정하여, 식을 정리하였다.
 
@@ -112,32 +124,44 @@ $$ \begin{aligned} & \begin{bmatrix} I - A & -B \\ HC & 0 \end{bmatrix} \begin{b
 
 1. tracking문제를 regulation방식으로 풀기 위해, deviation 문제를 적용
 
-2. 출력의 rank가 입력보다 많은 경우를 위해, \( r = Hy \)를 적용(rank 확장)
+2. 출력의 rank가 입력보다 많은 경우를 위해, $r = Hy$를 적용(rank 확장)
 
 #### **편차 변수**
 
-$$ x_e(k) = x(k) - x_s, \quad u_e(k) = u(k) - u_s $$
+$$
+x_e(k) = x(k) - x_s, \quad u_e(k) = u(k) - u_s
+$$
 
 **Cost function**
 
-$$ \min_{u_e} \sum_{k=0}^{N-1} \left( \| x_e(k) \|^2_Q + \| u_e(k) \|^2_R \right) $$
+$$
+\min_{u_e} \sum_{k=0}^{N-1} \left( \| x_e(k) \|^2_Q + \| u_e(k) \|^2_R \right)
+$$
 
 - deviation을 최소화하면 → 원래 시스템은 steady-state 근처로 tracking함
 
 **input**
 
-$$ u(k) = u_e(k) + u_s $$
+$$
+u(k) = u_e(k) + u_s
+$$
 
 **initial State**
 
-$$ x_e(0) = \hat{x}(k) - x_s $$
+$$
+x_e(0) = \hat{x}(k) - x_s
+$$
 
 **입력 제약**
 
-$$ E u_e(k) \le e - E u_s $$
+$$
+E u_e(k) \le e - E u_s
+$$
 
 **출력제약**
 
-$$ F C x_e(k) \le f - F C x_s $$
+$$
+F C x_e(k) \le f - F C x_s
+$$
 
 으로 constraint 역시 shift 되게 된다.

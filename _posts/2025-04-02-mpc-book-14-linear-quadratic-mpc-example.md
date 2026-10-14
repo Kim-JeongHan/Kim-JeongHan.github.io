@@ -64,18 +64,18 @@ $$
 </tr>
 <tr>
 <td>변수</td>
-<td><span>\( x(0),x(1),x(2),u(0),u(1) \)</span></td>
-<td><span>\( u(0),u(1) \)</span></td>
+<td><span>$x(0),x(1),x(2),u(0),u(1)$</span></td>
+<td><span>$u(0),u(1)$</span></td>
 </tr>
 <tr>
 <td>등식 제약</td>
-<td><span><span>\( x(0)=x_{\text{init}},\ x(1)=x(0)-u(0),\ x(2)=x(1)-u(1) \)</span></span></td>
+<td><span><span>$x(0)=x_{\text{init}},\ x(1)=x(0)-u(0),\ x(2)=x(1)-u(1)$</span></span></td>
 <td>없음 (상태를 직접 식에 대입함)</td>
 </tr>
 <tr>
 <td>목적 함수</td>
 <td>위와 동일</td>
-<td>상태를 없애고 <span>\( x_{\text{init}} \)</span>과 <span>\( u \)</span>만으로 표현</td>
+<td>상태를 없애고 <span>$x_{\text{init}}$</span>과 <span>$u$</span>만으로 표현</td>
 </tr>
 </tbody>
 </table>
@@ -117,7 +117,9 @@ $$
 
 목적 함수는 다음과 같다.
 
-$$ \begin{aligned} V_N(x, u) &= \frac{1}{2} \left[ x^2 + u(0)^2 + (x - u(0))^2 + u(1)^2 + (x - u(0) - u(1))^2 \right] \\ &= \frac{3}{2}x^2 - 2x \cdot [1 \quad 1] u + \frac{1}{2} u^T H u \end{aligned} $$
+$$
+\begin{aligned} V_N(x, u) &= \frac{1}{2} \left[ x^2 + u(0)^2 + (x - u(0))^2 + u(1)^2 + (x - u(0) - u(1))^2 \right] \\ &= \frac{3}{2}x^2 - 2x \cdot [1 \quad 1] u + \frac{1}{2} u^T H u \end{aligned}
+$$
 
 $$
 H = \begin{bmatrix}
@@ -128,25 +130,35 @@ $$
 
 #### 제약 없는 최적 입력 계산
 
-목적 함수를 \(u = [u(0), u(1)]^\top\)에 대해 미분하고 0으로 두면 다음과 같은 최적 입력이 나온다.
+목적 함수를 $u = [u(0), u(1)]^\top$에 대해 미분하고 0으로 두면 다음과 같은 최적 입력이 나온다.
 
-$$ u^\star(x) = \begin{bmatrix} \frac{3}{5}x \\ \frac{1}{5}x \end{bmatrix} $$
+$$
+u^\star(x) = \begin{bmatrix} \frac{3}{5}x \\ \frac{1}{5}x \end{bmatrix}
+$$
 
 #### 제약 조건
 
-입력 제약 \(|u(k)| \le 1\)을 적용하면, 각각의 제어 입력을 [-1, 1] 범위로 잘라야 한다.
+입력 제약 $\lvert u(k) \rvert \le 1$을 적용하면, 각각의 제어 입력을 [-1, 1] 범위로 잘라야 한다.
 
-$$ \kappa_N(x) = \operatorname{sat}\left(\frac{3}{5}x\right) $$
+$$
+\kappa_N(x) = \operatorname{sat}\left(\frac{3}{5}x\right)
+$$
 
-$$ \operatorname{sat}(z) = \begin{cases} 1, & z > 1 \\ z, & -1 \le z \le 1 \\ -1, & z < -1 \end{cases} $$
+$$
+\operatorname{sat}(z) = \begin{cases} 1, & z > 1 \\ z, & -1 \le z \le 1 \\ -1, & z < -1 \end{cases}
+$$
 
 최종적으로 제어 루프는 다음과 같이 된다.
 
-$$ x^+ = x - \kappa_N(x) $$
+$$
+x^+ = x - \kappa_N(x)
+$$
 
 - saturation 함수
 
-$$ \text{sat}(z) = \begin{cases} 1 & \text{if } z > 1 \\ z & \text{if } -1 \le z \le 1 \\ -1 & \text{if } z < -1 \end{cases} $$
+$$
+\text{sat}(z) = \begin{cases} 1 & \text{if } z > 1 \\ z & \text{if } -1 \le z \le 1 \\ -1 & \text{if } z < -1 \end{cases}
+$$
 
 ## 결과
 
@@ -154,23 +166,27 @@ $$ \text{sat}(z) = \begin{cases} 1 & \text{if } z > 1 \\ z & \text{if } -1 \le z
 
 ## 예제) 초기 상태 x = 10의 결과
 
-1. \(u(0) = \operatorname{sat}(3 \cdot 10 / 5) = \operatorname{sat}(6) = 1\)
+1. $u(0) = \operatorname{sat}(3 \cdot 10 / 5) = \operatorname{sat}(6) = 1$
 
-2. \(x(1) = 10 - 1 = 9\)
+2. $x(1) = 10 - 1 = 9$
 
-3. \(u(1) = \operatorname{sat}(3 \cdot 9 / 5) = \operatorname{sat}(5.4) = 1\)
+3. $u(1) = \operatorname{sat}(3 \cdot 9 / 5) = \operatorname{sat}(5.4) = 1$
 
-4. \(x(2) = 9 - 1 = 8\)
+4. $x(2) = 9 - 1 = 8$
 
 총 비용:
 
-$$ V_N(10) = \frac{1}{2}(10^2 + 1^2 + 9^2 + 1^2 + 8^2) = 124 $$
+$$
+V_N(10) = \frac{1}{2}(10^2 + 1^2 + 9^2 + 1^2 + 8^2) = 124
+$$
 
 또한 해당 시스템은 시간에 따라 시스템의 변화가 생기는 구조가 아니다.즉, Time-invariant하다.
 
 다시 정리해보면,
 
-$$ x^+ = x + \kappa_N(x), \quad \kappa_N(x) = -\text{sat}\left(\frac{3x}{5}\right) $$
+$$
+x^+ = x + \kappa_N(x), \quad \kappa_N(x) = -\text{sat}\left(\frac{3x}{5}\right)
+$$
 
 ## Python 코드로 구현
 
