@@ -41,14 +41,16 @@ class State:
 ```
 
 - 상태
-  - \( x, y \): 차량 위치
-  - \( \theta \): 차량의 (방향)
-  - \( v \): 속도
-  - \( L \): 앞바퀴와 뒷바뀌 사이의 거리
-  - \( \delta \) : 조향각
+  - $x, y$: 차량 위치
+  - $\theta$: 차량의 (방향)
+  - $v$: 속도
+  - $L$: 앞바퀴와 뒷바뀌 사이의 거리
+  - $\delta$ : 조향각
 - kinematics model
 
-$$ \begin{aligned} x_{t+1} &= x_t + v \cos(\theta) \cdot dt \\ y_{t+1} &= y_t + v \sin(\theta) \cdot dt \\ \theta_{t+1} &= \theta_t + \frac{v}{L} \tan(\delta) \cdot dt \\ v_{t+1} &= v + a \cdot dt \end{aligned} $$
+$$
+\begin{aligned} x_{t+1} &= x_t + v \cos(\theta) \cdot dt \\ y_{t+1} &= y_t + v \sin(\theta) \cdot dt \\ \theta_{t+1} &= \theta_t + \frac{v}{L} \tan(\delta) \cdot dt \\ v_{t+1} &= v + a \cdot dt \end{aligned}
+$$
 
 #### 경로 생성
 
@@ -70,11 +72,15 @@ class CubicSplinePath:
         self.length = s[-1]
 ```
 
-1.  유클리드 거리계산 + 누적 거리 계산
+1. 코드에서 사용하는 경로 파라미터 $s$ 계산
 
-$$ \Delta s_i = \sqrt{\sum_{j=0}^{i-1}(x_{i+1} - x_i)^2 + \sum_{j=0}^{i-1}(y_{i+1} - y_i)^2} $$
+$$
+s_0 = 0, \quad s_i = \sqrt{\sum_{j=0}^{i-1}\left((x_{j+1} - x_j)^2 + (y_{j+1} - y_j)^2\right)}
+$$
 
-2. x와 y의 위치를 거리를 통하여 cubic spline 보간한다. 이를 통해, x,y의 좌표집합은 연속적인 그래프가된다.
+위 코드는 구간별 거리의 제곱을 누적한 뒤 제곱근을 취한다. 일반적인 누적 경로 길이는 $\sum_{j=0}^{i-1}\sqrt{(x_{j+1} - x_j)^2 + (y_{j+1} - y_j)^2}$이므로, 두 값을 구분해야 한다.
+
+2. x와 y의 위치를 파라미터 $s$에 대해 cubic spline 보간한다. 이를 통해, x,y의 좌표집합은 연속적인 그래프가된다.
 
 ![](/assets/img/blog/pythonrobotics-pid/image-001.png)
 
@@ -121,27 +127,31 @@ def rear_wheel_feedback_control(state, e, k, yaw_ref):
     return delta
 ```
 
-- 방향 오차 \( \theta_e \)
+- 방향 오차 $\theta_e$
 
-$$ \theta_e = \theta - \theta_{\text{ref}} $$
+$$
+\theta_e = \theta - \theta_{\text{ref}}
+$$
 
-- 제어 입력(각속도) \( \omega \)
+- 제어 입력(각속도) $\omega$
 
 ![](/assets/img/blog/pythonrobotics-pid/image-002.png)
 
-- \( \kappa \): 경로 곡률
+- $\kappa$: 경로 곡률
 
-- \( e \): 횡방향 오차
+- $e$: 횡방향 오차
 
-- \( v_r \): 뒷 바퀴 속도
+- $v_r$: 뒷 바퀴 속도
 
-- \( \theta_e \): 방향 오차
+- $\theta_e$: 방향 오차
 
-- \( K_{\theta}, K_e \): 튜닝 파라미터
+- $K_{\theta}, K_e$: 튜닝 파라미터
 
-- 조향각 \( \delta \):
+- 조향각 $\delta$:
 
-$$ \delta = \tan^{-1}\left( \frac{L \cdot \omega}{v} \right) $$
+$$
+\delta = \tan^{-1}\left( \frac{L \cdot \omega}{v} \right)
+$$
 
 [https://arxiv.org/pdf/1604.07446#page=18.41](https://arxiv.org/pdf/1604.07446#page=18.41) 해당 논문의 19-20참조
 
@@ -234,5 +244,7 @@ PID제어 특성상 튜닝이다~
 다음편은 LQR에 대해서 다루겠다
 
 #### Reference
+
+[PythonRobotics rear wheel feedback control 공식 구현](https://github.com/AtsushiSakai/PythonRobotics/blob/master/PathTracking/rear_wheel_feedback_control/rear_wheel_feedback_control.py)
 
 [https://github.com/AtsushiSakai/PythonRobotics?tab=readme-ov-file#linearquadratic-regulator-lqr-speed-and-steering-control](https://github.com/AtsushiSakai/PythonRobotics?tab=readme-ov-file#linearquadratic-regulator-lqr-speed-and-steering-control)

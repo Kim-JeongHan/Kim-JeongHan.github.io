@@ -74,9 +74,14 @@ def calc_speed_profile(cx, cy, cyaw, target_speed):
     return speed_profile
 ```
 
-$$ \Delta \theta_i = |\theta_{i+1} - \theta_i| \\ \text{switch} = \left( \frac{\pi}{4} \leq \Delta \theta_i < \frac{\pi}{2} \right) $$
+$$
+\begin{aligned}
+\Delta \theta_i &= |\theta_{i+1} - \theta_i| \\
+\text{switch} &= \left( \frac{\pi}{4} \leq \Delta \theta_i < \frac{\pi}{2} \right)
+\end{aligned}
+$$
 
-\( \Delta \theta \)가 45도 이상 90도 미만일 경우, 차량의 방향을 바꾼다.
+$\Delta \theta$가 45도 이상 90도 미만일 경우, 차량의 방향을 바꾼다.
 
 ### 메인 loop
 
@@ -200,31 +205,39 @@ def lqr_steering_control(state, cx, cy, cyaw, ck, pe, pth_e):
 
 #### 시스템 방정식
 
-$$ x_{t+1} = A x_t + B u $$
+$$
+x_{t+1} = A x_t + B u
+$$
 
-목표는 최적의 제어입력\( u \)을 찾는 것이다.
+목표는 최적의 제어입력$u$을 찾는 것이다.
 
 #### 상태 방정식
 
-$$ x = \begin{bmatrix} e \\ \dot{e} \\ \theta_e \\ \dot{\theta}_e \end{bmatrix} $$
+$$
+x = \begin{bmatrix} e \\ \dot{e} \\ \theta_e \\ \dot{\theta}_e \end{bmatrix}
+$$
 
-- \( e \): 횡방향 오차
-- \( \theta_e \): 방향 오차
-- \( \dot{e}, \dot{\theta}_e \): 각각의 변화율
+- $e$: 횡방향 오차
+- $\theta_e$: 방향 오차
+- $\dot{e}, \dot{\theta}_e$: 각각의 변화율
 
-$$ A = \begin{bmatrix} 1 & dt & 0 & 0 \\ 0 & 0 & v & 0 \\ 0 & 0 & 1 & dt \\ 0 & 0 & 0 & 0 \end{bmatrix}, \quad B = \begin{bmatrix} 0 \\ 0 \\ 0 \\ \frac{v}{L} \end{bmatrix} $$
+$$
+A = \begin{bmatrix} 1 & dt & 0 & 0 \\ 0 & 0 & v & 0 \\ 0 & 0 & 1 & dt \\ 0 & 0 & 0 & 0 \end{bmatrix}, \quad B = \begin{bmatrix} 0 \\ 0 \\ 0 \\ \frac{v}{L} \end{bmatrix}
+$$
 
 #### 비용함수(Cost Function)
 
 [관련 글](/blog/2025/mpc-book-02-linear-quadratic/)  해당 게시글 참고
 
-$$ J = \sum_{k=0}^{\infty} \left( x[k]^T Q x[k] + u[k]^T R u[k] \right) $$
+$$
+J = \sum_{k=0}^{\infty} \left( x[k]^T Q x[k] + u[k]^T R u[k] \right)
+$$
 
-- \( Q \): 상태\( x \) 에 대한 가중치 행렬 (상태를 0으로 수렴시키기 위한 비용)
-- \( R \): 입력 \( u \) 에 대한 가중치 행렬 (너무 큰 제어 입력을 방지)
+- $Q$: 상태$x$ 에 대한 가중치 행렬 (상태를 0으로 수렴시키기 위한 비용)
+- $R$: 입력 $u$ 에 대한 가중치 행렬 (너무 큰 제어 입력을 방지)
 - 해당 cost function의 형태를 보았을떄, Infinite Horizon LQR 형태임을 알수 있다.(terminal cost function이 없다.)
 
-해당 가중치는 모두 4×4 identity matrix 사용했다.
+공식 구현에서는 상태 가중치 $Q$는 4×4 identity matrix, 입력 가중치 $R$은 1×1 identity matrix를 사용한다.
 
 cost function이 최소화 될때의 입력이 최적입력임을 알 수 있는데, 이때, ricatti equation을 사용한다.
 
@@ -232,19 +245,25 @@ cost function이 최소화 될때의 입력이 최적입력임을 알 수 있는
 
 [관련 글](/blog/2025/mpc-book-05-riccati-iteration/) 해당 게시글 참고
 
-$$ P = A^T P A - A^T P B (R + B^T P B)^{-1} B^T P A + Q $$
+$$
+P = A^T P A - A^T P B (R + B^T P B)^{-1} B^T P A + Q
+$$
 
-Ricatti equatuin을 반복적으로 풀어, 최소화되는 \( P \)를 찾는다.
+Riccati equation을 반복적으로 풀어, 최적 비용을 나타내는 행렬 $P$를 구한다.
 
-Matrix 형태의 \( P \)가 최소화된다는 의미는 Riccati 방정식을 통해 구한 행렬 \( P \)를 사용하면 비용 함수가 \( J = \frac{1}{2} x_0^T P x_0 \)로 표현되기 때문에, 수치적으로 \( \| P_{n+1} - P_n \| < \epsilon \)일때, 최소화 된 P를 찾았다고 한다.
+위처럼 $1/2$ 없이 정의한 비용에서, 고정된 선형 모델의 안정화 최적해 $P$를 사용하면 최적 비용은 $J^\star(x_0) = x_0^T P x_0$로 표현된다. $P$ 자체를 최소화하는 것이 아니라, 제어 입력에 대해 최소화한 비용을 $P$로 표현하는 것이다.
 
-P를 구한뒤 최적이득 \( K \)를 계산한다.
+코드의 수치적 종료 조건은 $\max_{i,j}\lvert (P_{n+1} - P_n)_{ij}\rvert < \epsilon$이며, $\epsilon = 0.01$이다. 최대 150번 반복하므로, 종료 조건을 만족하지 않아도 마지막 행렬을 반환할 수 있다.
 
-$$ K = (B^T P B + R)^{-1} B^T P A $$
+P를 구한뒤 최적이득 $K$를 계산한다.
 
-최적입력은 \( u = Kx \)이다.
+$$
+K = (B^T P B + R)^{-1} B^T P A
+$$
 
-또한 폐루프 행렬 \( A - BK \)의 고유값을 통해 안정성도 확인가능하다.(고윳값이 0보다 작으면 시스템이 수렴을 향해감)
+이 코드에서 최적입력은 $u = -Kx$이다.
+
+또한 고정된 이산시간 선형 모델에서는 폐루프 행렬 $A - BK$의 모든 고유값이 $\lvert \lambda_i(A - BK)\rvert < 1$을 만족하면 상태가 원점으로 수렴한다. 이 예제처럼 속도에 따라 모델과 이득이 변하고 조향각 제한이 적용되는 경우, 각 시점의 고유값 확인만으로 전체 경로 추종의 안정성이 보장되지는 않는다.
 
 [관련 글](/blog/2025/mpc-book-06-finite-infinite-horizon/) 해당 게시글 참고
 
@@ -252,9 +271,11 @@ $$ K = (B^T P B + R)^{-1} B^T P A $$
 
 이상치의 feed forward 조향각(차량이 이상적으로 경로를 쫓아갈때의 필요한 조향)과 feeback조향각(현재 차량이 경로에서 벗어나는지 반영하여 보정하는 조향각)을 더하여, 다음 목표 조향각을 구한다.
 
-feed forward 조향각 :\( \delta_{\text{fb}} = -Kx \)
+feed forward 조향각 : $\delta_{\text{ff}} = \tan^{-1}(L \cdot \kappa)$
 
-feedback 조향각 : \( \delta_{\text{ff}} = \tan^{-1}(L \cdot \kappa) \)
+feedback 조향각 : $\delta_{\text{fb}} = -Kx$
+
+코드에서는 feedback 조향각을 `pi_2_pi`로 정규화한 뒤, $\delta = \delta_{\text{ff}} + \delta_{\text{fb}}$로 합친다.
 
 ### P 제어
 
@@ -291,21 +312,29 @@ def update(state, a, delta):
 
 수식으로 표현하면 다음과 같다.
 
-$$  \begin{aligned} \delta &= \text{clip}(\delta, -\delta_{\max}, +\delta_{\max}) \\ x_{t+1} &= x_t + v \cdot \cos(\theta) \cdot dt \\ y_{t+1} &= y_t + v \cdot \sin(\theta) \cdot dt \\ \theta_{t+1} &= \theta_t + \frac{v}{L} \cdot \tan(\delta) \cdot dt \\ v_{t+1} &= v_t + a \cdot dt \end{aligned} $$
+$$
+\begin{aligned} \delta &= \text{clip}(\delta, -\delta_{\max}, +\delta_{\max}) \\ x_{t+1} &= x_t + v \cdot \cos(\theta) \cdot dt \\ y_{t+1} &= y_t + v \cdot \sin(\theta) \cdot dt \\ \theta_{t+1} &= \theta_t + \frac{v}{L} \cdot \tan(\delta) \cdot dt \\ v_{t+1} &= v_t + a \cdot dt \end{aligned}
+$$
 
-- \( \delta \): 조향각
+- $\delta$: 조향각
 
 과거 상태와 가속도, 조향각을 사용하여 상태를 업데이트한다.
 
 동영상 서비스가 종료되어 해당 콘텐츠를 재생할 수 없습니다.
 
-Infinite Horzion LQR은 P가 수렴할때까지 반복적으로 Ricatti equation을 풀었다.
+Infinite Horizon LQR의 DARE를 수치적으로 근사하고, 계산된 $P$로 $K$를 구한다.
 
-P가 수렴할때의 K를 구할수 있다.
+이 예제는 매 제어 시점의 속도 $v$로 $A$, $B$를 만들고 $K$를 다시 계산한다.
 
-그러나 Terminal cost가 없기에 목표 정밀도달에는 한계를 보인다.
+이 예제는 목표와의 거리가 `goal_dis = 0.3` 이하이면 종료한다. 목표 도달 정밀도를 검토할 때는 이 종료 조건, 속도 제어, 조향각 제한도 함께 확인해야 한다.
 
 #### Reference
+
+[PythonRobotics LQR steering control 공식 구현](https://github.com/AtsushiSakai/PythonRobotics/blob/master/PathTracking/lqr_steer_control/lqr_steer_control.py)
+
+[Python Control Systems Library: discrete-time LQR](https://python-control.readthedocs.io/en/latest/generated/control.dlqr.html)
+
+[Stanford EE263: Stability of discrete-time systems](https://ee263.stanford.edu/archive/eig.pdf)
 
 [https://github.com/AtsushiSakai/PythonRobotics?tab=readme-ov-file#linearquadratic-regulator-lqr-speed-and-steering-control](https://github.com/AtsushiSakai/PythonRobotics?tab=readme-ov-file#linearquadratic-regulator-lqr-speed-and-steering-control)
 
